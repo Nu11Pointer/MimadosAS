@@ -1,0 +1,212 @@
+﻿
+@{
+    ViewBag.Title = "Sucursales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10"> <h6 class="m-0 font-weight-bold text-primary">Sucursales</h6> </div>
+            </div>
+            <hr />
+            <div class="row float-right">
+                <a href="#" class="btn btn-success btn-icon-split btn-sm" onclick="ShowCreateModal()">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-building"></i>
+                    </span>
+                    <span class="text">Crear Nueva Sucursal</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="99%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Municipio</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Create Modal-->
+<div class="modal fade" id="FormModalCreate" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" data-bs-backdrop="static">
+
+    <div class="modal-dialog">
+
+        @*Contenido*@
+        <div class="modal-content">
+
+            @*Cabecera*@
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="exampleModalLabel">Nueva Sucursal</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+
+            </div>
+
+            @*Cuerpo*@
+            <div class="modal-body">
+
+                @*Inputs*@
+                <form id="CreateForm" class="row">
+
+                    @* Nombre *@
+                    <div class="col-sm-6">
+                        <label for="NameCreate" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="NameCreate" name="NameCreate" autocomplete="off">
+                    </div>
+
+                    @* Teléfono *@
+                    <div class="col-sm-6">
+                        <label for="PhoneCreate" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="PhoneCreate" name="PhoneCreate" autocomplete="off">
+                    </div>
+
+                    @* Estado *@
+                    <div class="col-sm-6">
+                        <label for="ActiveCreate" class="form-label">Activo</label>
+                        <select class="form-control" id="ActiveCreate">
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6"></div>
+
+                    @* Departmento *@
+                    <div class="col-sm-6">
+                        <label for="DepartmentCreate" class="form-label">Departamento</label>
+                        <select class="form-control" id="DepartmentCreate" onchange="ChangeMunicipalityCreate()">
+                        </select>
+                    </div>
+
+                    @* Municipio *@
+                    <div class="col-sm-6">
+                        <label for="MunicipalityCreate" class="form-label">Municipio</label>
+                        <select class="form-control" id="MunicipalityCreate">
+                        </select>
+                    </div>
+
+                    @* Dirección *@
+                    <div class="col-sm-12">
+                        <label for="AddressCreate" class="form-label">Dirección</label>
+                        <textarea type="text" class="form-control" id="AddressCreate"
+                                  style="height:86px;resize:none" autocomplete="off" maxlength="250" name="AddressCreate"></textarea>
+                    </div>
+
+                </form>
+
+                @* Mensaje Error *@
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div id="ErrorCreate" class="alert alert-danger" role="alert">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" type="button" onclick="Create()">Crear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Modal-->
+<div class="modal fade" id="FormModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" data-bs-backdrop="static">
+
+    <div class="modal-dialog">
+
+        @*Contenido*@
+        <div class="modal-content">
+
+            @*Cabecera*@
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Sucursal</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+
+            </div>
+
+            @*Cuerpo*@
+            <div class="modal-body">
+
+                @*Inputs*@
+                <form id="UpdateForm" class="row">
+
+                    @* Nombre *@
+                    <div class="col-sm-6">
+                        <label for="NameUpdate" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="NameUpdate" name="NameUpdate" autocomplete="off">
+                    </div>
+
+                    @* Estado *@
+                    <div class="col-sm-6">
+                        <label for="ActiveUpdate" class="form-label">Activo</label>
+                        <select class="form-control" id="ActiveUpdate">
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+
+                    @* Departmento *@
+                    <div class="col-sm-6">
+                        <label for="DepartmentUpdate" class="form-label">Departamento</label>
+                        <select class="form-control" id="DepartmentUpdate" onchange="ChangeMunicipalityUpdate()">
+                        </select>
+                    </div>
+
+                    @* Municipio *@
+                    <div class="col-sm-6">
+                        <label for="MunicipalityUpdate" class="form-label">Municipio</label>
+                        <select class="form-control" id="MunicipalityUpdate">
+                        </select>
+                    </div>
+
+                    @* Dirección *@
+                    <div class="col-sm-12">
+                        <label for="AddressUpdate" class="form-label">Dirección</label>
+                        <textarea type="text" class="form-control" id="AddressUpdate"
+                                  style="height:86px;resize:none" autocomplete="off" maxlength="250" name="AddressUpdate"></textarea>
+                    </div>
+
+                </form>
+
+                @* Mensaje Error *@
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div id="ErrorUpdate" class="alert alert-danger" role="alert" hidden="hidden">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" type="button" onclick="Update()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page level plugins -->
+<script src="~/Scripts/BranchOffice/BranchOffice.js"></script>
