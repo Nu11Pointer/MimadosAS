@@ -16,7 +16,7 @@ namespace BusinessLayer
 
         public List<Entity.Municipality> ReadByDepartment(int deparmentId)
         {
-            return _Db.Read().Where(m => m.DepartmentId == deparmentId).ToList();
+            return _Db.Read().Where(m => m.Department.Id == deparmentId).ToList();
         }
     }
 }

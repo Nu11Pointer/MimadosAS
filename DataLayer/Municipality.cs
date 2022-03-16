@@ -32,7 +32,11 @@ namespace DataLayer
                             municipalityList.Add(new Entity.Municipality()
                             {
                                 Id = Convert.ToInt32(reader["Id"]),
-                                DepartmentId = Convert.ToInt32(reader["DepartmentId"]),
+                                Department = new Entity.Department()
+                                {
+                                    Id = Convert.ToInt32(reader["DepartmentId"]),
+                                    Name = ""
+                                },
                                 Name = Convert.ToString(reader["Name"]),
                                 Active = Convert.ToBoolean(reader["Active"])
                             });

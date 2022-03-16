@@ -29,20 +29,33 @@ namespace DataLayer
                     {
                         while (reader.Read())
                         {
-                            branchOfficeList.Add(new EntityLayer.BranchOffice()
+                            branchOfficeList.Add(new Entity.BranchOffice()
                             {
                                 Id = Convert.ToInt32(reader["Id"]),
                                 Name = Convert.ToString(reader["Name"]),
                                 Address = Convert.ToString(reader["Address"]),
-                                MunicipalityId = Convert.ToInt32(reader["MunicipalityId"]),
+                                Municipality = new Entity.Municipality()
+                                {
+                                    Id = Convert.ToInt32(reader["MunicipalityId"]),
+                                    Name = Convert.ToString(reader["Municipality"]),
+                                    Department = new Entity.Department()
+                                    {
+                                        Id = Convert.ToInt32(reader["DepartmentId"]),
+                                        Name = Convert.ToString(reader["Department"]),
+                                        Active = Convert.ToBoolean(reader["DepartmentActive"])
+                                    },
+                                    Active = Convert.ToBoolean(reader["DepartmentActive"])
+                                },
                                 Active = Convert.ToBoolean(reader["Active"])
                             });
                         }
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                var message = e.Message;
+                Console.WriteLine(message);
             }
             return branchOfficeList;
         }
@@ -63,7 +76,7 @@ namespace DataLayer
 
                     cmd.Parameters.AddWithValue("Name", branchOffice.Name);
                     cmd.Parameters.AddWithValue("Address", branchOffice.Address);
-                    cmd.Parameters.AddWithValue("MunicipalityId", branchOffice.MunicipalityId);
+                    cmd.Parameters.AddWithValue("MunicipalityId", branchOffice.Municipality.Id);
                     cmd.Parameters.AddWithValue("Active", branchOffice.Active);
 
                     cmd.Parameters.Add("Result", SqlDbType.Int).Direction = ParameterDirection.Output;
@@ -105,7 +118,7 @@ namespace DataLayer
                     cmd.Parameters.AddWithValue("Id", branchOffice.Id);
                     cmd.Parameters.AddWithValue("Name", branchOffice.Name);
                     cmd.Parameters.AddWithValue("Address", branchOffice.Address);
-                    cmd.Parameters.AddWithValue("MunicipalityId", branchOffice.MunicipalityId);
+                    cmd.Parameters.AddWithValue("MunicipalityId", branchOffice.Municipality.Id);
                     cmd.Parameters.AddWithValue("Active", branchOffice.Active);
 
                     cmd.Parameters.Add("Result", SqlDbType.Bit).Direction = ParameterDirection.Output;

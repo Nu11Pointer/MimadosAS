@@ -1,5 +1,5 @@
 ﻿var rowSelected;
-var dataTable;
+var BranchOfficeTable;
 var branchOfficeObj;
 
 function SetUp() {
@@ -91,7 +91,7 @@ function ShowCreateModal() {
     $("#MunicipalityCreate").val($("#MunicipalityCreate option:first").val());
     $("#AddressCreate").val("");
     $("#FormModalCreate").modal("show"); 
-    $("#ErrorCreate").show();
+    $("#ErrorCreate").hide();
 }
 
 function DeparmentReadyUpdate() {
@@ -162,7 +162,7 @@ function ShowUpdateModal() {
         rowSelected = $(rowSelected).prev();
     }
 
-    branchOfficeObj = dataTable.row(rowSelected).data();
+    branchOfficeObj = BranchOfficeTable.row(rowSelected).data();
 
     $("#NameUpdate").val(branchOfficeObj.Name);
     $("#ActiveUpdate").val(branchOfficeObj.Active ? 1 : 0);
@@ -182,8 +182,10 @@ function Create() {
     branchOfficeObj = {
         Id: 0,
         Name: $("#NameCreate").val(),    
-        Address: $("#AddressCreate").val(),    
-        MunicipalityId: $("#MunicipalityCreate option:selected").val(),
+        Address: $("#AddressCreate").val(),
+        Municipality: {
+            Id: $("#MunicipalityCreate option:selected").val()
+        },
         Active: $("#ActiveCreate option:selected").val() == 1 ? true : false,
     };
 
@@ -196,7 +198,7 @@ function Create() {
         success: function (response) {
             $(".modal-body").LoadingOverlay("hide");
             $("#FormModalCreate").modal("hide");
-            location.reload();
+            BranchOfficeTable.ajax.reload();
         },
         error: function (error) {
             $(".modal-body").LoadingOverlay("hide");
@@ -215,7 +217,7 @@ function Create() {
 }
 
 function Read() {
-    dataTable = $('#dataTable').DataTable({
+    BranchOfficeTable = $('#dataTable').DataTable({
         responsive: true,
         ordering: false,
         "ajax": {
@@ -226,7 +228,8 @@ function Read() {
         "columns": [
             { "data": "Id" },
             { "data": "Name" },
-            { "data": "MunicipalityId" },
+            { "data": "Municipality.Department.Name"},
+            { "data": "Municipality.Name" }, 
             {
                 "data": "Active", "render": function (value) {
                     if (value)
@@ -237,7 +240,8 @@ function Read() {
             },
             {
                 "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1"><i class="fas fa-pen"></i></button>' +
-                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete"><i class="fas fa-trash"></i></button>',
+                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1"><i class="fas fa-trash"></i></button>' +
+                    '<button type="button" class="btn btn-success btn-circle btn-sm btn-phone mr-1 mb-1"><i class="fas fa-phone-alt"></i></button>',
                 "orderable": false,
                 "searchable": false
             }
@@ -253,7 +257,9 @@ function Update() {
         Id: branchOfficeObj.Id,
         Name: $("#NameUpdate").val(),
         Address: $("#AddressUpdate").val(),
-        MunicipalityId: $("#MunicipalityUpdate option:selected").val(),
+        Municipality: {
+            Id: $("#MunicipalityUpdate option:selected").val()
+        },
         Active: $("#ActiveUpdate option:selected").val() == 1 ? true : false,
     };
 
@@ -266,7 +272,7 @@ function Update() {
         success: function (response) {
             $(".modal-body").LoadingOverlay("hide");
             $("#FormModalUpdate").modal("hide");
-            location.reload();
+            BranchOfficeTable.ajax.reload();
         },
         error: function (error) {
             $(".modal-body").LoadingOverlay("hide");
@@ -285,11 +291,11 @@ function Update() {
 }
 
 function Delete() {
-    var rowSelected = $(this).closest("tr");
+    rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
     }
-    branchOfficeObj = dataTable.row(rowSelected).data();
+    branchOfficeObj = BranchOfficeTable.row(rowSelected).data();
     swal({
         title: "Eliminar Sucursal",
         text: "¿Estas Seguro que Deseas Eliminar esta Sucursal?",
@@ -311,10 +317,9 @@ function Delete() {
                 success: function (response) {
 
                     if (response.result) {
-                        location.reload();
+                        BranchOfficeTable.ajax.reload();
                     }
                     else {
-
                         swal("No Logró Eliminar la Sucursal.", response.message, "error");
                     }
                 },
