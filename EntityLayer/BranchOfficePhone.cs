@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public int BranchOfficeId { get; set; }
+        public BranchOffice BranchOffice { get; set; }
 
         public string PhoneNumber { get; set; }
 

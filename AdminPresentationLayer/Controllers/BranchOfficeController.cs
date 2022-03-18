@@ -20,6 +20,22 @@ namespace AdminPresentationLayer.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult BranchOfficePhoneRead()
+        {
+            var data = new Business.BranchOfficePhone().Read();
+            var json = new { data };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult BranchOfficePhoneReadByBranchOffice(int branchOfficeId)
+        {
+            var data = new Business.BranchOfficePhone().ReadByBranchOffice(branchOfficeId);
+            var json = new { data };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult BranchOfficeCreate(Entity.BranchOffice branchOffice)
         {

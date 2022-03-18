@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BranchOffice.cs" />
+    <Compile Include="BranchOfficePhone.cs" />
     <Compile Include="Deparment.cs" />
     <Compile Include="Municipality.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

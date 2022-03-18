@@ -1,6 +1,7 @@
-﻿var rowSelected;
-var BranchOfficeTable;
+﻿var branchOfficeTableRowSelected;
+var branchOfficeTable;
 var branchOfficeObj;
+var branchOfficePhoneTable
 
 function SetUp() {
 
@@ -16,6 +17,18 @@ function SetUp() {
     ValidatorUpdate();
     $("#dataTable tbody").on("click", '.btn-update', ShowUpdateModal);
     $("#dataTable tbody").on("click", '.btn-detelete', Delete);
+    $("#dataTable tbody").on("click", '.btn-phone', ShowPhoneRead);
+}
+
+function ShowCreateModal() {
+    $("#NameCreate").val("");
+    $("#PhoneCreate").val("");
+    $("#Active").val(1);
+    $("#DepartmentCreate").val($("#DepartmentCreate option:first").val());
+    $("#MunicipalityCreate").val($("#MunicipalityCreate option:first").val());
+    $("#AddressCreate").val("");
+    $("#FormModalCreate").modal("show"); 
+    $("#ErrorCreate").hide();
 }
 
 function DeparmentReadyCreate() {
@@ -65,16 +78,12 @@ function ValidatorCreate() {
             NameCreate: {
                 required: true
             },
-            PhoneCreate: {
-                required: true
-            },
             AddressCreate: {
                 required: true
             }
         },
         messages: {
             NameCreate: "- El campo \"Nombre\" es obligatorio.",
-            PhoneCreate: "- El campo \"Teléfono\" es obligatorio.",
             AddressCreate: "- El campo \"Dirección\" es obligatorio."
         },
         errorElement: "div",
@@ -83,15 +92,22 @@ function ValidatorCreate() {
     });
 }
 
-function ShowCreateModal() {
-    $("#NameCreate").val("");
-    $("#PhoneCreate").val("");
-    $("#Active").val(1);
-    $("#DepartmentCreate").val($("#DepartmentCreate option:first").val());
-    $("#MunicipalityCreate").val($("#MunicipalityCreate option:first").val());
-    $("#AddressCreate").val("");
-    $("#FormModalCreate").modal("show"); 
-    $("#ErrorCreate").hide();
+function ShowUpdateModal() {
+
+    var rowSelected = $(this).closest("tr");
+    if ($(rowSelected).hasClass('child')) {
+        rowSelected = $(rowSelected).prev();
+    }
+
+    branchOfficeObj = branchOfficeTable.row(rowSelected).data();
+
+    $("#NameUpdate").val(branchOfficeObj.Name);
+    $("#ActiveUpdate").val(branchOfficeObj.Active ? 1 : 0);
+    $("#DepartmentUpdate").val(branchOfficeObj.Municipality.Department.Id);
+    $("#DepartmentUpdate").trigger("change");
+    $("#AddressUpdate").val(branchOfficeObj.Address);
+    $("#FormModalUpdate").modal("show");
+    $("#ErrorUpdate").hide();
 }
 
 function DeparmentReadyUpdate() {
@@ -128,6 +144,14 @@ function ChangeMunicipalityUpdate() {
             $.each(data.data, function (_index, value) {
                 $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#MunicipalityUpdate");
             })
+            try {
+                if (branchOfficeObj.Municipality.Id != -1) {
+                    $("#MunicipalityUpdate").val(branchOfficeObj.Municipality.Id);
+                    branchOfficeObj.Municipality.Id = -1;
+                }
+            } catch (e) {
+
+            }
         },
         error: function (error) {
             console.log(error);
@@ -155,22 +179,53 @@ function ValidatorUpdate() {
     });
 }
 
-function ShowUpdateModal() {
+function ShowPhoneRead() {
+    $("#FormModalPhone").modal("show");
 
     var rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
     }
 
-    branchOfficeObj = BranchOfficeTable.row(rowSelected).data();
+    branchOfficeObj = branchOfficeTable.row(rowSelected).data();
 
-    $("#NameUpdate").val(branchOfficeObj.Name);
-    $("#ActiveUpdate").val(branchOfficeObj.Active ? 1 : 0);
-    $("#DepartmentUpdate").val($("#DepartmentUpdate option:first").val());
-    $("#MunicipalityUpdate").val($("#MunicipalityUpdate option:first").val());
-    $("#AddressUpdate").val(branchOfficeObj.Address);
-    $("#FormModalUpdate").modal("show");
-    $("#ErrorUpdate").hide();
+    console.log(branchOfficeObj);
+
+    if (branchOfficePhoneTable != null) {
+        branchOfficePhoneTable.destroy();
+    }
+
+    branchOfficePhoneTable = $('#dataTablePhone').DataTable({
+        responsive: true,
+        ordering: false,
+        "ajax": {
+            url: '/BranchOffice/BranchOfficePhoneReadByBranchOffice',
+            type: "POST",
+            data: { branchOfficeId: branchOfficeObj.Id }
+        },
+        "columns": [
+            { "data": "Id" },
+            { "data": "BranchOffice.Name" },
+            { "data": "PhoneNumber" },
+            {
+                "data": "Active", "render": function (value) {
+                    if (value)
+                        return '<h4><span class="badge badge-success">Habilitado</span></h4>';
+                    else
+                        return '<h4><span class="badge badge-danger">Deshabilitado</span></h4>';
+                }
+            },
+            {
+                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1"><i class="fas fa-pen"></i></button>' +
+                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1"><i class="fas fa-trash"></i></button>',
+                "orderable": false,
+                "searchable": false
+            }
+        ],
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
+        }
+    });
 }
 
 function Create() {
@@ -198,7 +253,7 @@ function Create() {
         success: function (response) {
             $(".modal-body").LoadingOverlay("hide");
             $("#FormModalCreate").modal("hide");
-            BranchOfficeTable.ajax.reload();
+            branchOfficeTable.ajax.reload();
         },
         error: function (error) {
             $(".modal-body").LoadingOverlay("hide");
@@ -217,7 +272,7 @@ function Create() {
 }
 
 function Read() {
-    BranchOfficeTable = $('#dataTable').DataTable({
+    branchOfficeTable = $('#dataTable').DataTable({
         responsive: true,
         ordering: false,
         "ajax": {
@@ -272,7 +327,7 @@ function Update() {
         success: function (response) {
             $(".modal-body").LoadingOverlay("hide");
             $("#FormModalUpdate").modal("hide");
-            BranchOfficeTable.ajax.reload();
+            branchOfficeTable.ajax.reload();
         },
         error: function (error) {
             $(".modal-body").LoadingOverlay("hide");
@@ -291,11 +346,11 @@ function Update() {
 }
 
 function Delete() {
-    rowSelected = $(this).closest("tr");
-    if ($(rowSelected).hasClass('child')) {
-        rowSelected = $(rowSelected).prev();
+    branchOfficeTableRowSelected = $(this).closest("tr");
+    if ($(branchOfficeTableRowSelected).hasClass('child')) {
+        branchOfficeTableRowSelected = $(branchOfficeTableRowSelected).prev();
     }
-    branchOfficeObj = BranchOfficeTable.row(rowSelected).data();
+    branchOfficeObj = branchOfficeTable.row(branchOfficeTableRowSelected).data();
     swal({
         title: "Eliminar Sucursal",
         text: "¿Estas Seguro que Deseas Eliminar esta Sucursal?",
@@ -317,7 +372,7 @@ function Delete() {
                 success: function (response) {
 
                     if (response.result) {
-                        BranchOfficeTable.ajax.reload();
+                        branchOfficeTable.ajax.reload();
                     }
                     else {
                         swal("No Logró Eliminar la Sucursal.", response.message, "error");

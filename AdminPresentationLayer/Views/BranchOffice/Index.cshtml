@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- DataTales Example -->
+<!-- DataTales -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <div class="container-fluid">
@@ -30,7 +30,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
-                        <th>Departamentos</th>
+                        <th>Departamento</th>
                         <th>Municipio</th>
                         <th>Estado</th>
                         <th>Acciones</th>
@@ -74,12 +74,6 @@
                         <input type="text" class="form-control" id="NameCreate" name="NameCreate" autocomplete="off">
                     </div>
 
-                    @* Teléfono *@
-                    <div class="col-sm-6">
-                        <label for="PhoneCreate" class="form-label">Teléfono</label>
-                        <input type="text" class="form-control" id="PhoneCreate" name="PhoneCreate" autocomplete="off">
-                    </div>
-
                     @* Estado *@
                     <div class="col-sm-6">
                         <label for="ActiveCreate" class="form-label">Activo</label>
@@ -88,8 +82,6 @@
                             <option value="0">No</option>
                         </select>
                     </div>
-
-                    <div class="col-sm-6"></div>
 
                     @* Departmento *@
                     <div class="col-sm-6">
@@ -204,6 +196,52 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                 <button class="btn btn-primary" type="button" onclick="Update()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Phone Modal-->
+<div class="modal fade" id="FormModalPhone" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" data-bs-backdrop="static">
+
+    <div class="modal-dialog modal-lg">
+
+        @*Contenido*@
+        <div class="modal-content">
+
+            @*Cabecera*@
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="LabelReadPhoneByBranchOffice">Telefonos de La Sucursal</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+
+            </div>
+
+            @*Cuerpo*@
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTablePhone" width="99%">
+                        <thead>
+                            <tr>
+                                <th>ID Teléfono</th>
+                                <th>Sucursal</th>
+                                <th>Teléfono</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" type="button" onclick="">Crear</button>
             </div>
         </div>
     </div>
