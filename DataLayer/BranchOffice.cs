@@ -8,6 +8,48 @@ namespace DataLayer
 {
     public class BranchOffice
     {
+        public int Create(Entity.BranchOffice branchOffice, out string message)
+        {
+            int result;
+            try
+            {
+                using (var connection = new SqlConnection(Connection.value))
+                {
+                    var cmd = new SqlCommand()
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "sp_branchoffice",
+                        Connection = connection
+                    };
+
+                    cmd.Parameters.AddWithValue("Operation", "C");
+
+                    cmd.Parameters.AddWithValue("Name", branchOffice.Name);
+                    cmd.Parameters.AddWithValue("Address", branchOffice.Address);
+                    cmd.Parameters.AddWithValue("MunicipalityId", branchOffice.Municipality.Id);
+                    cmd.Parameters.AddWithValue("Active", branchOffice.Active);
+
+                    cmd.Parameters.Add("Result", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Message", SqlDbType.VarChar, 250).Direction = ParameterDirection.Output;
+
+                    connection.Open();
+
+                    cmd.ExecuteNonQuery();
+
+                    result = Convert.ToInt32(cmd.Parameters["Result"].Value);
+                    message = Convert.ToString(cmd.Parameters["Message"].Value);
+                }
+            }
+            catch (Exception e)
+            {
+                result = -1;
+                message = $"Error: {e.Message}";
+            }
+
+
+            return result;
+        }
+
         public List<Entity.BranchOffice> Read()
         {
             var branchOfficeList = new List<Entity.BranchOffice>();
@@ -19,9 +61,11 @@ namespace DataLayer
                     var cmd = new SqlCommand()
                     {
                         CommandType = CommandType.StoredProcedure,
-                        CommandText = "sp_branchoffice_read",
+                        CommandText = "sp_branchoffice",
                         Connection = connection
                     };
+
+                    cmd.Parameters.AddWithValue("Operation", "R");
 
                     connection.Open();
 
@@ -60,46 +104,6 @@ namespace DataLayer
             return branchOfficeList;
         }
 
-        public int Create(Entity.BranchOffice branchOffice, out string message)
-        {
-            int result;
-            try
-            {
-                using (var connection = new SqlConnection(Connection.value))
-                {
-                    var cmd = new SqlCommand()
-                    {
-                        CommandType = CommandType.StoredProcedure,
-                        CommandText = "sp_branchoffice_create",
-                        Connection = connection
-                    };
-
-                    cmd.Parameters.AddWithValue("Name", branchOffice.Name);
-                    cmd.Parameters.AddWithValue("Address", branchOffice.Address);
-                    cmd.Parameters.AddWithValue("MunicipalityId", branchOffice.Municipality.Id);
-                    cmd.Parameters.AddWithValue("Active", branchOffice.Active);
-
-                    cmd.Parameters.Add("Result", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("Message", SqlDbType.VarChar, 250).Direction = ParameterDirection.Output;
-
-                    connection.Open();
-
-                    cmd.ExecuteNonQuery();
-
-                    result = Convert.ToInt32(cmd.Parameters["Result"].Value);
-                    message = Convert.ToString(cmd.Parameters["Message"].Value);
-                }
-            }
-            catch (Exception e)
-            {
-                result = -1;
-                message = $"Error: {e.Message}";
-            }
-
-
-            return result;
-        }
-
         public bool Update(Entity.BranchOffice branchOffice, out string message)
         {
             bool result;
@@ -111,9 +115,11 @@ namespace DataLayer
                     var cmd = new SqlCommand()
                     {
                         CommandType = CommandType.StoredProcedure,
-                        CommandText = "sp_branchoffice_update",
+                        CommandText = "sp_branchoffice",
                         Connection = connection
                     };
+
+                    cmd.Parameters.AddWithValue("Operation", "U");
 
                     cmd.Parameters.AddWithValue("Id", branchOffice.Id);
                     cmd.Parameters.AddWithValue("Name", branchOffice.Name);
@@ -152,9 +158,11 @@ namespace DataLayer
                     var cmd = new SqlCommand()
                     {
                         CommandType = CommandType.StoredProcedure,
-                        CommandText = "sp_branchoffice_delete",
+                        CommandText = "sp_branchoffice",
                         Connection = connection
                     };
+
+                    cmd.Parameters.AddWithValue("Operation", "D");
 
                     cmd.Parameters.AddWithValue("Id", branchOffice.Id);
 

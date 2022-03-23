@@ -203,7 +203,7 @@
 
 <!-- Phone Modal-->
 <div class="modal fade" id="FormModalPhone" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+     aria-hidden="true">
 
     <div class="modal-dialog modal-lg">
 
@@ -223,7 +223,7 @@
             @*Cuerpo*@
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTablePhone" width="99%">
+                    <table class="table table-bordered" id="dataTablePhone" width="100%">
                         <thead>
                             <tr>
                                 <th>ID Teléfono</th>
@@ -241,7 +241,128 @@
 
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                <button class="btn btn-primary" type="button" onclick="">Crear</button>
+                <button class="btn btn-primary" type="button" onclick="ShowPhoneCreate()">Crear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Create Phone Modal*@
+<div class="modal fade" id="FormModalPhoneCreate" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" data-bs-backdrop="static">
+
+    <div class="modal-dialog">
+
+        @*Contenido*@
+        <div class="modal-content">
+
+            @*Cabecera*@
+            <div class="modal-header">
+
+                <h5 class="modal-title">Nuevo Telefono</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+
+            </div>
+
+            @*Cuerpo*@
+            <div class="modal-body">
+
+                @*Inputs*@
+                <form id="CreatePhoneForm" class="row">
+
+                    @* Numero *@
+                    <div class="col-sm-6">
+                        <label for="PhoneCreate" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="PhoneCreate" name="PhoneCreate" autocomplete="off">
+                    </div>
+
+                    @* Estado *@
+                    <div class="col-sm-6">
+                        <label for="ActivePhoneCreate" class="form-label">Activo</label>
+                        <select class="form-control" id="ActivePhoneCreate">
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+
+                </form>
+
+                @* Mensaje Error *@
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div id="ErrorPhoneCreate" class="alert alert-danger" role="alert">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" type="button" onclick="CreatePhone()">Crear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Update Phone Modal*@
+<div class="modal fade" id="FormModalPhoneUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" data-bs-backdrop="static">
+
+    <div class="modal-dialog">
+
+        @*Contenido*@
+        <div class="modal-content">
+
+            @*Cabecera*@
+            <div class="modal-header">
+
+                <h5 class="modal-title">Actualizar Telefono</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+
+            </div>
+
+            @*Cuerpo*@
+            <div class="modal-body">
+
+                @*Inputs*@
+                <form id="UpdatePhoneForm" class="row">
+
+                    @* Id *@
+                    <div class="col-sm-0">
+                        <input type="text" class="form-control" id="IdPhoneUpdate" name="IdUpdate" autocomplete="off" hidden="hidden">
+                    </div>
+
+                    @* Numero *@
+                    <div class="col-sm-6">
+                        <label for="PhoneUpdate" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="PhoneUpdate" name="PhoneUpdate" autocomplete="off">
+                    </div>
+
+                    @* Estado *@
+                    <div class="col-sm-6">
+                        <label for="ActivePhoneUpdate" class="form-label">Activo</label>
+                        <select class="form-control" id="ActivePhoneUpdate">
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+
+                </form>
+
+                @* Mensaje Error *@
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div id="ErrorPhoneUpdate" class="alert alert-danger" role="alert">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" type="button" onclick="UpdatePhone()">Actualizar</button>
             </div>
         </div>
     </div>

@@ -301,6 +301,7 @@
     <Content Include="Content\fontawesome.css" />
     <Content Include="Content\fontawesome.min.css" />
     <Content Include="Content\google-font-nunito.css" />
+    <Content Include="Content\modal.css" />
     <Content Include="Content\regular.css" />
     <Content Include="Content\regular.min.css" />
     <Content Include="Content\sb-admin-2\css\sb-admin-2.css" />

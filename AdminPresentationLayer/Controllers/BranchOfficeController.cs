@@ -13,7 +13,7 @@ namespace AdminPresentationLayer.Controllers
         }
 
         [HttpGet]
-        public JsonResult BranchOfficeRead()
+        public JsonResult ReadBranchOffices()
         {
             var data = new Business.BranchOffice().Read();
             var json = new { data };
@@ -21,7 +21,7 @@ namespace AdminPresentationLayer.Controllers
         }
 
         [HttpGet]
-        public JsonResult BranchOfficePhoneRead()
+        public JsonResult ReadBranchOfficePhones()
         {
             var data = new Business.BranchOfficePhone().Read();
             var json = new { data };
@@ -29,7 +29,7 @@ namespace AdminPresentationLayer.Controllers
         }
 
         [HttpPost]
-        public JsonResult BranchOfficePhoneReadByBranchOffice(int branchOfficeId)
+        public JsonResult ReadBranchOfficePhoneByBranchOfficeId(int branchOfficeId)
         {
             var data = new Business.BranchOfficePhone().ReadByBranchOffice(branchOfficeId);
             var json = new { data };
@@ -37,7 +37,7 @@ namespace AdminPresentationLayer.Controllers
         }
 
         [HttpPost]
-        public JsonResult BranchOfficeCreate(Entity.BranchOffice branchOffice)
+        public JsonResult CreateBranchOffice(Entity.BranchOffice branchOffice)
         {
             var result = new Business.BranchOffice().Create(branchOffice, out string message);
             var json = new { result, message };
@@ -45,7 +45,15 @@ namespace AdminPresentationLayer.Controllers
         }
 
         [HttpPost]
-        public JsonResult BranchOfficeUpdate(Entity.BranchOffice branchOffice)
+        public JsonResult CreateBranchOfficePhone(Entity.BranchOfficePhone branchOfficePhone)
+        {
+            var result = new Business.BranchOfficePhone().Create(branchOfficePhone, out string message);
+            var json = new { result, message };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateBranchOffice(Entity.BranchOffice branchOffice)
         {
             var result = new Business.BranchOffice().Update(branchOffice, out string message);
             var json = new { result, message };
@@ -53,9 +61,25 @@ namespace AdminPresentationLayer.Controllers
         }
 
         [HttpPost]
-        public JsonResult BranchOfficeDelete(Entity.BranchOffice branchOffice)
+        public JsonResult UpdateBranchOfficePhone(Entity.BranchOfficePhone branchOfficePhone)
+        {
+            var result = new Business.BranchOfficePhone().Update(branchOfficePhone, out string message);
+            var json = new { result, message };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult DeleteBranchOffice(Entity.BranchOffice branchOffice)
         {
             var result = new Business.BranchOffice().Delete(branchOffice, out string message);
+            var json = new { result, message };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult DeleteBranchOfficePhone(Entity.BranchOfficePhone branchOfficePhone)
+        {
+            var result = new Business.BranchOfficePhone().Delete(branchOfficePhone, out string message);
             var json = new { result, message };
             return Json(json, JsonRequestBehavior.AllowGet);
         }

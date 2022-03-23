@@ -1,6 +1,7 @@
 ﻿var branchOfficeTableRowSelected;
 var branchOfficeTable;
 var branchOfficeObj;
+var branchOfficePhoneObj;
 var branchOfficePhoneTable
 
 function SetUp() {
@@ -15,9 +16,15 @@ function SetUp() {
     ValidatorCreate();
     DeparmentReadyUpdate();
     ValidatorUpdate();
+    jQuery.validator.addMethod("phoneNumber", function (value, element) {
+        return this.optional(element) || /^[0-9]{4}-[0-9]{4}$/i.test(value);
+    }, "El formato correcto es ####-####");
+    ValidatorPhoneCreate();
     $("#dataTable tbody").on("click", '.btn-update', ShowUpdateModal);
     $("#dataTable tbody").on("click", '.btn-detelete', Delete);
     $("#dataTable tbody").on("click", '.btn-phone', ShowPhoneRead);
+    $("#dataTablePhone tbody").on("click", '.btn-update', ShowPhoneUpdate);
+    $("#dataTablePhone tbody").on("click", '.btn-detelete', DeletePhone);
 }
 
 function ShowCreateModal() {
@@ -189,17 +196,15 @@ function ShowPhoneRead() {
 
     branchOfficeObj = branchOfficeTable.row(rowSelected).data();
 
-    console.log(branchOfficeObj);
-
     if (branchOfficePhoneTable != null) {
         branchOfficePhoneTable.destroy();
     }
 
     branchOfficePhoneTable = $('#dataTablePhone').DataTable({
         responsive: true,
-        ordering: false,
+        ordering: true,
         "ajax": {
-            url: '/BranchOffice/BranchOfficePhoneReadByBranchOffice',
+            url: '/BranchOffice/ReadBranchOfficePhoneByBranchOfficeId',
             type: "POST",
             data: { branchOfficeId: branchOfficeObj.Id }
         },
@@ -228,6 +233,67 @@ function ShowPhoneRead() {
     });
 }
 
+function ShowPhoneCreate() {
+    $("#FormModalPhone").modal("hide");
+    $("#FormModalPhoneCreate").modal("show");
+
+    $("#PhoneCreate").val("");
+    $("#ActivePhoneCreate").val(1);
+    $("#ErrorPhoneCreate").hide();
+}
+
+function ValidatorPhoneCreate() {
+
+    $("#CreatePhoneForm").validate({
+        rules: {
+            PhoneCreate: {
+                required: true,
+                phoneNumber: true
+            }
+        },
+        messages: {
+            PhoneCreate: { required: "- El campo \"Telefono\" es obligatorio." }
+        },
+        errorElement: "div",
+        errorClass: "form-label",
+        errorLabelContainer: ".alert-danger"
+    });
+}
+
+function ShowPhoneUpdate() {
+    $("#FormModalPhone").modal("hide");
+    $("#FormModalPhoneUpdate").modal("show");
+    var rowSelected = $(this).closest("tr");
+    if ($(rowSelected).hasClass('child')) {
+        rowSelected = $(rowSelected).prev();
+    }
+
+    branchOfficePhoneObj = branchOfficePhoneTable.row(rowSelected).data();
+
+    $("#IdPhoneUpdate").val(branchOfficePhoneObj.Id);
+    $("#PhoneUpdate").val(branchOfficePhoneObj.PhoneNumber);
+    $("#ActivePhoneUpdate").val(branchOfficePhoneObj.Active ? 1 : 0);
+    $("#ErrorPhoneUpdate").hide();
+}
+
+function ValidatorPhoneUpdate() {
+
+    $("#UpdatePhoneForm").validate({
+        rules: {
+            PhoneUpdate: {
+                required: true,
+                phoneNumber: true
+            }
+        },
+        messages: {
+            PhoneUpdate: { required: "- El campo \"Telefono\" es obligatorio." }
+        },
+        errorElement: "div",
+        errorClass: "form-label",
+        errorLabelContainer: ".alert-danger"
+    });
+}
+
 function Create() {
 
     if (!$("#CreateForm").valid()) {
@@ -245,15 +311,21 @@ function Create() {
     };
 
     jQuery.ajax({
-        url: '/BranchOffice/BranchOfficeCreate',
+        url: '/BranchOffice/CreateBranchOffice',
         type: "POST",
         data: JSON.stringify({ branchOffice: branchOfficeObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            $(".modal-body").LoadingOverlay("hide");
-            $("#FormModalCreate").modal("hide");
             branchOfficeTable.ajax.reload();
+            if (response.result) {
+                $(".modal-body").LoadingOverlay("hide");
+                $("#FormModalCreate").modal("hide");
+                branchOfficeTable.ajax.reload();
+            }
+            else {
+                swal("No Logró Actualizar la Sucursal.", response.message, "error");
+            }
         },
         error: function (error) {
             $(".modal-body").LoadingOverlay("hide");
@@ -274,9 +346,9 @@ function Create() {
 function Read() {
     branchOfficeTable = $('#dataTable').DataTable({
         responsive: true,
-        ordering: false,
+        ordering: true,
         "ajax": {
-            url: '/BranchOffice/BranchOfficeRead',
+            url: '/BranchOffice/ReadBranchOffices',
             type: "GET",
             dataType: "json"
         },
@@ -308,6 +380,11 @@ function Read() {
 }
 
 function Update() {
+
+    if (!$("#UpdateForm").valid()) {
+        return;
+    }
+
     branchOfficeObj = {
         Id: branchOfficeObj.Id,
         Name: $("#NameUpdate").val(),
@@ -319,17 +396,26 @@ function Update() {
     };
 
     jQuery.ajax({
-        url: '/BranchOffice/BranchOfficeUpdate',
+        url: '/BranchOffice/UpdateBranchOffice',
         type: "POST",
         data: JSON.stringify({ branchOffice: branchOfficeObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            $(".modal-body").LoadingOverlay("hide");
-            $("#FormModalUpdate").modal("hide");
-            branchOfficeTable.ajax.reload();
+
+            if (response.result) {
+                $(".modal-body").LoadingOverlay("hide");
+                $("#FormModalUpdate").modal("hide");
+                branchOfficeTable.ajax.reload();
+            }
+            else {
+                swal("No Logró Actualizar la Sucursal.", response.message, "error");
+            }
+
+           
         },
         error: function (error) {
+
             $(".modal-body").LoadingOverlay("hide");
             $("#ErrorUpdate").text(error.responseText);
             $("#ErrorUpdate").show();
@@ -364,7 +450,7 @@ function Delete() {
         function () {
 
             jQuery.ajax({
-                url: '/BranchOffice/BranchOfficeDelete',
+                url: '/BranchOffice/DeleteBranchOffice',
                 type: "POST",
                 data: JSON.stringify({ branchOffice: branchOfficeObj }),
                 dataType: "json",
@@ -376,6 +462,174 @@ function Delete() {
                     }
                     else {
                         swal("No Logró Eliminar la Sucursal.", response.message, "error");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                beforeSend: function () { }
+            });
+
+        });
+}
+
+function CreatePhone() {
+    if (!$("#CreatePhoneForm").valid()) {
+        return;
+    }
+
+    var branchOfficePhoneObj = {
+        "BranchOffice":branchOfficeObj,
+        "PhoneNumber": $("#PhoneCreate").val(),
+        "Active": $("#ActivePhoneCreate option:selected").val() == 1
+    }
+
+    jQuery.ajax({
+        url: '/BranchOffice/CreateBranchOfficePhone',
+        type: "POST",
+        data: JSON.stringify({ branchOfficePhone: branchOfficePhoneObj }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            branchOfficeTable.ajax.reload();
+            if (response.result) {
+                branchOfficePhoneTable.ajax.reload();
+                $(".modal-body").LoadingOverlay("hide");
+                $("#FormModalPhoneCreate").modal("hide");
+                $("#FormModalPhone").modal("show");
+            }
+            else {
+                $(".modal-body").LoadingOverlay("hide");
+                $("#FormModalPhoneCreate").modal("hide");
+                swal({
+                    title: "No Logró Añadir el Teléfono.",
+                    text: response.message,
+                    type: "error",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                function(){
+                    $("#FormModalPhoneCreate").modal("show");
+                });
+            }
+        },
+        error: function (error) {
+            $(".modal-body").LoadingOverlay("hide");
+            $("#ErrorCreate").text(error.responseText);
+            $("#ErrorCreate").show();
+        },
+        beforeSend: function () {
+
+            $(".modal-body").LoadingOverlay("show", {
+                imageResizeFactor: 2,
+                text: "Cargando...",
+                size: 14
+            });
+        }
+    });
+}
+
+function UpdatePhone() {
+    if (!$("#UpdatePhoneForm").valid()) {
+        return;
+    }
+
+    var branchOfficePhoneObj = {
+        "Id": $("#IdPhoneUpdate").val(),
+        "BranchOffice":branchOfficeObj,
+        "PhoneNumber": $("#PhoneUpdate").val(),
+        "Active": $("#ActivePhoneUpdate option:selected").val() == 1
+    }
+
+    console.log("Aqui va", branchOfficePhoneObj);
+
+    jQuery.ajax({
+        url: '/BranchOffice/UpdateBranchOfficePhone',
+        type: "POST",
+        data: JSON.stringify({ branchOfficePhone: branchOfficePhoneObj }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            branchOfficeTable.ajax.reload();
+            if (response.result) {
+                branchOfficePhoneTable.ajax.reload();
+                $(".modal-body").LoadingOverlay("hide");
+                $("#FormModalPhoneUpdate").modal("hide");
+                $("#FormModalPhone").modal("show");
+            }
+            else {
+                $(".modal-body").LoadingOverlay("hide");
+                $("#FormModalPhoneUpdate").modal("hide");
+                swal({
+                    title: "No se Logró Actualizar el Teléfono.",
+                    text: response.message,
+                    type: "error",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                function(){
+                    $("#FormModalPhoneUpdate").modal("show");
+                });
+            }
+        },
+        error: function (error) {
+            $(".modal-body").LoadingOverlay("hide");
+            $("#ErrorUpdate").text(error.responseText);
+            $("#ErrorUpdate").show();
+        },
+        beforeSend: function () {
+
+            $(".modal-body").LoadingOverlay("show", {
+                imageResizeFactor: 2,
+                text: "Cargando...",
+                size: 14
+            });
+        }
+    });
+}
+
+function DeletePhone() {
+    var rowSelected = $(this).closest("tr");
+    if ($(rowSelected).hasClass('child')) {
+        rowSelected = $(rowSelected).prev();
+    }
+    branchOfficePhoneObj = branchOfficePhoneTable.row(rowSelected).data();
+    $("#FormModalPhone").modal("hide");
+    swal({
+        title: "Eliminar Teléfono",
+        text: "¿Estas Seguro que Deseas Eliminar este teléfono?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-primary",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+        closeOnConfirm: true
+    },
+        function (inputValue) {
+
+            if (!inputValue) {
+                $("#FormModalPhone").modal("show");
+                return
+            }
+
+            jQuery.ajax({
+                url: '/BranchOffice/DeleteBranchOfficePhone',
+                type: "POST",
+                data: JSON.stringify({ branchOfficePhone: branchOfficePhoneObj }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+
+                    if (response.result) {
+                        branchOfficePhoneTable.ajax.reload();
+                        $("#FormModalPhone").modal("show");
+                    }
+                    else {
+                        swal("No Logró Eliminar el teléfono.", response.message, "error");
                     }
                 },
                 error: function (error) {

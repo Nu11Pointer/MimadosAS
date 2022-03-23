@@ -27,7 +27,8 @@ namespace AdminPresentationLayer
                 "~/Content/sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.css",
                 "~/Content/DataTables/css/responsive.dataTables.css",
                 "~/Content/jquery-ui.css",
-                "~/Content/sweetalert.css"
+                "~/Content/sweetalert.css",
+                "~/Content/modal.css"
                 ));
 
             bundles.Add(new Bundle("~/bundles/sb-admin").Include(
