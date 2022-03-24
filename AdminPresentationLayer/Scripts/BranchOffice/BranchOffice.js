@@ -324,7 +324,7 @@ function Create() {
                 branchOfficeTable.ajax.reload();
             }
             else {
-                swal("No Logró Actualizar la Sucursal.", response.message, "error");
+                swal("No Logró Crear la Sucursal.", response.message, "error");
             }
         },
         error: function (error) {
