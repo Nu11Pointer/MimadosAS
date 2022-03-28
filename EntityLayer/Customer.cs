@@ -12,7 +12,7 @@
 
         public string Address { get; set; }
 
-        public int MunicipalityId { get; set; }
+        public Municipality Municipality { get; set; }
 
         public bool Active { get; set; }
     }
