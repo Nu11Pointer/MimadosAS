@@ -46,7 +46,6 @@ namespace AdminPresentationLayer.Controllers
         }
         #endregion
 
-        // GET: BranchOfficePhone
         #region BranchOfficePhone
         public ActionResult BranchOfficePhone()
         {

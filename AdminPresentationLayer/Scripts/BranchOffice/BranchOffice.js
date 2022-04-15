@@ -1,8 +1,8 @@
 ﻿var branchOfficeTableRowSelected;
 var branchOfficeTable;
 var branchOfficeObj;
-var branchOfficePhoneObj;
-var branchOfficePhoneTable
+var phoneObj;
+var phoneTable
 
 function SetUp() {
 
@@ -20,6 +20,8 @@ function SetUp() {
         return this.optional(element) || /^[0-9]{4}-[0-9]{4}$/i.test(value);
     }, "El formato correcto es ####-####");
     ValidatorPhoneCreate();
+    ValidatorPhoneUpdate();
+
     $("#dataTable tbody").on("click", '.btn-update', ShowUpdateModal);
     $("#dataTable tbody").on("click", '.btn-detelete', Delete);
     $("#dataTable tbody").on("click", '.btn-phone', ShowPhoneRead);
@@ -41,7 +43,7 @@ function ShowCreateModal() {
 function DeparmentReadyCreate() {
     // Load Selector Department
     jQuery.ajax({
-        url: '/Deparment/DeparmentRead',
+        url: '/Deparment/Read',
         type: "GET",
         data: null,
         dataType: "json",
@@ -120,7 +122,7 @@ function ShowUpdateModal() {
 function DeparmentReadyUpdate() {
     // Load Selector Department
     jQuery.ajax({
-        url: '/Deparment/DeparmentRead',
+        url: '/Deparment/Read',
         type: "GET",
         data: null,
         dataType: "json",
@@ -196,11 +198,11 @@ function ShowPhoneRead() {
 
     branchOfficeObj = branchOfficeTable.row(rowSelected).data();
 
-    if (branchOfficePhoneTable != null) {
-        branchOfficePhoneTable.destroy();
+    if (phoneTable != null) {
+        phoneTable.destroy();
     }
 
-    branchOfficePhoneTable = $('#dataTablePhone').DataTable({
+    phoneTable = $('#dataTablePhone').DataTable({
         responsive: true,
         ordering: true,
         "ajax": {
@@ -268,11 +270,11 @@ function ShowPhoneUpdate() {
         rowSelected = $(rowSelected).prev();
     }
 
-    branchOfficePhoneObj = branchOfficePhoneTable.row(rowSelected).data();
+    phoneObj = phoneTable.row(rowSelected).data();
 
-    $("#IdPhoneUpdate").val(branchOfficePhoneObj.Id);
-    $("#PhoneUpdate").val(branchOfficePhoneObj.PhoneNumber);
-    $("#ActivePhoneUpdate").val(branchOfficePhoneObj.Active ? 1 : 0);
+    $("#IdPhoneUpdate").val(phoneObj.Id);
+    $("#PhoneUpdate").val(phoneObj.PhoneNumber);
+    $("#ActivePhoneUpdate").val(phoneObj.Active ? 1 : 0);
     $("#ErrorPhoneUpdate").hide();
 }
 
@@ -493,7 +495,7 @@ function CreatePhone() {
         success: function (response) {
             branchOfficeTable.ajax.reload();
             if (response.result) {
-                branchOfficePhoneTable.ajax.reload();
+                phoneTable.ajax.reload();
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalPhoneCreate").modal("hide");
                 $("#FormModalPhone").modal("show");
@@ -554,7 +556,7 @@ function UpdatePhone() {
         success: function (response) {
             branchOfficeTable.ajax.reload();
             if (response.result) {
-                branchOfficePhoneTable.ajax.reload();
+                phoneTable.ajax.reload();
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalPhoneUpdate").modal("hide");
                 $("#FormModalPhone").modal("show");
@@ -597,7 +599,7 @@ function DeletePhone() {
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
     }
-    branchOfficePhoneObj = branchOfficePhoneTable.row(rowSelected).data();
+    phoneObj = phoneTable.row(rowSelected).data();
     $("#FormModalPhone").modal("hide");
     swal({
         title: "Eliminar Teléfono",
@@ -619,13 +621,13 @@ function DeletePhone() {
             jQuery.ajax({
                 url: '/BranchOffice/DeleteBranchOfficePhone',
                 type: "POST",
-                data: JSON.stringify({ branchOfficePhone: branchOfficePhoneObj }),
+                data: JSON.stringify({ branchOfficePhone: phoneObj }),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (response) {
 
                     if (response.result) {
-                        branchOfficePhoneTable.ajax.reload();
+                        phoneTable.ajax.reload();
                         $("#FormModalPhone").modal("show");
                     }
                     else {

@@ -44,6 +44,8 @@
     <Compile Include="BranchOffice.cs" />
     <Compile Include="BranchOfficePhone.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="CustomerEmail.cs" />
+    <Compile Include="CustomerPhone.cs" />
     <Compile Include="Deparment.cs" />
     <Compile Include="Municipality.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -11,6 +11,18 @@ namespace BusinessLayer
 
         public bool Create(Entity.BranchOfficePhone branchOfficePhone, out string message)
         {
+            if (string.IsNullOrEmpty(branchOfficePhone.PhoneNumber) || string.IsNullOrWhiteSpace(branchOfficePhone.PhoneNumber))
+            {
+                message = "El Campo \"Teléfono\" no puede ser vacio.";
+                return false;
+            }
+
+            if (branchOfficePhone.PhoneNumber.Length != 9)
+            {
+                message = "El Campo \"Teléfono\" debe contener 9 caracteres.";
+                return false;
+            }
+
             return _Db.Create(branchOfficePhone, out message);
         }
 
@@ -26,6 +38,18 @@ namespace BusinessLayer
 
         public bool Update(Entity.BranchOfficePhone branchOfficePhone, out string message)
         {
+            if (string.IsNullOrEmpty(branchOfficePhone.PhoneNumber) || string.IsNullOrWhiteSpace(branchOfficePhone.PhoneNumber))
+            {
+                message = "El Campo \"Teléfono\" no puede ser vacio.";
+                return false;
+            }
+
+            if (branchOfficePhone.PhoneNumber.Length != 9)
+            {
+                message = "El Campo \"Teléfono\" debe contener 9 caracteres.";
+                return false;
+            }
+
             return _Db.Update(branchOfficePhone, out message);
         }
 

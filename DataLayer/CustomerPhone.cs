@@ -2,56 +2,43 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Entity = EntityLayer;
 
 namespace DataLayer
 {
-    public class Municipality
+    public class CustomerPhone
     {
-        /// <summary>
-        /// Crea un Municipio en la tabla Municipios.
-        /// </summary>
-        /// <param name="municipality">Municipio a crear</param>
-        /// <param name="message">Mensaje de error</param>
-        /// <returns>
-        /// Verdadero si la operación fue exitosa.
-        /// </returns>
-        public bool Create(Entity.Municipality municipality, out string message)
+        public bool Create(Entity.CustomerPhone customerPhone, out string message)
         {
             bool result;
 
             try
             {
-                // Crear Conexión
                 using (var connection = new SqlConnection(Connection.value))
                 {
-                    // Configurar consulta
                     var cmd = new SqlCommand()
                     {
                         CommandType = CommandType.StoredProcedure,
-                        CommandText = "sp_municipality",
+                        CommandText = "sp_customerphone",
                         Connection = connection
                     };
 
-                    // Establecer Parametros
                     cmd.Parameters.AddWithValue("Operation", "C");
 
-                    cmd.Parameters.AddWithValue("Id", municipality.Id);
-                    cmd.Parameters.AddWithValue("DepartmentId", municipality.Department.Id);
-                    cmd.Parameters.AddWithValue("Name", municipality.Name);
-                    cmd.Parameters.AddWithValue("Active", municipality.Active);
+                    cmd.Parameters.AddWithValue("CustomerId", customerPhone.Customer.Id);
+                    cmd.Parameters.AddWithValue("PhoneNumber", customerPhone.PhoneNumber);
+                    cmd.Parameters.AddWithValue("Active", customerPhone.Active);
 
                     cmd.Parameters.Add("Result", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Message", SqlDbType.VarChar, 250).Direction = ParameterDirection.Output;
 
-
-                    // Abrir Conexion
                     connection.Open();
 
-                    // Ejecutar consulta
                     cmd.ExecuteNonQuery();
 
-                    // Guardar el resultado y el mensaje
                     result = Convert.ToBoolean(cmd.Parameters["Result"].Value);
                     message = Convert.ToString(cmd.Parameters["Message"].Value);
                 }
@@ -64,109 +51,82 @@ namespace DataLayer
             return result;
         }
 
-        /// <summary>
-        /// Lista todos los Municipios de la tabla Municipality. 
-        /// </summary>
-        /// <returns>
-        /// Una lista de Municipios.
-        /// </returns>
-        public List<Entity.Municipality> Read()
+        public List<Entity.CustomerPhone> Read()
         {
-            var municipalityList = new List<Entity.Municipality>();
+            var phoneList = new List<Entity.CustomerPhone>();
 
             try
             {
-                // Crear Conección
                 using (var connection = new SqlConnection(Connection.value))
                 {
-                    // Configurar Consulta
                     var cmd = new SqlCommand()
                     {
                         CommandType = CommandType.StoredProcedure,
-                        CommandText = "sp_municipality",
+                        CommandText = "sp_customerphone",
                         Connection = connection
                     };
 
-                    // Establecer Parametros
                     cmd.Parameters.AddWithValue("Operation", "R");
 
-                    cmd.Parameters.Add("Result", SqlDbType.Bit).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("Message", SqlDbType.VarChar, 250).Direction = ParameterDirection.Output;
-
-                    // Abrir Conexión
                     connection.Open();
 
-                    // Ejecutar la Consulta
                     using (var reader = cmd.ExecuteReader())
                     {
-                        // Leer cada fila de la tabla
                         while (reader.Read())
                         {
-                            // Añadir Cada Elemento a La Lista
-                            municipalityList.Add(new Entity.Municipality()
+                            phoneList.Add(new Entity.CustomerPhone()
                             {
                                 Id = Convert.ToInt32(reader["Id"]),
-                                Department = new Entity.Department()
+                                Customer = new Entity.Customer()
                                 {
-                                    Id = Convert.ToInt32(reader["DepartmentId"]),
-                                    Name = ""
+                                    Id = Convert.ToInt32(reader["CustomerId"]),
+                                    Name = Convert.ToString(reader["CustomerName"]),
+                                    SurName = Convert.ToString(reader["CustomerSurName"])
                                 },
-                                Name = Convert.ToString(reader["Name"]),
+                                PhoneNumber = Convert.ToString(reader["PhoneNumber"]),
                                 Active = Convert.ToBoolean(reader["Active"])
                             });
                         }
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                var message = e.Message;
+                Console.WriteLine(message);
             }
-            return municipalityList;
+            return phoneList;
         }
 
-        /// <summary>
-        /// Actualiza el Municipio brindado por parametros
-        /// </summary>
-        /// <param name="municipality">Municipio a actualizar</param>
-        /// <param name="message">Mensaje de error</param>
-        /// <returns>
-        /// Verdadero si la operación fue exitosa.
-        /// </returns>
-        public bool Update(Entity.Municipality municipality, out string message)
+        public bool Update(Entity.CustomerPhone customerPhone, out string message)
         {
             bool result;
 
             try
             {
-                // Crear Conección
                 using (var connection = new SqlConnection(Connection.value))
                 {
-                    // Configurar Consulta
                     var cmd = new SqlCommand()
                     {
                         CommandType = CommandType.StoredProcedure,
-                        CommandText = "sp_municipality",
+                        CommandText = "sp_customerphone",
                         Connection = connection
                     };
 
-                    // Establecer Parametros
                     cmd.Parameters.AddWithValue("Operation", "U");
 
-                    cmd.Parameters.AddWithValue("Id", municipality.Id);
-                    cmd.Parameters.AddWithValue("DepartmentId", municipality.Department.Id);
-                    cmd.Parameters.AddWithValue("Name", municipality.Name);
-                    cmd.Parameters.AddWithValue("Active", municipality.Active);
+                    cmd.Parameters.AddWithValue("Id", customerPhone.Id);
+                    cmd.Parameters.AddWithValue("CustomerId", customerPhone.Customer.Id);
+                    cmd.Parameters.AddWithValue("PhoneNumber", customerPhone.PhoneNumber);
+                    cmd.Parameters.AddWithValue("Active", customerPhone.Active);
 
                     cmd.Parameters.Add("Result", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Message", SqlDbType.VarChar, 250).Direction = ParameterDirection.Output;
 
-                    // Abrir Conexión
                     connection.Open();
 
-                    // Ejecutar Consulta
                     cmd.ExecuteNonQuery();
 
-                    // Guardar Resultados
                     result = Convert.ToBoolean(cmd.Parameters["Result"].Value);
                     message = Convert.ToString(cmd.Parameters["Message"].Value);
                 }
@@ -180,49 +140,32 @@ namespace DataLayer
             return result;
         }
 
-        /// <summary>
-        /// Elimina el Municipio brindado por parametros
-        /// </summary>
-        /// <param name="municipality">Municipio a eliminar</param>
-        /// <param name="message">Mensaje de error</param>
-        /// <returns>
-        /// Verdadero si la operación fue exitosa.
-        /// </returns>
-        public bool Delete(Entity.Municipality municipality, out string message)
+        public bool Delete(Entity.CustomerPhone customerPhone, out string message)
         {
             bool result;
 
             try
             {
-                // Crear Conección
                 using (var connection = new SqlConnection(Connection.value))
                 {
-                    // Configurar Consulta
                     var cmd = new SqlCommand()
                     {
                         CommandType = CommandType.StoredProcedure,
-                        CommandText = "sp_municipality",
+                        CommandText = "sp_customerphone",
                         Connection = connection
                     };
 
-                    // Establecer Parametros
                     cmd.Parameters.AddWithValue("Operation", "D");
 
-                    cmd.Parameters.AddWithValue("Id", municipality.Id);
-                    cmd.Parameters.AddWithValue("DepartmentId", municipality.Department.Id);
-                    cmd.Parameters.AddWithValue("Name", municipality.Name);
-                    cmd.Parameters.AddWithValue("Active", municipality.Active);
+                    cmd.Parameters.AddWithValue("Id", customerPhone.Id);
 
                     cmd.Parameters.Add("Result", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Message", SqlDbType.VarChar, 250).Direction = ParameterDirection.Output;
 
-                    // Abrir Conexión
                     connection.Open();
 
-                    // Ejecutar Consulta
                     cmd.ExecuteNonQuery();
 
-                    // Guardar Resultados
                     result = Convert.ToBoolean(cmd.Parameters["Result"].Value);
                     message = Convert.ToString(cmd.Parameters["Message"].Value);
                 }
