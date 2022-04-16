@@ -2099,6 +2099,7 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\Department\Department.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -2418,11 +2419,11 @@
     <Content Include="Views\BranchOffice\Index.cshtml" />
     <Content Include="Views\BranchOffice\BranchOfficePhone.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Deparment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Deparment\" />
     <Folder Include="Views\Municipality\" />
   </ItemGroup>
   <ItemGroup>

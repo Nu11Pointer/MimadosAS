@@ -70,7 +70,8 @@ function DeparmentLoad() {
         error: function (error) {
             console.log(error);
         }
-    }).done(MunicipalityOnChange);
+    })
+        // .done(MunicipalityOnChange);
 }
 
 function MunicipalityOnChange() {

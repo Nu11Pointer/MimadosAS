@@ -7,6 +7,10 @@ namespace AdminPresentationLayer.Controllers
     public class DeparmentController : Controller
     {
         // GET: Deparment
+        public ActionResult Index()
+        {
+            return View();
+        }
         //[HttpGet]
         //public JsonResult DeparmentRead()
         //{
