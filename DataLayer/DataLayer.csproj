@@ -49,6 +49,10 @@
     <Compile Include="CustomerEmail.cs" />
     <Compile Include="CustomerPhone.cs" />
     <Compile Include="Deparment.cs" />
+    <Compile Include="Employee.cs" />
+    <Compile Include="EmployeeEmail.cs" />
+    <Compile Include="EmployeePhone.cs" />
+    <Compile Include="EmployeePosition.cs" />
     <Compile Include="Municipality.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
