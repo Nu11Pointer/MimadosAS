@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Entity = EntityLayer;
 using Data = DataLayer;
+using Entity = EntityLayer;
 
 namespace BusinessLayer
 {

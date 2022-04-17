@@ -211,7 +211,7 @@ namespace DataLayer
                     };
 
                     // Establecer Parametros
-                    cmd.Parameters.AddWithValue("Operation", "U");
+                    cmd.Parameters.AddWithValue("Operation", "D");
 
                     cmd.Parameters.AddWithValue("Id", employee.Id);
                     cmd.Parameters.AddWithValue("EmployeePositionId", employee.EmployeePosition.Id);

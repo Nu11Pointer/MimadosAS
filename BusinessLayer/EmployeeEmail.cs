@@ -25,9 +25,9 @@ namespace BusinessLayer
             return _db.Read();
         }
 
-        public List<Entity.EmployeeEmail> ReadByCustomer(int employeeId)
+        public List<Entity.EmployeeEmail> ReadByEmployeeId(int employeeId)
         {
-            return _db.Read().Where(phone => phone.Employee.Id == employeeId).ToList();
+            return _db.Read().Where(email => email.Employee.Id == employeeId).ToList();
         }
 
         public bool Update(Entity.EmployeeEmail employeeEmail, out string message)

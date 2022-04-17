@@ -31,7 +31,7 @@ namespace BusinessLayer
             return _db.Read();
         }
 
-        public List<Entity.EmployeePhone> ReadByCustomer(int employeeId)
+        public List<Entity.EmployeePhone> ReadByEmployeeId(int employeeId)
         {
             return _db.Read().Where(phone => phone.Employee.Id == employeeId).ToList();
         }

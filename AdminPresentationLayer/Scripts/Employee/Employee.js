@@ -1,56 +1,86 @@
-﻿var customerTable;
-var customerObj;
+﻿// Variables Globales
 var rowSelected;
+var employeeTable;
+var employeeObj;
+var phoneTable;
 var phoneObj;
-var phoneTable
+var emailTable;
 var emailObj;
-var emailTable
 
+// Evento Document Loaded
+document.addEventListener('DOMContentLoaded', function () {
+    SetUp();
+});
+
+// Función Principal
 function SetUp() {
-
-    $('#CollapseMenuCustomer').addClass('active');
-    $('#collapseTwo').addClass('show');
-    $('#CollapseMenuItemCustomer').addClass('active');
+    // Pintar Menu Collapse
+    $('#CollapseMenuEmployee').addClass('active');
+    $('#collapseFour').addClass('show');
+    $('#CollapseMenuItemEmployee').addClass('active');
 
     // Show DataTable
     Read();
+
+    // Fill Selectors
     DeparmentLoad();
+    BranchOfficeLoad();
+    EmployeePositionLoad();
 
-    // Validaciones
-    jQuery.validator.addMethod("phoneNumber", function (value, element) {
-        return this.optional(element) || /^[0-9]{4}-[0-9]{4}$/i.test(value);
-    }, "El formato correcto es ####-####");
-    jQuery.validator.addMethod("email", function (value, element) {
-        return this.optional(element) || /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(value);
-    }, "Debes ingresar un correo electronico valido.");
+    // Crear Validaciones
     Validator();
-    ValidatorPhone();
-    ValidatorEmail()
-
+    
+    // Establecer Actualizar
     $("#dataTable tbody").on("click", '.btn-update', ShowUpdateModal);
+
+    // Establecer Eliminar
     $("#dataTable tbody").on("click", '.btn-detelete', Delete);
 
     // Phone
-    $("#dataTable tbody").on("click", '.btn-phone', ShowPhoneRead);    
+    $("#dataTable tbody").on("click", '.btn-phone', ShowPhone);    
     $("#dataTablePhone tbody").on("click", '.btn-update', ShowPhoneUpdate);
     $("#dataTablePhone tbody").on("click", '.btn-detelete', DeletePhone);
 
     // Email
-    $("#dataTable tbody").on("click", '.btn-email', ShowEmailRead);
+    $("#dataTable tbody").on("click", '.btn-email', ShowEmail);    
     $("#dataTableEmail tbody").on("click", '.btn-update', ShowEmailUpdate);
     $("#dataTableEmail tbody").on("click", '.btn-detelete', DeleteEmail);
 }
 
-function ShowCreateModal() {
-    $("#IdentitityCardCreate").val("");
-    $("#NameCreate").val("");
-    $("#SurNameCreate").val("");
-    $("#ActiveCreate").val(1);
-    $("#DepartmentCreate").val($("#DepartmentCreate option:first").val());
-    $("#MunicipalityCreate").val($("#MunicipalityCreate option:first").val());
-    $("#AddressCreate").val("");
-    $("#FormModalCreate").modal("show"); 
-    $("#ErrorCreate").hide();
+function Read() {
+    employeeTable = $('#dataTable').DataTable({
+        responsive: true,
+        ordering: true,
+        "ajax": {
+            url: '/Employee/Read',
+            type: "GET",
+            dataType: "json"
+        },
+        "columns": [
+            { "data": "Id" },
+            { "data": "Name" },
+            { "data": "BranchOffice.Name" },
+            {
+                "data": "Active", "render": function (value) {
+                    if (value)
+                        return '<h5><span class="badge badge-success">Habilitado</span></h5>';
+                    else
+                        return '<h5><span class="badge badge-danger">Deshabilitado</span></h5>';
+                }
+            },
+            {
+                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1"><i class="fas fa-pen"></i></button>' +
+                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1"><i class="fas fa-trash"></i></button>' +
+                    '<button type="button" class="btn btn-info btn-circle btn-sm ms-2 btn-email mr-1 mb-1"><i class="fas fa-envelope"></i></button>' +
+                    '<button type="button" class="btn btn-success btn-circle btn-sm ms-2 btn-phone mr-1 mb-1"><i class="fas fa-phone-alt"></i></button>',
+                "orderable": false,
+                "searchable": false
+            }
+        ],
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
+        }
+    });
 }
 
 function DeparmentLoad() {
@@ -104,9 +134,9 @@ function MunicipalityOnChange() {
             $.each(data.data, function (_index, value) {
                 $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#MunicipalityUpdate");
                 try {
-                    if (customerObj.Municipality.Id != -1) {
-                        $("#MunicipalityUpdate").val(customerObj.Municipality.Id);
-                        customerObj.Municipality.Id = -1;
+                    if (employeeObj.Municipality.Id != -1) {
+                        $("#MunicipalityUpdate").val(employeeObj.Municipality.Id);
+                        employeeObj.Municipality.Id = -1;
                     }
                 } catch (e) {}
             })
@@ -117,23 +147,106 @@ function MunicipalityOnChange() {
     });
 }
 
+function BranchOfficeLoad() {
+    // Load Selector BranchOffice
+    jQuery.ajax({
+        url: '/BranchOffice/ReadBranchOffices',
+        type: "GET",
+        data: null,
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $.each(data.data, function (_index, value) {
+                $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#BranchOfficeCreate");
+                $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#BranchOfficeUpdate");
+            })
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function EmployeePositionLoad() {
+    // Load Selector EmployeePositionLoad
+    jQuery.ajax({
+        url: '/EmployeePosition/Read',
+        type: "GET",
+        data: null,
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $.each(data.data, function (_index, value) {
+                $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#EmployeePositionCreate");
+                $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#EmployeePositionUpdate");
+            })
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function ShowCreateModal() {
+    $("#IdentificationCreate").val("");
+    $("#NameCreate").val("");
+    $("#SurNameCreate").val("");
+    $("#BranchOfficeCreate").val($("#BranchOfficeCreate option:first").val());
+    $("#EmployeePositionCreate").val($("#EmployeePositionCreate option:first").val());
+    $("#DepartmentCreate").val($("#DepartmentCreate option:first").val());
+    $("#ActiveCreate").val(1);
+    $("#AddressCreate").val("");
+    $("#FormModalCreate").modal("show"); 
+    $("#ErrorCreate").hide();
+}
+
 function Validator() {
+
+    // Create Custom Rules
+
+    jQuery.validator.addMethod("identification", function (value, element) {
+        return this.optional(element) || /^((00[1-9])|(04[1-8])|(08[1-9])|(09[0-3])|(12[1-9])|(130)|(16[1-6])|(20[1-4])|(24[1-7])|(28[1-9])|(29[0-1])|(32[1-9])|(36[1-6])|(40[1-9])|(44[1-9])|(45[0-3])|(48[1-9])|(49[0-3])|(52[1-6])|(56[1-9])|(570)|(601)|(60[3-6])|(616)|(619)|(624)|(62[6-8])|(607)|(608)|(61[0-2])|(615)|(454)|(602))-((?!00)\d{2}){3}-(?!0000).{4}[A-Z]$/i.test(value);
+    }, "El formato correcto es ###-ddmmyy-####A");
+
+    jQuery.validator.addMethod("phoneNumber", function (value, element) {
+        return this.optional(element) || /^[0-9]{4}-[0-9]{4}$/i.test(value);
+    }, "El formato correcto es ####-####");
+
+    jQuery.validator.addMethod("email", function (value, element) {
+        return this.optional(element) || /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(value);
+    }, "Debes ingresar un correo electronico valido.");
+
+    // Rules For ...
     $("#CreateForm").validate({
         rules: {
+            IdentificationCreate: {
+                required: true,
+                identification: true
+            },
             NameCreate: {
                 required: true
             },
             SurNameCreate: {
-                required: true
+                required: true,
+
             },
             AddressCreate: {
                 required: true
-            }
+            },
         },
         messages: {
-            NameCreate: "- El campo \"Nombre\" es obligatorio.",
-            SurNameCreate: "- El campo \"Apellido\" es obligatorio.",
-            AddressCreate: "- El campo \"Dirección\" es obligatorio."
+            IdentificationCreate: {
+                required: "- El campo \"Cédula\" es obligatorio."
+            },
+            NameCreate: {
+                required: "- El campo \"Nombre\" es obligatorio."
+            },
+            SurNameCreate: {
+                required: "- El campo \"Apellido\" es obligatorio."
+            },
+            AddressCreate: {
+                required: "- El campo \"Dirección\" es obligatorio."
+            }
         },
         errorElement: "div",
         errorClass: "form-label",
@@ -142,80 +255,98 @@ function Validator() {
 
     $("#UpdateForm").validate({
         rules: {
+            IdentificationUpdate: {
+                required: true,
+                identification: true
+            },
             NameUpdate: {
                 required: true
             },
+            SurNameUpdate: {
+                required: true,
+
+            },
             AddressUpdate: {
                 required: true
-            }
+            },
         },
         messages: {
-            NameUpdate: "- El campo \"Nombre\" es obligatorio.",
-            SurNameCreate: "- El campo \"Apellido\" es obligatorio.",
-            AddressUpdate: "- El campo \"Dirección\" es obligatorio."
+            IdentificationUpdate: {
+                required: "- El campo \"Cédula\" es obligatorio."
+            },
+            NameUpdate: {
+                required: "- El campo \"Nombre\" es obligatorio."
+            },
+            SurNameUpdate: {
+                required: "- El campo \"Apellido\" es obligatorio."
+            },
+            AddressUpdate: {
+                required: "- El campo \"Dirección\" es obligatorio."
+            }
         },
         errorElement: "div",
         errorClass: "form-label",
         errorLabelContainer: ".alert-danger"
     });
-}
 
-function ShowUpdateModal() {
-
-    rowSelected = $(this).closest("tr");
-    if ($(rowSelected).hasClass('child')) {
-        rowSelected = $(rowSelected).prev();
-    }
-
-    customerObj = customerTable.row(rowSelected).data();
-
-    $("#IdentitityCardUpdate").val(customerObj.IdentityCard);
-    $("#NameUpdate").val(customerObj.Name);
-    $("#SurNameUpdate").val(customerObj.SurName);
-    $("#ActiveUpdate").val(customerObj.Active ? 1 : 0);
-    $("#DepartmentUpdate").val(customerObj.Municipality.Department.Id);
-    $("#DepartmentUpdate").trigger("change");
-    $("#AddressUpdate").val(customerObj.Address);
-    $("#FormModalUpdate").modal("show"); 
-    $("#ErrorUpdate").hide();
-}
-
-function Read() {
-    customerTable = $('#dataTable').DataTable({
-        responsive: true,
-        ordering: true,
-        "ajax": {
-            url: '/Customer/ReadCustomers',
-            type: "GET",
-            dataType: "json"
-        },
-        "columns": [
-            { "data": "Id" },
-            //{ "data": "IdentityCard" },
-            { "data": "Name" },
-            { "data": "SurName" },
-            { "data": "Municipality.Department.Name"},
-            { "data": "Municipality.Name" }, 
-            {
-                "data": "Active", "render": function (value) {
-                    if (value)
-                        return '<h5><span class="badge badge-success">Habilitado</span></h5>';
-                    else
-                        return '<h5><span class="badge badge-danger">Deshabilitado</span></h5>';
-                }
-            },
-            {
-                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1"><i class="fas fa-pen"></i></button>' +
-                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1"><i class="fas fa-trash"></i></button>' +
-                    '<button type="button" class="btn btn-success btn-circle btn-sm btn-phone mr-1 mb-1"><i class="fas fa-phone-alt"></i></button>' +
-                    '<button type="button" class="btn btn-info btn-circle btn-sm btn-email mr-1 mb-1"><i class="fas fa-envelope"></i></button>',
-                "orderable": false,
-                "searchable": false
+    $("#CreatePhoneForm").validate({
+        rules: {
+            PhoneCreate: {
+                required: true,
+                phoneNumber: true
             }
-        ],
-        "language": {
-            "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
-        }
+        },
+        messages: {
+            PhoneCreate: { required: "- El campo \"Telefono\" es obligatorio." }
+        },
+        errorElement: "div",
+        errorClass: "form-label",
+        errorLabelContainer: ".alert-danger"
+    });
+
+    $("#UpdatePhoneForm").validate({
+        rules: {
+            PhoneUpdate: {
+                required: true,
+                phoneNumber: true
+            }
+        },
+        messages: {
+            PhoneUpdate: { required: "- El campo \"Telefono\" es obligatorio." }
+        },
+        errorElement: "div",
+        errorClass: "form-label",
+        errorLabelContainer: ".alert-danger"
+    });
+
+    $("#CreateEmailForm").validate({
+        rules: {
+            EmailCreate: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            EmailCreate: { required: "- El campo \"Correo\" es obligatorio." }
+        },
+        errorElement: "div",
+        errorClass: "form-label",
+        errorLabelContainer: ".alert-danger"
+    });
+
+    $("#UpdateEmailForm").validate({
+        rules: {
+            EmailUpdate: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            EmailUpdate: { required: "- El campo \"Correo\" es obligatorio." }
+        },
+        errorElement: "div",
+        errorClass: "form-label",
+        errorLabelContainer: ".alert-danger"
     });
 }
 
@@ -225,8 +356,15 @@ function Create() {
         return;
     }
 
-    customerObj = {
-        "IdentityCard": $("#IdentitityCardCreate").val(),
+    employeeObj = {
+        "Id": 0,
+        "EmployeePosition": {
+            "Id": $("#EmployeePositionCreate option:selected").val()
+        },
+        "BranchOffice": {
+            "Id": $("#BranchOfficeCreate option:selected").val()
+        },
+        "IdentityCard": $("#IdentificationCreate").val(),
         "Name": $("#NameCreate").val(),
         "SurName": $("#SurNameCreate").val(),
         "Address": $("#AddressCreate").val(),
@@ -237,21 +375,19 @@ function Create() {
     };
 
     jQuery.ajax({
-        url: '/Customer/CreateCustomer',
+        url: '/Employee/Create',
         type: "POST",
-        data: JSON.stringify({ customer: customerObj }),
+        data: JSON.stringify({ employee: employeeObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            console.log(response);
-            customerTable.ajax.reload();
+            $(".modal-body").LoadingOverlay("hide");
+            $("#FormModalCreate").modal("hide");
             if (response.result) {
-                $(".modal-body").LoadingOverlay("hide");
-                $("#FormModalCreate").modal("hide");
-                customerTable.ajax.reload();
+                employeeTable.ajax.reload();
             }
             else {
-                swal("No Se Logró Crear El Cliente.", response.message, "error");
+                swal("No Se Logró Crear El Empleado.", response.message, "error");
             }
         },
         error: function (error) {
@@ -270,15 +406,43 @@ function Create() {
     });
 }
 
+function ShowUpdateModal() {
+
+    rowSelected = $(this).closest("tr");
+    if ($(rowSelected).hasClass('child')) {
+        rowSelected = $(rowSelected).prev();
+    }
+
+    employeeObj = employeeTable.row(rowSelected).data();
+
+    $("#IdentificationUpdate").val(employeeObj.IdentityCard);
+    $("#NameUpdate").val(employeeObj.Name);
+    $("#SurNameUpdate").val(employeeObj.SurName);
+    $("#BranchOfficeUpdate").val(employeeObj.BranchOffice.Id);
+    $("#EmployeePositionUpdate").val(employeeObj.EmployeePosition.Id);
+    $("#DepartmentUpdate").val(employeeObj.Municipality.Department.Id);
+    $("#DepartmentUpdate").trigger("change");
+    $("#ActiveUpdate").val(employeeObj.Active ? 1 : 0);
+    $("#AddressUpdate").val(employeeObj.Address);
+    $("#FormModalUpdate").modal("show"); 
+    $("#ErrorUpdate").hide();
+}
+
 function Update() {
 
     if (!$("#UpdateForm").valid()) {
         return;
     }
 
-    customerObj = {
-        "Id": customerObj.Id,
-        "IdentityCard": $("#IdentitityCardUpdate").val(),
+    employeeObj = {
+        "Id": employeeObj.Id,
+        "EmployeePosition": {
+            "Id": $("#EmployeePositionUpdate option:selected").val()
+        },
+        "BranchOffice": {
+            "Id": $("#BranchOfficeUpdate option:selected").val()
+        },
+        "IdentityCard": $("#IdentificationUpdate").val(),
         "Name": $("#NameUpdate").val(),
         "SurName": $("#SurNameUpdate").val(),
         "Address": $("#AddressUpdate").val(),
@@ -289,20 +453,21 @@ function Update() {
     };
 
     jQuery.ajax({
-        url: '/Customer/UpdateCustomer',
+        url: '/Employee/Update',
         type: "POST",
-        data: JSON.stringify({ customer: customerObj }),
+        data: JSON.stringify({ employee: employeeObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
 
+            $(".modal-body").LoadingOverlay("hide");
+            $("#FormModalUpdate").modal("hide");
             if (response.result) {
-                $(".modal-body").LoadingOverlay("hide");
-                $("#FormModalUpdate").modal("hide");
-                customerTable.ajax.reload();
+                
+                employeeTable.ajax.reload();
             }
             else {
-                swal("No Se Logró Actualizar el cliente.", response.message, "error");
+                swal("No Se Logró Actualizar el empleado.", response.message, "error");
             }
         },
         error: function (error) {
@@ -323,18 +488,17 @@ function Update() {
 }
 
 function Delete() {
-    console.log("aqui esto")
 
     rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
     }
 
-    customerObj = customerTable.row(rowSelected).data();
+    employeeObj = employeeTable.row(rowSelected).data();
 
     swal({
-        title: "Eliminar Cliente",
-        text: "¿Estas Seguro que Deseas Eliminar Este Cliente?",
+        title: "Eliminar Empleado",
+        text: "¿Estas Seguro que Deseas Eliminar Este Empleado?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-primary",
@@ -345,18 +509,18 @@ function Delete() {
         function () {
 
             jQuery.ajax({
-                url: '/Customer/DeleteCustomer',
+                url: '/Employee/Delete',
                 type: "POST",
-                data: JSON.stringify({ customer: customerObj }),
+                data: JSON.stringify({ employee: employeeObj }),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (response) {
 
                     if (response.result) {
-                        customerTable.ajax.reload();
+                        employeeTable.ajax.reload();
                     }
                     else {
-                        swal("No Se Logró Eliminar el cliente.", response.message, "error");
+                        swal("No Se Logró Eliminar el empleado.", response.message, "error");
                     }
                 },
                 error: function (error) {
@@ -368,15 +532,15 @@ function Delete() {
         });
 }
 
-function ShowPhoneRead() {
+function ShowPhone() {
     $("#FormModalPhone").modal("show");
 
-    var rowSelected = $(this).closest("tr");
+    rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
     }
 
-    customerObj = customerTable.row(rowSelected).data();
+    employeeObj = employeeTable.row(rowSelected).data();
 
     if (phoneTable != null) {
         phoneTable.destroy();
@@ -386,9 +550,9 @@ function ShowPhoneRead() {
         responsive: true,
         ordering: true,
         "ajax": {
-            url: '/Customer/ReadCustomerPhonesByCustomerId',
+            url: '/EmployeePhone/ReadByEmployeId',
             type: "POST",
-            data: { customerId: customerObj.Id }
+            data: { employeeId: employeeObj.Id }
         },
         "columns": [
             { "data": "Id" },
@@ -423,48 +587,6 @@ function ShowPhoneCreate() {
     $("#ErrorPhoneCreate").hide();
 }
 
-function ValidatorPhone() {
-
-    $("#CreatePhoneForm").validate({
-        rules: {
-            PhoneCreate: {
-                required: true,
-                phoneNumber: true
-            }
-        },
-        messages: {
-            PhoneCreate: { required: "- El campo \"Telefono\" es obligatorio." }
-        },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
-    });
-
-    $("#UpdatePhoneForm").validate({
-        rules: {
-            PhoneUpdate: {
-                required: true,
-                phoneNumber: true
-            }
-        },
-        messages: {
-            PhoneUpdate: { required: "- El campo \"Telefono\" es obligatorio." }
-        },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
-    });
-}
-
-function ShowPhoneCreate() {
-    $("#FormModalPhone").modal("hide");
-    $("#FormModalPhoneCreate").modal("show");
-
-    $("#PhoneCreate").val("");
-    $("#ActivePhoneCreate").val(1);
-    $("#ErrorPhoneCreate").hide();
-}
-
 function CreatePhone() {
 
     if (!$("#CreatePhoneForm").valid()) {
@@ -472,23 +594,24 @@ function CreatePhone() {
     }
 
     phoneObj = {
-        "Customer":customerObj,
+        "Employee": employeeObj,
         "PhoneNumber": $("#PhoneCreate").val(),
         "Active": $("#ActivePhoneCreate option:selected").val() == 1
     }
 
     jQuery.ajax({
-        url: '/Customer/CreateCustomerPhone',
+        url: '/EmployeePhone/Create',
         type: "POST",
-        data: JSON.stringify({ customerPhone: phoneObj }),
+        data: JSON.stringify({ employeePhone: phoneObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
+            
             if (response.result) {
-                phoneTable.ajax.reload();
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalPhoneCreate").modal("hide");
                 $("#FormModalPhone").modal("show");
+                phoneTable.ajax.reload();
             }
             else {
                 $(".modal-body").LoadingOverlay("hide");
@@ -524,6 +647,7 @@ function CreatePhone() {
 }
 
 function ShowPhoneUpdate() {
+
     $("#FormModalPhone").modal("hide");
     $("#FormModalPhoneUpdate").modal("show");
     rowSelected = $(this).closest("tr");
@@ -533,44 +657,43 @@ function ShowPhoneUpdate() {
 
     phoneObj = phoneTable.row(rowSelected).data();
 
-    $("#IdPhoneUpdate").val(phoneObj.Id);
     $("#PhoneUpdate").val(phoneObj.PhoneNumber);
     $("#ActivePhoneUpdate").val(phoneObj.Active ? 1 : 0);
     $("#ErrorPhoneUpdate").hide();
 }
 
 function UpdatePhone() {
+
     if (!$("#UpdatePhoneForm").valid()) {
         return;
     }
 
-    var phoneObj = {
-        "Id": $("#IdPhoneUpdate").val(),
-        "Customer":customerObj,
+    phoneObj = {
+        "Id": phoneObj.Id,
+        "Employee": employeeObj,
         "PhoneNumber": $("#PhoneUpdate").val(),
         "Active": $("#ActivePhoneUpdate option:selected").val() == 1
     }
 
-    console.log(phoneObj);
-
     jQuery.ajax({
-        url: '/Customer/UpdateCustomerPhone',
+        url: '/EmployeePhone/Update',
         type: "POST",
-        data: JSON.stringify({ customerPhone: phoneObj }),
+        data: JSON.stringify({ employeePhone: phoneObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
+            
             if (response.result) {
-                phoneTable.ajax.reload();
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalPhoneUpdate").modal("hide");
                 $("#FormModalPhone").modal("show");
+                phoneTable.ajax.reload();
             }
             else {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalPhoneUpdate").modal("hide");
                 swal({
-                    title: "No se Logró Actualizar el Teléfono.",
+                    title: "No Logró Actualizar el Teléfono.",
                     text: response.message,
                     type: "error",
                     showCancelButton: true,
@@ -599,11 +722,13 @@ function UpdatePhone() {
     });
 }
 
-function DeletePhone(){
+function DeletePhone() {
+
     rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
     }
+
     phoneObj = phoneTable.row(rowSelected).data();
 
     $("#FormModalPhone").modal("hide");
@@ -626,9 +751,9 @@ function DeletePhone(){
             }
 
             jQuery.ajax({
-                url: '/Customer/DeleteCustomerPhone',
+                url: '/EmployeePhone/Delete',
                 type: "POST",
-                data: JSON.stringify({ customerPhone: phoneObj }),
+                data: JSON.stringify({ employeePhone: phoneObj }),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (response) {
@@ -650,8 +775,7 @@ function DeletePhone(){
         });
 }
 
-function ShowEmailRead() {
-
+function ShowEmail() {
     $("#FormModalEmail").modal("show");
 
     rowSelected = $(this).closest("tr");
@@ -659,7 +783,7 @@ function ShowEmailRead() {
         rowSelected = $(rowSelected).prev();
     }
 
-    customerObj = customerTable.row(rowSelected).data();
+    employeeObj = employeeTable.row(rowSelected).data();
 
     if (emailTable != null) {
         emailTable.destroy();
@@ -669,9 +793,9 @@ function ShowEmailRead() {
         responsive: true,
         ordering: true,
         "ajax": {
-            url: '/Customer/ReadCustomerEmailsByCustomerId',
+            url: '/EmployeeEmail/ReadByEmployeId',
             type: "POST",
-            data: { customerId: customerObj.Id }
+            data: { employeeId: employeeObj.Id }
         },
         "columns": [
             { "data": "Id" },
@@ -697,39 +821,6 @@ function ShowEmailRead() {
     });
 }
 
-function ValidatorEmail() {
-
-    $("#CreateEmailForm").validate({
-        rules: {
-            EmailCreate: {
-                required: true,
-                email: true
-            }
-        },
-        messages: {
-            EmailCreate: { required: "- El campo \"Correo\" es obligatorio." }
-        },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
-    });
-
-    $("#UpdateEmailForm").validate({
-        rules: {
-            EmailUpdate: {
-                required: true,
-                email: true
-            }
-        },
-        messages: {
-            EmailUpdate: { required: "- El campo \"Correo\" es obligatorio." }
-        },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
-    });
-}
-
 function ShowEmailCreate() {
     $("#FormModalEmail").modal("hide");
     $("#FormModalEmailCreate").modal("show");
@@ -746,29 +837,30 @@ function CreateEmail() {
     }
 
     emailObj = {
-        "Customer":customerObj,
+        "Employee": employeeObj,
         "Email": $("#EmailCreate").val(),
         "Active": $("#ActiveEmailCreate option:selected").val() == 1
     }
 
     jQuery.ajax({
-        url: '/Customer/CreateCustomerEmail',
+        url: '/EmployeeEmail/Create',
         type: "POST",
-        data: JSON.stringify({ customerEmail: emailObj }),
+        data: JSON.stringify({ employeeEmail: emailObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
+            
             if (response.result) {
-                emailTable.ajax.reload();
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalEmailCreate").modal("hide");
                 $("#FormModalEmail").modal("show");
+                emailTable.ajax.reload();
             }
             else {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalEmailCreate").modal("hide");
                 swal({
-                    title: "No Logró Añadir el correo.",
+                    title: "No Logró Añadir el Correo.",
                     text: response.message,
                     type: "error",
                     showCancelButton: true,
@@ -798,8 +890,10 @@ function CreateEmail() {
 }
 
 function ShowEmailUpdate() {
+
     $("#FormModalEmail").modal("hide");
     $("#FormModalEmailUpdate").modal("show");
+
     rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
@@ -807,42 +901,43 @@ function ShowEmailUpdate() {
 
     emailObj = emailTable.row(rowSelected).data();
 
-    $("#IdEmailUpdate").val(emailObj.Id);
     $("#EmailUpdate").val(emailObj.Email);
     $("#ActiveEmailUpdate").val(emailObj.Active ? 1 : 0);
     $("#ErrorEmailUpdate").hide();
 }
 
 function UpdateEmail() {
+
     if (!$("#UpdateEmailForm").valid()) {
         return;
     }
 
     emailObj = {
-        "Id": $("#IdEmailUpdate").val(),
-        "Customer":customerObj,
+        "Id": emailObj.Id,
+        "Employee": employeeObj,
         "Email": $("#EmailUpdate").val(),
         "Active": $("#ActiveEmailUpdate option:selected").val() == 1
     }
 
     jQuery.ajax({
-        url: '/Customer/UpdateCustomerEmail',
+        url: '/EmployeeEmail/Update',
         type: "POST",
-        data: JSON.stringify({ customerEmail: emailObj }),
+        data: JSON.stringify({ employeeEmail: emailObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
+            
             if (response.result) {
-                emailTable.ajax.reload();
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalEmailUpdate").modal("hide");
                 $("#FormModalEmail").modal("show");
+                emailTable.ajax.reload();
             }
             else {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalEmailUpdate").modal("hide");
                 swal({
-                    title: "No se Logró Actualizar el Correo.",
+                    title: "No Logró Actualizar el Correo.",
                     text: response.message,
                     type: "error",
                     showCancelButton: true,
@@ -874,18 +969,17 @@ function UpdateEmail() {
 function DeleteEmail() {
 
     rowSelected = $(this).closest("tr");
-
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
     }
-    
+
     emailObj = emailTable.row(rowSelected).data();
 
     $("#FormModalEmail").modal("hide");
 
     swal({
-        title: "Eliminar Teléfono",
-        text: "¿Estas Seguro que Deseas Eliminar este correo?",
+        title: "Eliminar Correo",
+        text: "¿Estas Seguro que Deseas Eliminar este Correo?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-primary",
@@ -901,9 +995,9 @@ function DeleteEmail() {
             }
 
             jQuery.ajax({
-                url: '/Customer/DeleteCustomerEmail',
+                url: '/EmployeeEmail/Delete',
                 type: "POST",
-                data: JSON.stringify({ customerEmail: emailObj }),
+                data: JSON.stringify({ employeeEmail: emailObj }),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (response) {
@@ -913,7 +1007,7 @@ function DeleteEmail() {
                         $("#FormModalEmail").modal("show");
                     }
                     else {
-                        swal("No Logró Eliminar el correo.", response.message, "error");
+                        swal("No Logró Eliminar el Correo.", response.message, "error");
                     }
                 },
                 error: function (error) {
@@ -924,7 +1018,3 @@ function DeleteEmail() {
 
         });
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    SetUp();
-});

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Entity = EntityLayer;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
+using Entity = EntityLayer;
 
 namespace DataLayer
 {

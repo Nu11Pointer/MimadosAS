@@ -124,6 +124,10 @@
     <Compile Include="Controllers\BranchOfficeController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DeparmentController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\EmployeeEmailController.cs" />
+    <Compile Include="Controllers\EmployeePhoneController.cs" />
+    <Compile Include="Controllers\EmployeePositionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MunicipalityController.cs" />
     <Compile Include="Global.asax.cs">
@@ -2100,6 +2104,7 @@
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
     <Content Include="Scripts\Department\Department.js" />
+    <Content Include="Scripts\Employee\Employee.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -2285,6 +2290,7 @@
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -2420,10 +2426,14 @@
     <Content Include="Views\BranchOffice\BranchOfficePhone.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Deparment\Index.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\EmployeeEmail\" />
+    <Folder Include="Views\EmployeePhone\" />
+    <Folder Include="Views\EmployeePosition\" />
     <Folder Include="Views\Municipality\" />
   </ItemGroup>
   <ItemGroup>

@@ -25,7 +25,7 @@ namespace AdminPresentationLayer.Controllers
         public JsonResult CreateCustomer(Entity.Customer customer)
         {
             var result = new Business.Customer().Create(customer, out string message);
-            var json = new { result, message};
+            var json = new { result, message };
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 

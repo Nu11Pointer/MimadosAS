@@ -6,40 +6,40 @@ namespace BusinessLayer
 {
     public class EmployeePosition
     {
-        private readonly Data.Deparment _Db = new Data.Deparment();
+        private readonly Data.EmployeePosition _Db = new Data.EmployeePosition();
 
-        public bool Create(Entity.Department department, out string message)
+        public bool Create(Entity.EmployeePosition employeePosition, out string message)
         {
             // Validar Nombre
-            if (string.IsNullOrEmpty(department.Name) || string.IsNullOrWhiteSpace(department.Name))
+            if (string.IsNullOrEmpty(employeePosition.Name) || string.IsNullOrWhiteSpace(employeePosition.Name))
             {
                 message = "El campo \"Nombre\" no puede ser vacio.";
                 return false;
             }
 
-            return _Db.Create(department, out message);
+            return _Db.Create(employeePosition, out message);
         }
 
-        public List<Entity.Department> Read()
+        public List<Entity.EmployeePosition> Read()
         {
             return _Db.Read();
         }
 
-        public bool Update(Entity.Department department, out string message)
+        public bool Update(Entity.EmployeePosition employeePosition, out string message)
         {
             // Validar Nombre
-            if (string.IsNullOrEmpty(department.Name) || string.IsNullOrWhiteSpace(department.Name))
+            if (string.IsNullOrEmpty(employeePosition.Name) || string.IsNullOrWhiteSpace(employeePosition.Name))
             {
                 message = "El campo \"Nombre\" no puede ser vacio.";
                 return false;
             }
 
-            return _Db.Update(department, out message);
+            return _Db.Update(employeePosition, out message);
         }
 
-        public bool Delete(Entity.Department department, out string message)
+        public bool Delete(Entity.EmployeePosition employeePosition, out string message)
         {
-            return _Db.Delete(department, out message);
+            return _Db.Delete(employeePosition, out message);
         }
     }
 }

@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="EntityLayer.BranchOffice">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAABAAAAAAAAAQAAAAAAAAiAAAAAAAAAAA=</HashCode>
+      <FileName>BranchOffice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.BranchOfficePhone">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAABAAAAA=</HashCode>
+      <FileName>BranchOfficePhone.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.Currency">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Currency.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.Customer">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAABAAAAAAEAAQgAAAAAAAiAAAAAAAAAAA=</HashCode>
+      <FileName>Customer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.CustomerEmail">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAACAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>CustomerEmail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.CustomerPhone">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>CustomerPhone.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.Department">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Department.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.Employee">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAABIAAAAAEAAQgAAAAAAAiAAAAABAAEAA=</HashCode>
+      <FileName>Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.EmployeeEmail">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAAAAAAAAAACAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>EmployeeEmail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.EmployeePhone">
+    <Position X="4" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAQAAACAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>EmployeePhone.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.EmployeePosition">
+    <Position X="5.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>EmployeePosition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.Municipality">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAEAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Municipality.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.PaymentType">
+    <Position X="9.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>PaymentType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.Product">
+    <Position X="11" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgAAACAAgAAAAAAAAAAQAgAAAAAAgAAACAAAAAAA=</HashCode>
+      <FileName>Product.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.ProductBrand">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>ProductBrand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.ProductCategory">
+    <Position X="2.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>ProductCategory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.ProductImage">
+    <Position X="4" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ProductImage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.Purchase">
+    <Position X="5.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAACAAAAAAAAAAABAAAAAAAAAAAAgAAAAgAAgAAA=</HashCode>
+      <FileName>Purchase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.Sale">
+    <Position X="7.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAACAAgAAAAAAAIAAAAAAAAAAARAgAAAAAAACAAA=</HashCode>
+      <FileName>Sale.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.SaleDetail">
+    <Position X="9.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAACAAAAAAAAAAAAAAAAAAAAAAgAAAAgAAAEAA=</HashCode>
+      <FileName>SaleDetail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.Supplier">
+    <Position X="11" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAiAAAAAAAAAAg=</HashCode>
+      <FileName>Supplier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.SupplierEmail">
+    <Position X="2.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAAAAAAAAAAAAAAAAAgAAAAAAAgAAA=</HashCode>
+      <FileName>SupplierEmail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityLayer.SupplierPhone">
+    <Position X="4" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAQAAAAAAAAAAgAAAAAAAgAAA=</HashCode>
+      <FileName>SupplierPhone.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
