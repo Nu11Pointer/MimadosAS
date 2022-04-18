@@ -133,6 +133,9 @@
     <Compile Include="Controllers\ProductBrandController.cs" />
     <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\SupplierEmailController.cs" />
+    <Compile Include="Controllers\SupplierPhoneController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2384,6 +2387,7 @@
     <Content Include="Scripts\src\utils\setAttributes.js" />
     <Content Include="Scripts\src\utils\setStyles.js" />
     <Content Include="Scripts\src\utils\setupEventListeners.js" />
+    <Content Include="Scripts\Supplier\Supplier.js" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
@@ -2436,6 +2440,7 @@
     <Content Include="Views\ProductCategory\Index.cshtml" />
     <Content Include="Views\ProductBrand\Index.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2444,6 +2449,8 @@
     <Folder Include="Views\EmployeePhone\" />
     <Folder Include="Views\EmployeePosition\" />
     <Folder Include="Views\Municipality\" />
+    <Folder Include="Views\SupplierEmail\" />
+    <Folder Include="Views\SupplierPhone\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
