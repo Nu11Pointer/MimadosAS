@@ -1,7 +1,6 @@
 ﻿// Variables Globales
 var rowSelected;
-var departmentTable;
-var deparmentObj;
+var productCategoryTable;productCategoryObjntObj;
 var municipalityTable;
 var municipalityObj;
 
@@ -37,7 +36,7 @@ function SetUp() {
 }
 
 function Read() {
-    departmentTable = $('#dataTable').DataTable({
+    productCategoryTable = $('#dataTable').DataTable({
         responsive: true,
         ordering: true,
         "ajax": {
@@ -139,9 +138,7 @@ function Create() {
 
     if (!$("#CreateForm").valid()) {
         return;
-    }
-
-    deparmentObj = {
+   productCategoryObjparmentObj = {
         "Id": 0,
         "Name": $("#NameCreate").val(),
         "Active": $("#ActiveCreate option:selected").val() == 1 ? true : false
@@ -150,15 +147,15 @@ function Create() {
     jQuery.ajax({
         url: '/Deparment/Create',
         type: "POST",
-        data: JSON.stringify({ department: deparmentObj }),
+        data: JSON.stringify({ deproductCategoryObjparmentObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            departmentTable.ajax.reload();
+            productCategoryTable.ajax.reload();
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalCreate").modal("hide");
-                departmentTable.ajax.reload();
+                productCategoryTable.ajax.reload();
             }
             else {
                 swal("No Se Logró Crear El Departamento.", response.message, "error");
@@ -184,13 +181,12 @@ function ShowUpdateModal() {
 
     rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
-        rowSelected = $(rowSelected).prev();
-    }
+        rowSelected = $(rowSelected).prproductCategoryObj
 
-    deparmentObj = departmentTable.row(rowSelected).data();
+    deparmentObj = productCategoryTable.row(rowSelected).data();
 
-    $("#NameUpdate").val(deparmentObj.Name);
-    $("#ActiveUpdate").val(deparmentObj.Active ? 1 : 0);
+productCategoryObjUpdate").val(deparmentObj.Name);
+  productCategoryObjUpdate").val(deparmentObj.Active ? 1 : 0);
     $("#FormModalUpdate").modal("show"); 
     $("#ErrorUpdate").hide();
 }
@@ -198,11 +194,9 @@ function ShowUpdateModal() {
 function Update() {
 
     if (!$("#UpdateForm").valid()) {
-        return;
-    }
+     productCategoryObj    }
 
-    deparmentObj = {
-        "Id": deparmentObj.Id,
+    deparmeproductCategoryObj       "Id": deparmentObj.Id,
         "Name": $("#NameUpdate").val(),
         "Active": $("#ActiveUpdate option:selected").val() == 1 ? true : false
     };
@@ -210,7 +204,7 @@ function Update() {
     jQuery.ajax({
         url: '/Deparment/Update',
         type: "POST",
-        data: JSON.stringify({ department: deparmentObj }),
+        data: JSONproductCategoryObj department: deparmentObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
@@ -218,7 +212,7 @@ function Update() {
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalUpdate").modal("hide");
-                departmentTable.ajax.reload();
+                productCategoryTable.ajax.reload();
             }
             else {
                 swal("No Se Logró Actualizar el departamento.", response.message, "error");
@@ -245,10 +239,10 @@ function Delete() {
 
     rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
-        rowSelected = $(rowSelected).prev();
+        rowSelected = $(rowSeproductCategoryObj();
     }
 
-    deparmentObj = departmentTable.row(rowSelected).data();
+    deparmentObj = productCategoryTable.row(rowSelected).data();
 
     swal({
         title: "Eliminar Departamento",
@@ -265,13 +259,13 @@ function Delete() {
             jQuery.ajax({
                 url: '/Deparment/Delete',
                 type: "POST",
-                data: JSON.stringify({ department: deparmentObj }),
+                productCategoryObjtringify({ department: deparmentObj }),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (response) {
 
                     if (response.result) {
-                        departmentTable.ajax.reload();
+                        productCategoryTable.ajax.reload();
                     }
                     else {
                         swal("No Se Logró Eliminar el departamento.", response.message, "error");
@@ -292,10 +286,10 @@ function ShowMunicipality() {
 
     var rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
-        rowSelected = $(rowSelected).prev();
+        rowSelectedproductCategoryObjcted).prev();
     }
 
-    deparmentObj = departmentTable.row(rowSelected).data();
+    deparmentObj = productCategoryTable.row(rowSelected).data();
 
     if (municipalityTable != null) {
         municipalityTable.destroy();
@@ -306,8 +300,7 @@ function ShowMunicipality() {
         ordering: true,
         "ajax": {
             url: '/Municipality/ReadByDepartment',
-            type: "POST",
-            data: { deparmentId: deparmentObj.Id }
+            typproductCategoryObj            data: { deparmentId: deparmentObj.Id }
         },
         "columns": [
             { "data": "Id" },
@@ -348,8 +341,7 @@ function CreateMunicipality() {
         return;
     }
 
-    municipalityObj = {
-        "Id": 0,
+    municipalityObjproductCategoryObj  "Id": 0,
         "Department":deparmentObj,
         "Name": $("#MunicipalityNameCreate").val(),
         "Active": $("#ActiveMunicipalityCreate option:selected").val() == 1
@@ -423,7 +415,7 @@ function UpdateMunicipality() {
     }
 
     municipalityObj = {
-        "Id": $("#IdMunicipalityUpdate").val(),
+        "Id": $("#IdMunicproductCategoryObje").val(),
         "Department":deparmentObj,
         "Name": $("#MunicipalityNameUpdate").val(),
         "Active": $("#ActiveMunicipalityUpdate option:selected").val() == 1

@@ -130,6 +130,9 @@
     <Compile Include="Controllers\EmployeePositionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MunicipalityController.cs" />
+    <Compile Include="Controllers\ProductBrandController.cs" />
+    <Compile Include="Controllers\ProductCategoryController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2309,6 +2312,9 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\ProductBrand\ProductBrand.js" />
+    <Content Include="Scripts\ProductCategory\ProductCategory.js" />
+    <Content Include="Scripts\Product\Product.js" />
     <Content Include="Scripts\sb-admin-2\js\demo\chart-area-demo.js" />
     <Content Include="Scripts\sb-admin-2\js\demo\chart-bar-demo.js" />
     <Content Include="Scripts\sb-admin-2\js\demo\chart-pie-demo.js" />
@@ -2427,6 +2433,9 @@
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Deparment\Index.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\ProductCategory\Index.cshtml" />
+    <Content Include="Views\ProductBrand\Index.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

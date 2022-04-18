@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- DataTales -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10"> <h6 class="m-0 font-weight-bold text-primary">Categorias</h6> </div>
+            </div>
+            <hr />
+            <div class="row float-right">
+                <a href="#" class="btn btn-success btn-icon-split btn-sm" onclick="ShowCreateModal()">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-location-dot"></i>
+                    </span>
+                    <span class="text">Nueva Categoria</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Create Modal-->
+<div class="modal fade" id="FormModalCreate" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" data-bs-backdrop="static">
+
+    <div class="modal-dialog">
+
+        @*Contenido*@
+        <div class="modal-content">
+
+            @*Cabecera*@
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="exampleModalLabel">Nueva Categoria</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+
+            </div>
+
+            @*Cuerpo*@
+            <div class="modal-body">
+
+                @*Inputs*@
+                <form id="CreateForm" class="row">
+
+                    @* Nombre *@
+                    <div class="col-sm-6">
+                        <label for="NameCreate" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="NameCreate" name="NameCreate" autocomplete="off">
+                    </div>
+
+                    @* Estado *@
+                    <div class="col-sm-6">
+                        <label for="ActiveCreate" class="form-label">Activo</label>
+                        <select class="form-control" id="ActiveCreate">
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+
+                </form>
+
+                @* Mensaje Error *@
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div id="ErrorCreate" class="alert alert-danger" role="alert">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" type="button" onclick="Create()">Crear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Modal-->
+<div class="modal fade" id="FormModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" data-bs-backdrop="static">
+
+    <div class="modal-dialog">
+
+        @*Contenido*@
+        <div class="modal-content">
+
+            @*Cabecera*@
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Categoria</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+
+            </div>
+
+            @*Cuerpo*@
+            <div class="modal-body">
+
+                @*Inputs*@
+                <form id="UpdateForm" class="row">
+
+                    @* Nombre *@
+                    <div class="col-sm-6">
+                        <label for="NameUpdate" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="NameUpdate" name="NameUpdate" autocomplete="off">
+                    </div>
+
+                    @* Estado *@
+                    <div class="col-sm-6">
+                        <label for="ActiveUpdate" class="form-label">Activo</label>
+                        <select class="form-control" id="ActiveUpdate">
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+
+                </form>
+
+                @* Mensaje Error *@
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div id="ErrorUpdate" class="alert alert-danger" role="alert">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" type="button" onclick="Update()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/ProductCategory/ProductCategory.js"></script>

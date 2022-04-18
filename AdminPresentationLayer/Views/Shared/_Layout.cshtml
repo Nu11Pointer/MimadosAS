@@ -146,7 +146,7 @@
             </li>
 
             <!-- Nav Item - Products -->
-            <li class="nav-item">
+            <li class="nav-item" id="CollapseMenuProducts">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive"
                    aria-expanded="true" aria-controls="collapseFive">
                     <i class="fa-solid fa-fw fa-boxes-stacked"></i>
@@ -154,15 +154,15 @@
                 </a>
                 <div id="collapseFive" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">
+                        <a id="CollapseMenuItemProduct" class="collapse-item" href="@Url.Action("Index", "Product")">
                             <i class="fa-solid fa-fw fa-box-open"></i>
                             <spam>Productos</spam>
                         </a>
-                        <a class="collapse-item" href="">
+                        <a id="CollapseMenuItemCategory" class="collapse-item" href="@Url.Action("Index", "ProductCategory")">
                             <i class="fa-solid fa-fw fa-shapes"></i>
                             <spam>Categorias</spam>
                         </a>
-                        <a class="collapse-item" href="">
+                        <a id="CollapseMenuItemBrand" class="collapse-item" href="@Url.Action("Index", "ProductBrand")">
                             <i class="fa-solid fa-fw fa-certificate"></i>
                             <spam>Marcas</spam>
                         </a>
