@@ -194,6 +194,7 @@ function ShowCreateModal() {
     $("#BranchOfficeCreate").val($("#BranchOfficeCreate option:first").val());
     $("#EmployeePositionCreate").val($("#EmployeePositionCreate option:first").val());
     $("#DepartmentCreate").val($("#DepartmentCreate option:first").val());
+    $("#DepartmentCreate").trigger("change");
     $("#ActiveCreate").val(1);
     $("#AddressCreate").val("");
     $("#FormModalCreate").modal("show"); 
