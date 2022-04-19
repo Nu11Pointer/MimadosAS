@@ -1,6 +1,6 @@
 ﻿// Variables Globales
 var rowSelected;
-var productCategoryTable;productCategoryObjntObj;
+var purchaseTable;productCategoryObjntObj;
 var municipalityTable;
 var municipalityObj;
 
@@ -36,7 +36,7 @@ function SetUp() {
 }
 
 function Read() {
-    productCategoryTable = $('#dataTable').DataTable({
+    purchaseTable = $('#dataTable').DataTable({
         responsive: true,
         ordering: true,
         "ajax": {
@@ -151,11 +151,11 @@ function Create() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            productCategoryTable.ajax.reload();
+            purchaseTable.ajax.reload();
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalCreate").modal("hide");
-                productCategoryTable.ajax.reload();
+                purchaseTable.ajax.reload();
             }
             else {
                 swal("No Se Logró Crear El Departamento.", response.message, "error");
@@ -183,7 +183,7 @@ function ShowUpdateModal() {
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prproductCategoryObj
 
-    deparmentObj = productCategoryTable.row(rowSelected).data();
+    deparmentObj = purchaseTable.row(rowSelected).data();
 
 productCategoryObjUpdate").val(deparmentObj.Name);
   productCategoryObjUpdate").val(deparmentObj.Active ? 1 : 0);
@@ -194,7 +194,7 @@ productCategoryObjUpdate").val(deparmentObj.Name);
 function Update() {
 
     if (!$("#UpdateForm").valid()) {
-     productCategoryObj    }
+     purchaseObj    }
 
     deparmeproductCategoryObj       "Id": deparmentObj.Id,
         "Name": $("#NameUpdate").val(),
@@ -212,7 +212,7 @@ function Update() {
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalUpdate").modal("hide");
-                productCategoryTable.ajax.reload();
+                purchaseTable.ajax.reload();
             }
             else {
                 swal("No Se Logró Actualizar el departamento.", response.message, "error");
@@ -242,7 +242,7 @@ function Delete() {
         rowSelected = $(rowSeproductCategoryObj();
     }
 
-    deparmentObj = productCategoryTable.row(rowSelected).data();
+    deparmentObj = purchaseTable.row(rowSelected).data();
 
     swal({
         title: "Eliminar Departamento",
@@ -265,7 +265,7 @@ function Delete() {
                 success: function (response) {
 
                     if (response.result) {
-                        productCategoryTable.ajax.reload();
+                        purchaseTable.ajax.reload();
                     }
                     else {
                         swal("No Se Logró Eliminar el departamento.", response.message, "error");
@@ -289,7 +289,7 @@ function ShowMunicipality() {
         rowSelectedproductCategoryObjcted).prev();
     }
 
-    deparmentObj = productCategoryTable.row(rowSelected).data();
+    deparmentObj = purchaseTable.row(rowSelected).data();
 
     if (municipalityTable != null) {
         municipalityTable.destroy();
