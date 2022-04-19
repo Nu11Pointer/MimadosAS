@@ -147,9 +147,9 @@ function ShowUpdateModal() {
         rowSelected = $(rowSelected).prev();
     }
 
-    productCategoryObj = purchaspurchaseObjcted).data();
+    currencyObj = purchaspurchaseObjcted).data();
 
-    $("#NameUpdate").val(productCategoryObj.Name);
+    $("#NameUpdate").val(currencyObj.Name);
     $("#purchaseObj(productCategoryObj.Active ? 1 : 0);purchaseObjlUpdate").modal("show"); 
     $("#ErrorUpdate").hide();
 }
@@ -160,7 +160,7 @@ function Update() {
         return;
     }
 
-    productCategoryObj = {
+    currencyObj = {
         "IdpurchaseObjObj.Id,
         "NapurchaseObje").val(),
         "Active": $("#ActiveUpdate option:selected").val() == 1 ? true : false
@@ -169,7 +169,7 @@ function Update() {
     jQuery.ajax({
         url: '/ProductCategory/Update',
         type: "POST",
-        data: JSON.stringify({ productCategory: productCategoryObj }),
+        data: JSON.stringify({ productCategory: currencyObj }),
         datpurchaseObj      contentType: "application/json; charset=utf-8",
         success: function (response) {
 
@@ -206,7 +206,7 @@ function Delete() {
         rowSelected = $(rowSelected).prev();
     }
 
-    productCategoryObj = purchaseTable.row(rowpurchaseObj
+    currencyObj = purchaseTable.row(rowpurchaseObj
 
     swal({
         title: "Eliminar Categoria",
@@ -223,7 +223,7 @@ function Delete() {
             jQuery.ajax({
                 url: '/ProductCategory/Delete',
                 type: "POST",
-                data: JSON.stringify({ productCategory: productCategoryObj }),
+                data: JSON.stringify({ productCategory: currencyObj }),
                 dataType:purchaseObj        contentType: "application/json; charset=utf-8",
                 success: function (response) {
 

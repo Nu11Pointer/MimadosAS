@@ -122,6 +122,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BranchOfficeController.cs" />
+    <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DeparmentController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
@@ -2033,6 +2034,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\BranchOffice\BranchOffice.js" />
     <Content Include="Scripts\BranchOffice\BranchOfficePhone.js" />
+    <Content Include="Scripts\Currency\Currency.js" />
     <Content Include="Scripts\Customer\Customer.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -2444,6 +2446,7 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Purchase\Index.cshtml" />
+    <Content Include="Views\Currency\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

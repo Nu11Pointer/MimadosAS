@@ -1,7 +1,9 @@
 ﻿// Variables Globales
 var rowSelected;
 var currencyTable;
-var productcurrencyObj Evento Document Loaded
+var currencyObj;
+
+// Evento Document Loaded
 document.addEventListener('DOMContentLoaded', function () {
     SetUp();
 });
@@ -9,9 +11,9 @@ document.addEventListener('DOMContentLoaded', function () {
 // Función Principal
 function SetUp() {
     // Pintar Menu Collapse
-    $('#CollapseMenuProducts').addClass('active');
-    $('#collapseFive').addClass('show');
-    $('#CollapseMenuItemBrand').addClass('active');
+    $('#CollapseMenuSales').addClass('active');
+    $('#collapseSeven').addClass('show');
+    $('#CollapseMenuItemCurrency').addClass('active');
 
     // Show DataTable
     Read();
@@ -31,7 +33,7 @@ function Read() {
         responsive: true,
         ordering: true,
         "ajax": {
-            url: '/ProductBrand/Read',
+            url: '/Currency/Read',
             type: "GET",
             dataType: "json"
         },
@@ -102,15 +104,17 @@ function Create() {
         return;
     }
 
-    productCategorcurrencyObj"Id": 0,
+    currencyObj = {
+        "Id": 0,
         "Name": $("#NameCreate").val(),
         "Active": $("#ActiveCreate option:selected").val() == 1 ? true : false
     };
 
     jQuery.ajax({
-        url: '/ProductBrand/Create',
+        url: '/Currency/Create',
         type: "POST",
-        data: JSON.stringify({ productBrand: productCategorcurrencyObjdataType: "json",
+        data: JSON.stringify({ currency: currencyObj }),
+        dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
             currencyTable.ajax.reload();
@@ -120,7 +124,7 @@ function Create() {
                 currencyTable.ajax.reload();
             }
             else {
-                swal("No Se Logró Crear El Marca.", response.message, "error");
+                swal("No Se Logró Crear El Divisa.", response.message, "error");
             }
         },
         error: function (error) {
@@ -146,10 +150,11 @@ function ShowUpdateModal() {
         rowSelected = $(rowSelected).prev();
     }
 
-    productCategoryObj = currenccurrencyObjcted).data();
+    currencyObj = currencyTable.row(rowSelected).data();
 
-    $("#NameUpdate").val(productCategoryObj.Name);
-    $("#currencyObj(productCategoryObj.Active ? 1 : 0);currencyObjlUpdate").modal("show"); 
+    $("#NameUpdate").val(currencyObj.Name);
+    $("#ActiveUpdate").val(currencyObj.Active ? 1 : 0);
+    $("#FormModalUpdate").modal("show"); 
     $("#ErrorUpdate").hide();
 }
 
@@ -159,17 +164,18 @@ function Update() {
         return;
     }
 
-    productCategoryObj = {
-        "IdcurrencyObjObj.Id,
-        "NacurrencyObje").val(),
+    currencyObj = {
+        "Id": currencyObj.Id,
+        "Name": $("#NameUpdate").val(),
         "Active": $("#ActiveUpdate option:selected").val() == 1 ? true : false
     };
 
     jQuery.ajax({
-        url: '/ProductBrand/Update',
+        url: '/Currency/Update',
         type: "POST",
-        data: JSON.stringify({ productBrand: productCategoryObj }),
-        datcurrencyObj      contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ currency: currencyObj }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
         success: function (response) {
 
             $(".modal-body").LoadingOverlay("hide");
@@ -178,7 +184,7 @@ function Update() {
                 currencyTable.ajax.reload();
             }
             else {
-                swal("No Se Logró Actualizar la Marca.", response.message, "error");
+                swal("No Se Logró Actualizar la Divisa.", response.message, "error");
             }
         },
         error: function (error) {
@@ -205,11 +211,11 @@ function Delete() {
         rowSelected = $(rowSelected).prev();
     }
 
-    productCategoryObj = currencyTable.row(rowcurrencyObj
+    currencyObj = currencyTable.row(rowSelected).data();
 
     swal({
-        title: "Eliminar Marca",
-        text: "¿Estas Seguro que Deseas Eliminar Esta Marca?",
+        title: "Eliminar Divisa",
+        text: "¿Estas Seguro que Deseas Eliminar Esta Divisa?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-primary",
@@ -220,17 +226,18 @@ function Delete() {
         function () {
 
             jQuery.ajax({
-                url: '/ProductBrand/Delete',
+                url: '/Currency/Delete',
                 type: "POST",
-                data: JSON.stringify({ productBrand: productCategoryObj }),
-                dataType:currencyObj        contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ currency: currencyObj }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
                 success: function (response) {
 
                     if (response.result) {
                         currencyTable.ajax.reload();
                     }
                     else {
-                        swal("No Se Logró Eliminar la Marca.", response.message, "error");
+                        swal("No Se Logró Eliminar la Divisa.", response.message, "error");
                     }
                 },
                 error: function (error) {

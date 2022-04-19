@@ -183,7 +183,7 @@
                             <i class="fa-solid fa-fw fa-user-tie"></i>
                             <spam>Proveedores</spam>
                         </a>
-                        <a class="collapse-item" href="">
+                        <a id="CollapseMenuItemPurchase" class="collapse-item" href="@Url.Action("Index", "Purchase")">
                             <i class="fa-solid fa-fw fa-bag-shopping"></i>
                             <spam>Compras</spam>
                         </a>
@@ -192,7 +192,7 @@
             </li>
 
             <!-- Nav Item - Pages Collapse Menu - Sales -->
-            <li class="nav-item">
+            <li class="nav-item" id="CollapseMenuSales">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSeven"
                    aria-expanded="true" aria-controls="collapseSeven">
                     <i class="fa-solid fa-fw fa-piggy-bank"></i>
@@ -200,15 +200,15 @@
                 </a>
                 <div id="collapseSeven" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">
+                        <a id="CollapseMenuItemSales" class="collapse-item" href="">
                             <i class="fa-solid fa-fw fa-file-invoice-dollar"></i>
                             <spam>Ventas</spam>
                         </a>
-                        <a class="collapse-item" href="">
+                        <a id="CollapseMenuItemCurrency" class="collapse-item" href="@Url.Action("Index", "Currency")">
                             <i class="fa-solid fa-fw fa-circle-dollar-to-slot"></i>
                             <spam>Divisas</spam>
                         </a>
-                        <a class="collapse-item" href="">
+                        <a id="CollapseMenuItemPaymentType" class="collapse-item" href="">
                             <i class="fa-solid fa-fw fa-credit-card"></i>
                             <spam>Tipos de Pago</spam>
                         </a>
