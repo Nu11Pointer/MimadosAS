@@ -131,6 +131,7 @@
     <Compile Include="Controllers\EmployeePositionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MunicipalityController.cs" />
+    <Compile Include="Controllers\PaymentTypeController.cs" />
     <Compile Include="Controllers\ProductBrandController.cs" />
     <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -2314,6 +2315,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\loadingoverlay\loadingoverlay.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\PaymentType\PaymentType.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -2447,6 +2449,7 @@
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Purchase\Index.cshtml" />
     <Content Include="Views\Currency\Index.cshtml" />
+    <Content Include="Views\PaymentType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

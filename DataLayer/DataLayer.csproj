@@ -57,6 +57,7 @@
     <Compile Include="EmployeePhone.cs" />
     <Compile Include="EmployeePosition.cs" />
     <Compile Include="Municipality.cs" />
+    <Compile Include="PaymentType.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ProductBrand.cs" />
     <Compile Include="ProductCategory.cs" />
