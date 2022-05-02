@@ -1,7 +1,9 @@
 ﻿// Variables Globales
 var rowSelected;
-var purchaseTable;
-var productpurchaseObj Evento Document Loaded
+var productCategoryTable;
+var productCategoryObj;
+
+// Evento Document Loaded
 document.addEventListener('DOMContentLoaded', function () {
     SetUp();
 });
@@ -19,7 +21,7 @@ function SetUp() {
 
     // Crear Validaciones
     Validator();
-    
+
     // Establecer Actualizar
     $("#dataTable tbody").on("click", '.btn-update', ShowUpdateModal);
 
@@ -28,7 +30,7 @@ function SetUp() {
 }
 
 function Read() {
-    purchaseTable = $('#dataTable').DataTable({
+    productCategoryTable = $('#dataTable').DataTable({
         responsive: true,
         ordering: true,
         "ajax": {
@@ -103,7 +105,8 @@ function Create() {
         return;
     }
 
-    productCategorpurchaseObj"Id": 0,
+    productCategoryObj = {
+        "Id": 0,
         "Name": $("#NameCreate").val(),
         "Active": $("#ActiveCreate option:selected").val() == 1 ? true : false
     };
@@ -111,14 +114,15 @@ function Create() {
     jQuery.ajax({
         url: '/ProductCategory/Create',
         type: "POST",
-        data: JSON.stringify({ productCategory: productCategorpurchaseObjdataType: "json",
+        data: JSON.stringify({ productCategory: productCategoryObj }),
+        dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            purchaseTable.ajax.reload();
+            productCategoryTable.ajax.reload();
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalCreate").modal("hide");
-                purchaseTable.ajax.reload();
+                productCategoryTable.ajax.reload();
             }
             else {
                 swal("No Se Logró Crear El Categoria.", response.message, "error");
@@ -147,10 +151,11 @@ function ShowUpdateModal() {
         rowSelected = $(rowSelected).prev();
     }
 
-    currencyObj = purchaspurchaseObjcted).data();
+    productCategoryObj = productCategoryTable.row(rowSelected).data();
 
-    $("#NameUpdate").val(currencyObj.Name);
-    $("#purchaseObj(productCategoryObj.Active ? 1 : 0);purchaseObjlUpdate").modal("show"); 
+    $("#NameUpdate").val(productCategoryObj.Name);
+    $("#ActiveUpdate").val(productCategoryObj.Active ? 1 : 0);
+    $("#FormModalUpdate").modal("show"); 
     $("#ErrorUpdate").hide();
 }
 
@@ -160,23 +165,24 @@ function Update() {
         return;
     }
 
-    currencyObj = {
-        "IdpurchaseObjObj.Id,
-        "NapurchaseObje").val(),
+    productCategoryObj = {
+        "Id": productCategoryObj.Id,
+        "Name": $("#NameUpdate").val(),
         "Active": $("#ActiveUpdate option:selected").val() == 1 ? true : false
     };
 
     jQuery.ajax({
         url: '/ProductCategory/Update',
         type: "POST",
-        data: JSON.stringify({ productCategory: currencyObj }),
-        datpurchaseObj      contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ productCategory: productCategoryObj }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
         success: function (response) {
 
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalUpdate").modal("hide");
-                purchaseTable.ajax.reload();
+                productCategoryTable.ajax.reload();
             }
             else {
                 swal("No Se Logró Actualizar el Categoria.", response.message, "error");
@@ -206,7 +212,7 @@ function Delete() {
         rowSelected = $(rowSelected).prev();
     }
 
-    currencyObj = purchaseTable.row(rowpurchaseObj
+    productCategoryObj = productCategoryTable.row(rowSelected).data();
 
     swal({
         title: "Eliminar Categoria",
@@ -223,12 +229,13 @@ function Delete() {
             jQuery.ajax({
                 url: '/ProductCategory/Delete',
                 type: "POST",
-                data: JSON.stringify({ productCategory: currencyObj }),
-                dataType:purchaseObj        contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ productCategory: productCategoryObj }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
                 success: function (response) {
 
                     if (response.result) {
-                        purchaseTable.ajax.reload();
+                        productCategoryTable.ajax.reload();
                     }
                     else {
                         swal("No Se Logró Eliminar el Categoria.", response.message, "error");

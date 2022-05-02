@@ -625,12 +625,12 @@ function DeletePhone() {
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (response) {
-
                     if (response.result) {
                         phoneTable.ajax.reload();
                         $("#FormModalPhone").modal("show");
                     }
                     else {
+                        console.log("Hola mundo")
                         swal("No Logró Eliminar el teléfono.", response.message, "error");
                     }
                 },

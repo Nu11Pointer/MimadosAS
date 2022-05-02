@@ -1,8 +1,9 @@
 ﻿// Variables Globales
 var rowSelected;
-var purchaseTable;productCategoryObjntObj;
-var municipalityTable;
+var departmentTable;
+var departmentObj;
 var municipalityObj;
+var municipalityTable;
 
 // Evento Document Loaded
 document.addEventListener('DOMContentLoaded', function () {
@@ -22,7 +23,7 @@ function SetUp() {
 
     // Crear Validaciones
     Validator();
-    
+
     // Establecer Actualizar
     $("#dataTable tbody").on("click", '.btn-update', ShowUpdateModal);
 
@@ -30,13 +31,13 @@ function SetUp() {
     $("#dataTable tbody").on("click", '.btn-detelete', Delete);
 
     // Municipality
-    $("#dataTable tbody").on("click", '.btn-municipality', ShowMunicipality);    
+    $("#dataTable tbody").on("click", '.btn-municipality', ShowMunicipality);
     $("#dataTableMunicipality tbody").on("click", '.btn-update', ShowMunicipalityUpdate);
     $("#dataTableMunicipality tbody").on("click", '.btn-detelete', DeleteMunicipality);
 }
 
 function Read() {
-    purchaseTable = $('#dataTable').DataTable({
+    departmentTable = $('#dataTable').DataTable({
         responsive: true,
         ordering: true,
         "ajax": {
@@ -112,7 +113,7 @@ function Validator() {
             }
         },
         messages: {
-            NameCreate: "- El campo \"Nombre\" es obligatorio."
+            MunicipalityNameCreate: "- El campo \"Nombre\" es obligatorio."
         },
         errorElement: "div",
         errorClass: "form-label",
@@ -138,7 +139,9 @@ function Create() {
 
     if (!$("#CreateForm").valid()) {
         return;
-   productCategoryObjparmentObj = {
+    }
+
+    departmentObj = {
         "Id": 0,
         "Name": $("#NameCreate").val(),
         "Active": $("#ActiveCreate option:selected").val() == 1 ? true : false
@@ -147,15 +150,15 @@ function Create() {
     jQuery.ajax({
         url: '/Deparment/Create',
         type: "POST",
-        data: JSON.stringify({ deproductCategoryObjparmentObj }),
+        data: JSON.stringify({ department: departmentObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            purchaseTable.ajax.reload();
+            departmentTable.ajax.reload();
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalCreate").modal("hide");
-                purchaseTable.ajax.reload();
+                departmentTable.ajax.reload();
             }
             else {
                 swal("No Se Logró Crear El Departamento.", response.message, "error");
@@ -181,22 +184,25 @@ function ShowUpdateModal() {
 
     rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
-        rowSelected = $(rowSelected).prproductCategoryObj
+        rowSelected = $(rowSelected).prev();
+    }
 
-    deparmentObj = purchaseTable.row(rowSelected).data();
+    deparmentObj = departmentTable.row(rowSelected).data();
 
-productCategoryObjUpdate").val(deparmentObj.Name);
-  productCategoryObjUpdate").val(deparmentObj.Active ? 1 : 0);
-    $("#FormModalUpdate").modal("show"); 
+    $("#NameUpdate").val(deparmentObj.Name);
+    $("#ActiveUpdate").val(deparmentObj.Active ? 1 : 0);
+    $("#FormModalUpdate").modal("show");
     $("#ErrorUpdate").hide();
 }
 
 function Update() {
 
     if (!$("#UpdateForm").valid()) {
-     purchaseObj    }
+        productCategoryObj
+    }
 
-    deparmeproductCategoryObj       "Id": deparmentObj.Id,
+    deparmentObj = {
+        "Id": deparmentObj.Id,
         "Name": $("#NameUpdate").val(),
         "Active": $("#ActiveUpdate option:selected").val() == 1 ? true : false
     };
@@ -204,7 +210,7 @@ function Update() {
     jQuery.ajax({
         url: '/Deparment/Update',
         type: "POST",
-        data: JSONproductCategoryObj department: deparmentObj }),
+        data: JSON.stringify({ department: deparmentObj }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
@@ -212,7 +218,7 @@ function Update() {
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalUpdate").modal("hide");
-                purchaseTable.ajax.reload();
+                departmentTable.ajax.reload();
             }
             else {
                 swal("No Se Logró Actualizar el departamento.", response.message, "error");
@@ -239,10 +245,10 @@ function Delete() {
 
     rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
-        rowSelected = $(rowSeproductCategoryObj();
+        rowSelected = $(rowSelected).prev();
     }
 
-    deparmentObj = purchaseTable.row(rowSelected).data();
+    deparmentObj = departmentTable.row(rowSelected).data();
 
     swal({
         title: "Eliminar Departamento",
@@ -259,13 +265,13 @@ function Delete() {
             jQuery.ajax({
                 url: '/Deparment/Delete',
                 type: "POST",
-                productCategoryObjtringify({ department: deparmentObj }),
+                data: JSON.stringify({ department: deparmentObj }),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (response) {
 
                     if (response.result) {
-                        purchaseTable.ajax.reload();
+                        departmentTable.ajax.reload();
                     }
                     else {
                         swal("No Se Logró Eliminar el departamento.", response.message, "error");
@@ -286,21 +292,24 @@ function ShowMunicipality() {
 
     var rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
-        rowSelectedproductCategoryObjcted).prev();
+        rowSelected = $(rowSelected).prev();
     }
 
-    deparmentObj = purchaseTable.row(rowSelected).data();
+    deparmentObj = departmentTable.row(rowSelected).data();
 
     if (municipalityTable != null) {
         municipalityTable.destroy();
     }
+
+    console.log({ deparmentId: deparmentObj.Id })
 
     municipalityTable = $('#dataTableMunicipality').DataTable({
         responsive: true,
         ordering: true,
         "ajax": {
             url: '/Municipality/ReadByDepartment',
-            typproductCategoryObj            data: { deparmentId: deparmentObj.Id }
+            type: "POST",
+            data: { deparmentId: deparmentObj.Id }
         },
         "columns": [
             { "data": "Id" },
@@ -341,8 +350,9 @@ function CreateMunicipality() {
         return;
     }
 
-    municipalityObjproductCategoryObj  "Id": 0,
-        "Department":deparmentObj,
+    municipalityObj = {
+        "Id": 0,
+        "Department": deparmentObj,
         "Name": $("#MunicipalityNameCreate").val(),
         "Active": $("#ActiveMunicipalityCreate option:selected").val() == 1
     }
@@ -372,9 +382,9 @@ function CreateMunicipality() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalMunicipalityCreate").modal("show");
-                });
+                    function () {
+                        $("#FormModalMunicipalityCreate").modal("show");
+                    });
             }
         },
         error: function (error) {
@@ -397,6 +407,7 @@ function ShowMunicipalityUpdate() {
 
     $("#FormModalMunicipality").modal("hide");
     $("#FormModalMunicipalityUpdate").modal("show");
+
     rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
@@ -410,17 +421,18 @@ function ShowMunicipalityUpdate() {
 }
 
 function UpdateMunicipality() {
+
     if (!$("#UpdateMunicipalityForm").valid()) {
         return;
     }
 
     municipalityObj = {
-        "Id": $("#IdMunicproductCategoryObje").val(),
-        "Department":deparmentObj,
+        "Id": $("#IdMunicipalityUpdate").val(),
+        "Department": deparmentObj,
         "Name": $("#MunicipalityNameUpdate").val(),
         "Active": $("#ActiveMunicipalityUpdate option:selected").val() == 1
     }
-    console.log(municipalityObj);
+
     jQuery.ajax({
         url: '/Municipality/Update',
         type: "POST",
@@ -446,9 +458,9 @@ function UpdateMunicipality() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalMunicipalityUpdate").modal("show");
-                });
+                    function () {
+                        $("#FormModalMunicipalityUpdate").modal("show");
+                    });
             }
         },
         error: function (error) {
@@ -468,7 +480,6 @@ function UpdateMunicipality() {
 }
 
 function DeleteMunicipality() {
-
     rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
@@ -479,43 +490,44 @@ function DeleteMunicipality() {
     $("#FormModalMunicipality").modal("hide");
 
     swal({
-        title: "Eliminar Municipio",
-        text: "¿Estas Seguro que Deseas Eliminar este Municipio?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-primary",
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
-        closeOnConfirm: true
-    },
-        function (inputValue) {
+    title: "Eliminar Municipio",
+    text: "¿Estas Seguro que Deseas Eliminar este Municipio?",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonClass: "btn-primary",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+    closeOnConfirm: true
+},
+    function (inputValue) {
 
-            if (!inputValue) {
-                $("#FormModalMunicipality").modal("show");
-                return
-            }
+        if (!inputValue) {
+            $("#FormModalMunicipality").modal("show");
+            return
+        }
 
-            jQuery.ajax({
-                url: '/Municipality/Delete',
-                type: "POST",
-                data: JSON.stringify({ municipality: municipalityObj }),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (response) {
+        jQuery.ajax({
+            url: '/Municipality/Delete',
+            type: "POST",
+            data: JSON.stringify({ municipality: municipalityObj }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
 
-                    if (response.result) {
-                        municipalityTable.ajax.reload();
-                        $("#FormModalMunicipality").modal("show");
-                    }
-                    else {
-                        swal("No Logró Eliminar el Municipio.", response.message, "error");
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                beforeSend: function () { }
-            });
-
+                if (response.result) {
+                    municipalityTable.ajax.reload();
+                    $("#FormModalMunicipality").modal("show");
+                }
+                else {
+                    swal("No Logró Eliminar el Municipio.", response.message, "error");
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            beforeSend: function () { }
         });
+
+    });
+
 }

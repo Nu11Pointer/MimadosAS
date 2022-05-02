@@ -1,7 +1,9 @@
-﻿// Variables Globales
+﻿﻿// Variables Globales
 var rowSelected;
-var currencyTable;
-var productcurrencyObj Evento Document Loaded
+var productCategoryTable;
+var productCategoryObj;
+
+// Evento Document Loaded
 document.addEventListener('DOMContentLoaded', function () {
     SetUp();
 });
@@ -18,7 +20,7 @@ function SetUp() {
 
     // Crear Validaciones
     Validator();
-    
+
     // Establecer Actualizar
     $("#dataTable tbody").on("click", '.btn-update', ShowUpdateModal);
 
@@ -27,7 +29,7 @@ function SetUp() {
 }
 
 function Read() {
-    currencyTable = $('#dataTable').DataTable({
+    productCategoryTable = $('#dataTable').DataTable({
         responsive: true,
         ordering: true,
         "ajax": {
@@ -102,7 +104,8 @@ function Create() {
         return;
     }
 
-    productCategorcurrencyObj"Id": 0,
+    productCategoryObj = {
+        "Id": 0,
         "Name": $("#NameCreate").val(),
         "Active": $("#ActiveCreate option:selected").val() == 1 ? true : false
     };
@@ -110,14 +113,15 @@ function Create() {
     jQuery.ajax({
         url: '/ProductBrand/Create',
         type: "POST",
-        data: JSON.stringify({ productBrand: productCategorcurrencyObjdataType: "json",
+        data: JSON.stringify({ productBrand: productCategoryObj }),
+        dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            currencyTable.ajax.reload();
+            productCategoryTable.ajax.reload();
             $(".modal-body").LoadingOverlay("hide");
             $("#FormModalCreate").modal("hide");
             if (response.result) {
-                currencyTable.ajax.reload();
+                productCategoryTable.ajax.reload();
             }
             else {
                 swal("No Se Logró Crear El Marca.", response.message, "error");
@@ -146,10 +150,11 @@ function ShowUpdateModal() {
         rowSelected = $(rowSelected).prev();
     }
 
-    productCategoryObj = currenccurrencyObjcted).data();
+    productCategoryObj = productCategoryTable.row(rowSelected).data();
 
     $("#NameUpdate").val(productCategoryObj.Name);
-    $("#currencyObj(productCategoryObj.Active ? 1 : 0);currencyObjlUpdate").modal("show"); 
+    $("#ActiveUpdate").val(productCategoryObj.Active ? 1 : 0);
+    $("#FormModalUpdate").modal("show"); 
     $("#ErrorUpdate").hide();
 }
 
@@ -160,8 +165,8 @@ function Update() {
     }
 
     productCategoryObj = {
-        "IdcurrencyObjObj.Id,
-        "NacurrencyObje").val(),
+        "Id": productCategoryObj.Id,
+        "Name": $("#NameUpdate").val(),
         "Active": $("#ActiveUpdate option:selected").val() == 1 ? true : false
     };
 
@@ -169,13 +174,14 @@ function Update() {
         url: '/ProductBrand/Update',
         type: "POST",
         data: JSON.stringify({ productBrand: productCategoryObj }),
-        datcurrencyObj      contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
         success: function (response) {
 
             $(".modal-body").LoadingOverlay("hide");
             $("#FormModalUpdate").modal("hide");
             if (response.result) {
-                currencyTable.ajax.reload();
+                productCategoryTable.ajax.reload();
             }
             else {
                 swal("No Se Logró Actualizar la Marca.", response.message, "error");
@@ -205,7 +211,7 @@ function Delete() {
         rowSelected = $(rowSelected).prev();
     }
 
-    productCategoryObj = currencyTable.row(rowcurrencyObj
+    productCategoryObj = productCategoryTable.row(rowSelected).data();
 
     swal({
         title: "Eliminar Marca",
@@ -223,11 +229,12 @@ function Delete() {
                 url: '/ProductBrand/Delete',
                 type: "POST",
                 data: JSON.stringify({ productBrand: productCategoryObj }),
-                dataType:currencyObj        contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
                 success: function (response) {
 
                     if (response.result) {
-                        currencyTable.ajax.reload();
+                        productCategoryTable.ajax.reload();
                     }
                     else {
                         swal("No Se Logró Eliminar la Marca.", response.message, "error");

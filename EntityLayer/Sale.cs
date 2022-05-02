@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace EntityLayer
 {
@@ -6,18 +7,21 @@ namespace EntityLayer
     {
         public int Id { get; set; }
 
-        public int CurrencyId { get; set; }
+        public Currency Currency { get; set; }
 
-        public int PaymentTypeId { get; set; }
+        public PaymentType PaymentType { get; set; }
 
-        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
 
-        public int EmployeeId { get; set; }
+        public Employee Employee { get; set; }
+
+        public List<SaleDetail> SaleDetails { get; set; }
 
         public decimal Payment { get; set; }
 
         public DateTime TimeStamp { get; set; }
 
         public bool Active { get; set; }
+
     }
 }

@@ -131,13 +131,14 @@ function MunicipalityOnChange() {
         success: function (data) {
             $.each(data.data, function (_index, value) {
                 $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#MunicipalityUpdate");
-                try {
-                    if (supplierObj.Municipality.Id != -1) {
-                        $("#MunicipalityUpdate").val(supplierObj.Municipality.Id);
-                        supplierObj.Municipality.Id = -1;
-                    }
-                } catch (e) {}
+                
             })
+            try {
+                if (supplierObj.Municipality.Id != -1) {
+                    $("#MunicipalityUpdate").val(supplierObj.Municipality.Id);
+                    supplierObj.Municipality.Id = -1;
+                }
+            } catch (e) { }
         },
         error: function (error) {
             console.log(error);
@@ -323,7 +324,6 @@ function ShowUpdateModal() {
     }
 
     supplierObj = supplierTable.row(rowSelected).data();
-
     $("#NameUpdate").val(supplierObj.Name);
     $("#AddressUpdate").val(supplierObj.Address);
     $("#DepartmentUpdate").val(supplierObj.Municipality.Department.Id);
