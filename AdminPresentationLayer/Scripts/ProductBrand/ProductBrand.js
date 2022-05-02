@@ -1,4 +1,4 @@
-﻿﻿// Variables Globales
+﻿// Variables Globales
 var rowSelected;
 var productCategoryTable;
 var productCategoryObj;
