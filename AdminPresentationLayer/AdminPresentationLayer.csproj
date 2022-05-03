@@ -136,6 +136,7 @@
     <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\SaleController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplierEmailController.cs" />
     <Compile Include="Controllers\SupplierPhoneController.cs" />
@@ -2324,6 +2325,7 @@
     <Content Include="Scripts\ProductCategory\ProductCategory.js" />
     <Content Include="Scripts\Product\Product.js" />
     <Content Include="Scripts\Purchase\Purchase.js" />
+    <Content Include="Scripts\Sale\Sale.js" />
     <Content Include="Scripts\sb-admin-2\js\demo\chart-area-demo.js" />
     <Content Include="Scripts\sb-admin-2\js\demo\chart-bar-demo.js" />
     <Content Include="Scripts\sb-admin-2\js\demo\chart-pie-demo.js" />
@@ -2450,6 +2452,7 @@
     <Content Include="Views\Purchase\Index.cshtml" />
     <Content Include="Views\Currency\Index.cshtml" />
     <Content Include="Views\PaymentType\Index.cshtml" />
+    <Content Include="Views\Sale\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

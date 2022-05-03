@@ -21,6 +21,16 @@ namespace AdminPresentationLayer.Controllers
         }
 
         [HttpPost]
+        public JsonResult ReadById(int id)
+        {
+            var json = new
+            {
+                data = new Business.Employee().ReadById(id)
+            };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public JsonResult Create(Entity.Employee employee)
         {
             var result = new Business.Employee().Create(employee, out string message);

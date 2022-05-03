@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Data = DataLayer;
 using Entity = EntityLayer;
 
@@ -6,7 +7,7 @@ namespace BusinessLayer
 {
     public class Employee
     {
-        private Data.Employee _db = new Data.Employee();
+        private readonly Data.Employee _db = new Data.Employee();
 
         public bool Create(Entity.Employee employee, out string message)
         {
@@ -51,6 +52,11 @@ namespace BusinessLayer
         public List<Entity.Employee> Read()
         {
             return _db.Read();
+        }
+
+        public Entity.Employee ReadById(int id)
+        {
+            return _db.Read().FirstOrDefault(e => e.Id == id);
         }
 
         public bool Update(Entity.Employee employee, out string message)

@@ -6,7 +6,7 @@ namespace BusinessLayer
 {
     public class BranchOffice
     {
-        private Data.BranchOffice _Db = new Data.BranchOffice();
+        private readonly Data.BranchOffice _Db = new Data.BranchOffice();
 
         public List<Entity.BranchOffice> Read()
         {
