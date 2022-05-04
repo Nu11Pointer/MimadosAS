@@ -1,7 +1,8 @@
 ﻿var tablaproducto;
 var tablacliente;
 var currentClient;
-var productList = []
+var currentEmployee;
+var SaleDetail = []
 
 $(document).ready(function () {
 
@@ -29,11 +30,11 @@ function LoadEmployee() {
     jQuery.ajax({
         url: '/Employee/ReadById',
         type: "POST",
-        data: JSON.stringify({ id: 1 }),
+        data: JSON.stringify({ id: 35 }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-
+            currentEmployee = response.data
             $("#txtIdTienda").val(response.data.BranchOffice.Id);
             $("#lbltiendanombre").text(response.data.BranchOffice.Name);
 
@@ -74,7 +75,8 @@ function LoadCustomers() {
         ],
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
-        }
+        },
+        "order": [[ 1, "asc" ]]
     });
 }
 
@@ -128,7 +130,8 @@ function LoadProducts() {
         ],
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
-        }
+        },
+        "order": [[ 1, "asc" ]]
     });
 }
 
@@ -145,7 +148,6 @@ $('#btnBuscarProducto').on('click', function () {
 })
 
 function productoSelect(json) {
-    productList.push(json)
     $("#txtIdProducto").val(json.Id);
     $("#txtproductocodigo").val(json.Id);
     $("#txtproductonombre").val(json.Name);
@@ -155,3 +157,250 @@ function productoSelect(json) {
     $("#txtproductocantidad").val("0");
     $('#modalProducto').modal('hide');
 }
+
+function controlarStock($idproducto, $idtienda, $cantidad, $restar) {
+
+    var request = {
+        idproducto: $idproducto,
+        idtienda: $idtienda,
+        cantidad: $cantidad,
+        restar: $restar
+    }
+
+    return
+
+    jQuery.ajax({
+        url: $.MisUrls.url._ControlarStockProducto,
+        type: "POST",
+        data: JSON.stringify(request),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+           
+        },
+        error: function (error) {
+            console.log(error)
+        },
+        beforeSend: function () {
+        },
+    });
+
+  
+}
+
+function calcularPrecios() {
+    var subtotal = 0;
+    var igv = 0;
+    var sumatotal = 0;
+    $('#tbVenta > tbody  > tr').each(function (index, tr) {
+        var fila = tr;
+        var importetotal = parseFloat($(fila).find("td.importetotal").text().substring(3));
+        sumatotal = sumatotal + importetotal;
+    });
+    subtotal = sumatotal / 1.15;
+    igv = subtotal * 1.15 - subtotal;
+
+
+    $("#txtsubtotal").val(subtotal.toFixed(2));
+    $("#txtigv").val(igv.toFixed(2));
+    $("#txttotal").val(sumatotal.toFixed(2));
+}
+
+$('#btnAgregar').on('click', function () {
+
+    $("#txtproductocantidad").val($("#txtproductocantidad").val() == "" ? "0" : $("#txtproductocantidad").val());
+
+    var existe_codigo = false;
+
+    if (
+        parseInt($("#txtIdProducto").val()) == 0 ||
+        parseInt($("#txtproductocantidad").val()) == 0 ||
+        !Number.isInteger(parseInt($("#txtproductocantidad").val()))
+    ) {
+        swal("Mensaje", "Debe completar todos los campos del producto", "warning")
+        return;
+    }
+
+    $('#tbVenta > tbody  > tr').each(function (index, tr) {
+
+        var fila = tr;
+        var idproducto = $(fila).find("td.producto").data("idproducto");
+
+        if (idproducto == $("#txtIdProducto").val()) {
+            existe_codigo = true;
+            return false;
+        }
+
+    });
+
+    if (!existe_codigo) {
+
+        //controlarStock(parseInt($("#txtIdProducto").val()), parseInt($("#txtIdTienda").val()), parseInt($("#txtproductocantidad").val()), true);
+
+        var importetotal = parseFloat($("#txtproductoprecio").val()) * parseFloat($("#txtproductocantidad").val());
+
+        var Item = {
+            SaleId: 0,
+            ProductId: parseInt($("#txtIdProducto").val()),
+            SalePrice: $("#txtproductoprecio").val(),
+            Quantity: parseInt($("#txtproductocantidad").val())
+        };
+
+        SaleDetail.push(Item)
+
+        $("<tr>").append(
+            $("<td>").append(
+                $("<button>").addClass("btn btn-danger btn-sm").text("Eliminar").data("idproducto", parseInt($("#txtIdProducto").val())).data("cantidadproducto", parseInt($("#txtproductocantidad").val()))
+            ),
+            $("<td>").addClass("productocantidad").text(parseInt($("#txtproductocantidad").val())),
+            $("<td>").addClass("producto").data("idproducto", $("#txtIdProducto").val()).text($("#txtproductonombre").val()),
+            $("<td>").text($("#txtproductodescripcion").val()),
+            $("<td>").addClass("productoprecio").text("C$ " + $("#txtproductoprecio").val()),
+            $("<td>").addClass("importetotal").text("C$ " + importetotal)
+        ).appendTo("#tbVenta tbody");
+
+        $("#txtIdProducto").val("0");
+        $("#txtproductocodigo").val("");
+        $("#txtproductonombre").val("");
+        $("#txtproductodescripcion").val("NO DISPONIBLE");
+        $("#txtproductostock").val("");
+        $("#txtproductoprecio").val("");
+        $("#txtproductocantidad").val("0");
+
+        $("#txtproductocodigo").focus();
+
+        calcularPrecios();
+    } else {
+        swal("Mensaje", "El producto ya existe en la venta", "warning")
+    }
+})
+
+$('#tbVenta tbody').on('click', 'button[class="btn btn-danger btn-sm"]', function () {
+    var idproducto = $(this).data("idproducto");
+    var cantidadproducto = $(this).data("cantidadproducto");
+
+    //controlarStock(idproducto, parseInt($("#txtIdTienda").val()), cantidadproducto, false);
+    $(this).parents("tr").remove();
+
+    calcularPrecios();
+})
+
+function calcularCambio() {
+    var montopago = $("#txtmontopago").val().trim() == "" ? 0 : parseFloat($("#txtmontopago").val().trim());
+    var totalcosto = parseFloat($("#txttotal").val().trim());
+    if (totalcosto < 0) {
+        var cambio = 0;
+        $("#txtcambio").val(cambio.toFixed(2));
+        return
+    }
+    var cambio = 0;
+    cambio = (montopago <= totalcosto ? totalcosto : montopago) - totalcosto;
+
+    $("#txtcambio").val(cambio.toFixed(2));
+}
+
+$('#btncalcular').on('click', function () {
+    calcularCambio();
+})
+
+
+$('#btnTerminarGuardarVenta').on('click', function () {
+
+    //VALIDACIONES DE CLIENTE
+    if ($("#txtclientedocumento").val().trim() == "" || $("#txtclientenombres").val().trim() == "") {
+        swal("Mensaje", "Complete los datos del cliente", "warning");
+        return;
+    }
+    //VALIDACIONES DE PRODUCTOS
+    if ($('#tbVenta tbody tr').length == 0) {
+        swal("Mensaje", "Debe registrar minimo un producto en la venta", "warning");
+        return;
+    }
+
+    //VALIDACIONES DE MONTO PAGO
+    if ($("#txtmontopago").val().trim() == "") {
+        swal("Mensaje", "Ingrese el monto de pago", "warning");
+        return;
+    }
+
+    var $totalproductos = 0;
+    var $totalimportes = 0;
+
+    var DETALLE = "";
+    var VENTA = "";
+    var DETALLE_CLIENTE = "";
+    var DETALLE_VENTA = "";
+    var DATOS_VENTA = "";
+
+    calcularCambio();
+
+    var sale = {
+        Id: 0,
+        Currency : {
+            Id : 1
+        },
+        PaymentType : {
+            Id : 1
+        },
+        Customer : currentClient,
+        Employee : currentEmployee,
+        SaleDetails : SaleDetail,
+        Payment : parseFloat($("#txtmontopago").val())
+    }
+
+    console.log(sale)
+
+    jQuery.ajax({
+        url: '/Sale/Create',
+        type: "POST",
+        data: JSON.stringify({ sale: sale }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+
+            $(".card-venta").LoadingOverlay("hide");
+
+            if (response.result) {
+
+                //CLIENTE
+                $("#txtclientedocumento").val("");
+                $("#txtclientenombres").val("");
+                $("#txtclientedireccion").val("");
+
+                //PRODUCTO
+                $("#txtIdProducto").val("0");
+                $("#txtproductocodigo").val("");
+                $("#txtproductonombre").val("");
+                $("#txtproductodescripcion").val("");
+                $("#txtproductostock").val("");
+                $("#txtproductoprecio").val("");
+                $("#txtproductocantidad").val("0");
+
+                //PRECIOS
+                $("#txtsubtotal").val("0.00");
+                $("#txtigv").val("0.00");
+                $("#txttotal").val("0.00");
+                $("#txtmontopago").val("");
+                $("#txtcambio").val("0.00");
+
+
+                $("#tbVenta tbody").html("");
+           
+                //var url = $.MisUrls.url._DocumentoVenta + "?IdVenta=" + data.valor;
+                //window.open(url);
+
+                swal("\nLa venta fue realizada con exito", "\n", "success");
+            }
+            else {
+                swal("Error", "\n" + response.message, "danger");
+            }
+        },
+        error: function (error) {
+            console.log(error)
+            $(".card-venta").LoadingOverlay("hide")
+        },
+        beforeSend: function () {
+            $(".card-venta").LoadingOverlay("show");
+        }
+    });
+})

@@ -44,7 +44,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                        
+
                                 </div>
 
                                 <div class="row collapse show" id="collapse1">
@@ -204,12 +204,12 @@
                             <table id="tbVenta" class="table table-striped table-bordered nowrap table-sm" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>Cantidad</th>
-                                        <th>Producto</th>
-                                        <th>Descripcion</th>
-                                        <th>Precio Unidad</th>
-                                        <th>Importe Total</th>
+                                        <th width="8%"></th>
+                                        <th width="8%">Cantidad</th>
+                                        <th width="40%">Producto</th>
+                                        <th width="15%">Presentación</th>
+                                        <th width="14%">Precio Unidad</th>
+                                        <th width="15%">Importe Total</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -221,12 +221,12 @@
 
                 <hr />
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="input-group input-group-sm mb-2">
                                     <div class="input-group-prepend">
-                                        <label class="input-group-text bg-secondary text-white" for="inputGroupSelect01">Sub Total S/.</label>
+                                        <label class="input-group-text bg-secondary text-white" for="inputGroupSelect01">Sub Total C$.</label>
                                     </div>
                                     <input id="txtsubtotal" readonly type="text" class="form-control" value="0">
                                 </div>
@@ -234,7 +234,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group input-group-sm mb-2">
                                     <div class="input-group-prepend">
-                                        <label class="input-group-text bg-secondary text-white" for="inputGroupSelect01">IGV S/.</label>
+                                        <label class="input-group-text bg-secondary text-white" for="inputGroupSelect01">IVA C$.</label>
                                     </div>
                                     <input id="txtigv" readonly type="text" class="form-control" value="0">
                                 </div>
@@ -242,33 +242,38 @@
                             <div class="col-sm-4">
                                 <div class="input-group input-group-sm mb-2">
                                     <div class="input-group-prepend">
-                                        <label class="input-group-text bg-secondary text-white" for="inputGroupSelect01">Total S/.</label>
+                                        <label class="input-group-text bg-secondary text-white" for="inputGroupSelect01">Total C$.</label>
                                     </div>
                                     <input id="txttotal" readonly type="text" class="form-control" value="0">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-sm-12">
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="input-group input-group-sm mb-2">
                                     <div class="input-group-prepend">
-                                        <label class="input-group-text bg-secondary text-white" for="inputGroupSelect01">Monto Pago S/.</label>
+                                        <label class="input-group-text bg-secondary text-white" for="inputGroupSelect01">Monto Pago C$.</label>
                                     </div>
                                     <input id="txtmontopago" type="text" class="form-control" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <button id="btncalcular" type="button" class="btn btn-sm btn-success btn-block"><i class="fas fa-dollar-sign"></i>  Calcular</button>
-                            </div>
-                            <div class="col-sm-4">
                                 <div class="input-group input-group-sm mb-2">
                                     <div class="input-group-prepend">
-                                        <label class="input-group-text bg-secondary text-white" for="inputGroupSelect01">Cambio S/.</label>
+                                        <label class="input-group-text bg-secondary text-white" for="inputGroupSelect01">Cambio C$.</label>
                                     </div>
-                                    <input id="txtcambio" readonly type="text" class="form-control">
+                                    <input id="txtcambio" readonly type="text" class="form-control" value="0.00">
                                 </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="btncalcular" type="button" class="btn btn-sm btn-success btn-block"><i class="fas fa-dollar-sign"></i>  Calcular</button>
                             </div>
                         </div>
                     </div>
