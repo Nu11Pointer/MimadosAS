@@ -1,0 +1,113 @@
+﻿@model EntityLayer.Sale
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Factura</title>
+    <link rel="stylesheet" href="~/Content/invoce.css">
+</head>
+
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                Mimados
+                                @*<img src="https://www.sparksuite.com/images/logo.png" style="width: 100%; max-width: 300px" />*@
+                            </td>
+
+                            <td>
+                                Factura: #@Html.DisplayFor(s => s.Id)<br />
+                                Fecha: @Html.DisplayFor(s => s.TimeStamp)
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                Dirección: @Html.DisplayFor(s => s.Employee.BranchOffice.Address)<br />
+                                Atendido por: @Html.DisplayFor(s => s.Employee.Name) @Html.DisplayFor(s => s.Employee.SurName)<br />
+                                <br />
+                            </td>
+
+                            <td>
+                                Cliente: @Html.DisplayFor(s => s.Customer.Name) @Html.DisplayFor(s => s.Customer.SurName)<br />
+                                <br />
+                                -
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            @*<tr class="heading">
+                <td>Tipo De Pago</td>
+
+                <td>Efectivo</td>
+            </tr>*@
+
+            @*<tr class="details">
+                <td></td>
+
+                <td><b>C$ 20</b></td>
+            </tr>*@
+
+            
+        </table>
+        <table cellpadding="0" cellspacing="0">
+
+            <tr class="heading">
+                <td>Producto</td>
+
+                <td>Cantidad</td>
+
+                <td>Precio</td>
+
+                <td>Iva</td>
+
+                <td>Total</td>
+
+            </tr>
+
+            <tr class="details">
+                <td>Combis</td>
+
+                <td>1</td>
+
+                <td>C$10.00</td>
+
+                <td>C$1.50</td>
+
+                <td>C$11.50</td>
+
+            </tr>
+
+            <tr class="details">
+                <td></td>
+
+                <td></td>
+
+                <td></td>
+
+                <td></td>
+
+                <td><b>Total: C$11.50</b></td>
+            </tr>
+
+        </table>
+    </div>
+</body>
+</html>

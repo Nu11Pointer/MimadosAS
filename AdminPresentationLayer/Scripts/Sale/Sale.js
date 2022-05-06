@@ -386,8 +386,8 @@ $('#btnTerminarGuardarVenta').on('click', function () {
 
                 $("#tbVenta tbody").html("");
            
-                //var url = $.MisUrls.url._DocumentoVenta + "?IdVenta=" + data.valor;
-                //window.open(url);
+                var url = "/Sale/Invoce";
+                window.open(url);
 
                 swal("\nLa venta fue realizada con exito", "\n", "success");
             }

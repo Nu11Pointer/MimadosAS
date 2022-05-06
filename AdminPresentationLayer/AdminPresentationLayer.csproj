@@ -316,6 +316,10 @@
     <Content Include="Content\fontawesome.css" />
     <Content Include="Content\fontawesome.min.css" />
     <Content Include="Content\google-font-nunito.css" />
+    <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\tienda.png" />
+    <Content Include="Content\Images\tiendalogo.png" />
+    <Content Include="Content\invoce.css" />
     <Content Include="Content\modal.css" />
     <Content Include="Content\regular.css" />
     <Content Include="Content\regular.min.css" />
@@ -2453,6 +2457,7 @@
     <Content Include="Views\Currency\Index.cshtml" />
     <Content Include="Views\PaymentType\Index.cshtml" />
     <Content Include="Views\Sale\Index.cshtml" />
+    <Content Include="Views\Sale\Invoce.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
