@@ -1,4 +1,6 @@
-﻿namespace EntityLayer
+﻿using System.Collections.Generic;
+
+namespace EntityLayer
 {
     public class BranchOffice
     {
@@ -9,6 +11,8 @@
         public string Address { get; set; }
 
         public Municipality Municipality { get; set; }
+
+        public List<BranchOfficePhone> Phones { get; set; }
 
         public bool Active { get; set; }
     }

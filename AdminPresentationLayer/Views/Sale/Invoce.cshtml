@@ -24,7 +24,7 @@
                                 @*<img src="https://www.sparksuite.com/images/logo.png" style="width: 100%; max-width: 300px" />*@
                             </td>
 
-                            <td>
+                            <td id="Arigth">
                                 Factura: #@Html.DisplayFor(s => s.Id)<br />
                                 Fecha: @Html.DisplayFor(s => s.TimeStamp)
                             </td>
@@ -37,77 +37,71 @@
                 <td colspan="2">
                     <table>
                         <tr>
-                            <td>
-                                Dirección: @Html.DisplayFor(s => s.Employee.BranchOffice.Address)<br />
-                                Atendido por: @Html.DisplayFor(s => s.Employee.Name) @Html.DisplayFor(s => s.Employee.SurName)<br />
-                                <br />
+                            <td style="width:50%">
+                                <b>@Html.DisplayFor(s => s.Employee.BranchOffice.Name)<br /></b>
+                                @if (Model.Employee.BranchOffice.Phones.Count == 1)
+                                {
+                                    @Html.DisplayFor(s => s.Employee.BranchOffice.Phones[0].PhoneNumber)
+                                }
+                                @if (Model.Employee.BranchOffice.Phones.Count >= 2)
+                                {
+                                    @Html.DisplayFor(s => s.Employee.BranchOffice.Phones[0].PhoneNumber)
+                                    @Html.Label(" / ")
+                                    @Html.DisplayFor(s => s.Employee.BranchOffice.Phones[1].PhoneNumber)
+                                }
+                                @Html.DisplayFor(s => s.Employee.BranchOffice.Address)<br />
+                                Atendido por: <br />
+                                @Html.DisplayFor(s => s.Employee.Name) @Html.DisplayFor(s => s.Employee.SurName)
                             </td>
 
-                            <td>
-                                Cliente: @Html.DisplayFor(s => s.Customer.Name) @Html.DisplayFor(s => s.Customer.SurName)<br />
-                                <br />
-                                -
+                            <td id="Arigth" style="width:50%">
+                                Nombre: @Html.DisplayFor(s => s.Customer.Name) @Html.DisplayFor(s => s.Customer.SurName)<br />
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
 
-            @*<tr class="heading">
-                <td>Tipo De Pago</td>
-
-                <td>Efectivo</td>
-            </tr>*@
-
-            @*<tr class="details">
-                <td></td>
-
-                <td><b>C$ 20</b></td>
-            </tr>*@
-
-            
         </table>
+
         <table cellpadding="0" cellspacing="0">
 
             <tr class="heading">
-                <td>Producto</td>
 
                 <td>Cantidad</td>
-
-                <td>Precio</td>
-
-                <td>Iva</td>
-
-                <td>Total</td>
+                <td width="45%">Producto</td>
+                <td>Precio Unitario</td>
+                <td id="Arigth">Total</td>
 
             </tr>
 
-            <tr class="details">
-                <td>Combis</td>
+            @{
+                foreach (var item in Model.SaleDetails)
+                {
+                    @: <tr class="details">
+                        <td>@Html.DisplayFor(modelItem => item.Quantity)<br /></td>
+                        <td>@Html.DisplayFor(modelItem => item.Product.Name)<br /></td>
+                        <td>@Html.DisplayFor(modelItem => item.StringSalePrice)<br /></td>
+                        <td id="Arigth">@Html.DisplayFor(modelItem => item.StringTotal)<br /></td>
+                    }
+            }
 
-                <td>1</td>
-
-                <td>C$10.00</td>
-
-                <td>C$1.50</td>
-
-                <td>C$11.50</td>
-
-            </tr>
-
-            <tr class="details">
-                <td></td>
-
-                <td></td>
-
-                <td></td>
-
-                <td></td>
-
-                <td><b>Total: C$11.50</b></td>
-            </tr>
+        <tr class="details">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="Arigth">
+                <b>Subtotal: @Html.DisplayFor(s => s.StringSubTotal)</b> <br />
+                <b>Impuesto: @Html.DisplayFor(s => s.StringTaxes)</b> <br />
+                <b>Total: @Html.DisplayFor(s => s.StringTotal)</b> <br />
+            </td>
+        </tr>
 
         </table>
+
+        <p id="Note">precios incluyen impuesto de venta</p>
+
     </div>
+    
 </body>
 </html>

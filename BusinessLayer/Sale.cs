@@ -1,4 +1,6 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Serialization;
 using Data = DataLayer;
 using Entity = EntityLayer;
 
@@ -24,6 +26,21 @@ namespace BusinessLayer
             saleDetail = saleDetail.Replace("<ArrayOfSaleDetail", "<ArrayOfSaleDetail>");
 
             return _db.Create(sale, saleDetail, out message);
+        }
+
+        public List<Entity.Sale> Read()
+        {
+            return _db.Read();
+        }
+
+        public Entity.Sale ReadById(int id)
+        {
+            return _db.Read().FirstOrDefault(s => s.Id == id);
+        }
+
+        public List<Entity.SaleDetail> Detail(int id)
+        {
+            return _db.Detail(id);
         }
     }
 }

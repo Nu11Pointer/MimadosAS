@@ -21,9 +21,9 @@
   vertical-align: top;
 }
 
-.invoice-box table tr td:nth-child(2) {
+/*.invoice-box table tr td:nth-child(2) {
   text-align: right;
-}
+}*/
 
 .invoice-box table tr.top table td {
   padding-bottom: 20px;
@@ -36,17 +36,13 @@
 }
 
 .invoice-box table tr.information table td {
-  padding-bottom: 40px;
+  padding-bottom: 5px;
 }
 
 .invoice-box table tr.heading td {
   background: #eee;
   border-bottom: 1px solid #ddd;
   font-weight: bold;
-}
-
-.invoice-box table tr.details td {
-  padding-bottom: 20px;
 }
 
 .invoice-box table tr.item td {
@@ -87,5 +83,15 @@
 }
 
 .invoice-box.rtl table tr td:nth-child(2) {
-  text-align: left;
+  text-align: right;
+}
+
+#Arigth {
+    text-align: right;
+}
+
+#Note {
+    text-align: center;
+    font-size: small;
+    margin-bottom: 0px;
 }

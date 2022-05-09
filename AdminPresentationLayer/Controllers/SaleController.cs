@@ -1,5 +1,6 @@
-﻿using System.Web.Mvc;
-using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using Business = BusinessLayer;
 using Entity = EntityLayer;
 
@@ -21,59 +22,16 @@ namespace AdminPresentationLayer.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Invoce()
+        [HttpGet]
+        public ActionResult Invoce(int id)
         {
-
-            //Venta oVenta = CD_Venta.Instancia.ObtenerDetalleVenta(IdVenta);
-
-
-
-            //NumberFormatInfo formato = new CultureInfo("es-PE").NumberFormat;
-            //formato.CurrencyGroupSeparator = ".";
-
-
-            //if (oVenta == null)
-            //    oVenta = new Venta();
-            //else
-            //{
-
-            //    oVenta.oListaDetalleVenta = (from dv in oVenta.oListaDetalleVenta
-            //                                 select new DetalleVenta()
-            //                                 {
-            //                                     Cantidad = dv.Cantidad,
-            //                                     NombreProducto = dv.NombreProducto,
-            //                                     PrecioUnidad = dv.PrecioUnidad,
-            //                                     TextoPrecioUnidad = dv.PrecioUnidad.ToString("N", formato), //numero.ToString("C", formato)
-            //                                     ImporteTotal = dv.ImporteTotal,
-            //                                     TextoImporteTotal = dv.ImporteTotal.ToString("N", formato)
-            //                                 }).ToList();
-
-            //    oVenta.TextoImporteRecibido = oVenta.ImporteRecibido.ToString("N", formato);
-            //    oVenta.TextoImporteCambio = oVenta.ImporteCambio.ToString("N", formato);
-            //    oVenta.TextoTotalCosto = oVenta.TotalCosto.ToString("N", formato);
-            //}
-
-
-            //return View(oVenta);
-            var sale = new Entity.Sale()
-            {
-                Id = 1432,
-                TimeStamp = System.DateTime.Now,
-                Employee = new Entity.Employee()
-                {
-                    Name = "Jose Bismarck",
-                    SurName = "Lacayo Lopez",
-                    BranchOffice = new Entity.BranchOffice()
-                    {
-                        Address = "Esto es una dirección de prueba."
-                    }
-                },
-                Customer = new Entity.Customer()
-                {
-                    Name = "Steven Alexander",
-                    SurName = "Mendez Paiz"
-                }
-            };
+            var sale = new Business.Sale().ReadById(id);
+            var Employee = new Business.Employee().ReadById(sale.Employee.Id);
+            var Customer = new Business.Customer().ReadById(sale.Customer.Id);
+            sale.SaleDetails = new Business.Sale().Detail(sale.Id);
+            Employee.BranchOffice.Phones = new Business.BranchOfficePhone().ReadByBranchOffice(Employee.BranchOffice.Id).Where(p => p.Active).ToList();
+            sale.Customer = Customer;
+            sale.Employee = Employee;
             return View(sale);
         }
     }
