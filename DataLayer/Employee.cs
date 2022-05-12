@@ -114,7 +114,6 @@ namespace DataLayer
                                 IdentityCard = reader["IdentityCard"].ToString(),
                                 Name = reader["Name"].ToString(),
                                 SurName = reader["SurName"].ToString(),
-                                FullName = reader["FullName"].ToString(),
                                 Address = reader["Address"].ToString(),
                                 Municipality = new Entity.Municipality()
                                 {

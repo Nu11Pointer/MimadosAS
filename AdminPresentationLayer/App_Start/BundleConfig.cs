@@ -43,9 +43,9 @@ namespace AdminPresentationLayer
                 "~/Scripts/loadingoverlay/loadingoverlay.min.js",
                 "~/Scripts/jquery-ui.js",
                 "~/Scripts/jquery.validate.js",
-                "~/Scripts/sweetalert.min.js"));
-
-
+                "~/Scripts/sweetalert.min.js",
+                "~/Scripts/Moment/moment.min.js",
+                "~/Scripts/Moment/datetime-moment.js"));
         }
     }
 }

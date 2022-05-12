@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Historial De Ventas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- DataTales -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10"> <h6 class="m-0 font-weight-bold text-primary">Historial De Ventas</h6> </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        @*<th width="13%">Fecha</th>*@
+                        <th>Fecha</th>
+                        @*<th width="25%">Cliente</th>*@
+                        <th>Cliente</th>
+                        <th>Total C$</th>
+                        @*<th>Estado</th>*@
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Sale/SaleHistory.js"></script>
+

@@ -27,19 +27,7 @@ namespace EntityLayer
 
         public bool Active { get; set; }
 
-        public decimal Total
-        {
-            get
-            {
-                decimal total = 0;
-
-                for (int i = 0; i < SaleDetails.Count; i++)
-                {
-                    total += SaleDetails[i].Total;
-                }
-                return total;
-            }
-        }
+        public decimal Total { get; set; }
 
         public decimal Taxes
         {
@@ -72,6 +60,22 @@ namespace EntityLayer
             get
             {
                 return $"{SubTotal.ToString("C2", new CultureInfo("es-Ni"))}";
+            }
+        }
+
+        public decimal Change
+        {
+            get
+            {
+                return Payment - Total;
+            }
+        }
+
+        public string StringChange
+        {
+            get
+            {
+                return $"{Change.ToString("C2", new CultureInfo("es-Ni"))}";
             }
         }
     }

@@ -15,5 +15,7 @@
         public Municipality Municipality { get; set; }
 
         public bool Active { get; set; }
+
+        public string FullName { get { return $"{SurName} {Name}"; } }
     }
 }

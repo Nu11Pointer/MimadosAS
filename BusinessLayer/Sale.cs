@@ -10,7 +10,7 @@ namespace BusinessLayer
     {
         private readonly Data.Sale _db = new Data.Sale();
 
-        public bool Create(Entity.Sale sale, out string message)
+        public bool Create(Entity.Sale sale, out string message, out int id)
         {
             string saleDetail;
             using (var stringwriter = new System.IO.StringWriter())
@@ -25,7 +25,7 @@ namespace BusinessLayer
             saleDetail = saleDetail.Replace("\r\n", "");
             saleDetail = saleDetail.Replace("<ArrayOfSaleDetail", "<ArrayOfSaleDetail>");
 
-            return _db.Create(sale, saleDetail, out message);
+            return _db.Create(sale, saleDetail, out message, out id);
         }
 
         public List<Entity.Sale> Read()

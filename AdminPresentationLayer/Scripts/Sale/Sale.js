@@ -5,6 +5,10 @@ var currentEmployee;
 var SaleDetail = []
 
 $(document).ready(function () {
+    // Pintar Menu Collapse
+    $('#CollapseMenuSales').addClass('active');
+    $('#collapseSeven').addClass('show');
+    $('#CollapseMenuItemSales').addClass('active');
 
     $("#txtproductocantidad").val("0");
     $("#txtfechaventa").val(ObtenerFecha());
@@ -113,14 +117,15 @@ function LoadProducts() {
         "columns": [
             {
                 "data": "Id", render: function (data, type, row, meta) {
-                    return "<button class='btn btn-sm btn-success' type='button' onclick='productoSelect(" + JSON.stringify(row) + ")'><i class='fas fa-check'></i></button>"
+                    var json = JSON.stringify(row);
+                    return "<button class='btn btn-sm btn-success' type='button' onclick='productoSelect(" + json + ")'><i class='fas fa-check'></i></button>"
                 },
                 "orderable": false,
                 "searchable": false
             },
             { "data": "Id"},
             { "data": "Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
-            { "data": "SalePrice", "render": value => "C$" + value.toFixed(2)},
+            { "data": "SalePrice", "render": value => value.toFixed(2)},
             { "data": "Stock" },
             { "data": "ProductCategory.Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
             { "data": "ProductBrand.Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name }
@@ -241,7 +246,9 @@ $('#btnAgregar').on('click', function () {
 
         var Item = {
             SaleId: 0,
-            ProductId: parseInt($("#txtIdProducto").val()),
+            Product: {
+                Id: parseInt($("#txtIdProducto").val())
+            },
             SalePrice: $("#txtproductoprecio").val(),
             Quantity: parseInt($("#txtproductocantidad").val())
         };
@@ -348,8 +355,6 @@ $('#btnTerminarGuardarVenta').on('click', function () {
         Payment : parseFloat($("#txtmontopago").val())
     }
 
-    console.log(sale)
-
     jQuery.ajax({
         url: '/Sale/Create',
         type: "POST",
@@ -386,12 +391,13 @@ $('#btnTerminarGuardarVenta').on('click', function () {
 
                 $("#tbVenta tbody").html("");
            
-                var url = "/Sale/Invoce";
+                var url = "/Sale/Invoce?id=" + response.id;
                 window.open(url);
 
                 swal("\nLa venta fue realizada con exito", "\n", "success");
             }
             else {
+                console.log(response.message)
                 swal("Error", "\n" + response.message, "danger");
             }
         },

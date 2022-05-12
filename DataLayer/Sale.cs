@@ -10,7 +10,7 @@ namespace DataLayer
     {
         private readonly string _CommandText = "sp_sale";
 
-        public bool Create(Entity.Sale sale, string saleDetail, out string message)
+        public bool Create(Entity.Sale sale, string saleDetail, out string message, out int id)
         {
             bool result;
 
@@ -39,6 +39,7 @@ namespace DataLayer
 
                     cmd.Parameters.Add("Result", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Message", SqlDbType.VarChar, 250).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Scope", SqlDbType.Int).Direction = ParameterDirection.Output;
 
 
                     // Abrir Conexion
@@ -47,13 +48,15 @@ namespace DataLayer
                     // Ejecutar consulta
                     cmd.ExecuteNonQuery();
 
-                    // Guardar el resultado y el mensaje
+                    // Guardar el resultado, el mensaje y el id de la venta creada
                     result = Convert.ToBoolean(cmd.Parameters["Result"].Value);
                     message = Convert.ToString(cmd.Parameters["Message"].Value);
+                    id = Convert.ToInt32(cmd.Parameters["Scope"].Value);
                 }
             }
             catch (Exception e)
             {
+                id = -1;
                 result = false;
                 message = e.Message;
             }
@@ -63,7 +66,6 @@ namespace DataLayer
         public List<Entity.Sale> Read()
         {
             var sales = new List<Entity.Sale>();
-
             try
             {
                 using (var connection = new SqlConnection(Connection.value))
@@ -105,13 +107,18 @@ namespace DataLayer
                                 },
                                 Customer = new Entity.Customer()
                                 {
-                                    Id = Convert.ToInt32(reader["CustomerId"])
+                                    Id = Convert.ToInt32(reader["CustomerId"]),
+                                    Name = Convert.ToString(reader["CustomerName"]),
+                                    SurName = Convert.ToString(reader["CustomerSurName"])
                                 },
                                 Employee = new Entity.Employee()
                                 {
-                                    Id = Convert.ToInt32(reader["EmployeeId"])
+                                    Id = Convert.ToInt32(reader["EmployeeId"]),
+                                    Name = Convert.ToString(reader["EmployeeName"]),
+                                    SurName = Convert.ToString(reader["EmployeeSurName"])
                                 },
                                 Payment = Convert.ToDecimal(reader["Payment"]),
+                                Total = Convert.ToDecimal(reader["Total"]),
                                 TimeStamp = Convert.ToDateTime(reader["TimeStamp"]),
                                 StringTimeStamp = Convert.ToString(reader["TimeStamp"]),
                                 Active = Convert.ToBoolean(reader["Active"])

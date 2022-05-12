@@ -8,12 +8,20 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Factura</title>
+    <title>Factura: @Html.DisplayFor(s => s.Id)</title>
     <link rel="stylesheet" href="~/Content/invoce.css">
 </head>
 
 <body>
-    <div class="invoice-box">
+
+    <div id="print" style="padding-top: 15px; padding-top: 15px">
+        <center>
+            <button type="button" id="Imprimir" class="btn btn-secondary" onclick="imprSelec()"><i class="fas fa-print"></i> Imprimir</button>
+        </center>
+        <br>
+    </div>
+
+    <div class="invoice-box" id="invoice">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
                 <td colspan="2">
@@ -79,11 +87,11 @@
                 foreach (var item in Model.SaleDetails)
                 {
                     @: <tr class="details">
-                        <td>@Html.DisplayFor(modelItem => item.Quantity)<br /></td>
-                        <td>@Html.DisplayFor(modelItem => item.Product.Name)<br /></td>
-                        <td>@Html.DisplayFor(modelItem => item.StringSalePrice)<br /></td>
+                    <td>@Html.DisplayFor(modelItem => item.Quantity)<br /></td>
+                    <td>@Html.DisplayFor(modelItem => item.Product.Name)<br /></td>
+                    <td>@Html.DisplayFor(modelItem => item.StringSalePrice)<br /></td>
                         <td id="Arigth">@Html.DisplayFor(modelItem => item.StringTotal)<br /></td>
-                    }
+                }
             }
 
         <tr class="details">
@@ -91,17 +99,29 @@
             <td></td>
             <td></td>
             <td id="Arigth">
-                <b>Subtotal: @Html.DisplayFor(s => s.StringSubTotal)</b> <br />
-                <b>Impuesto: @Html.DisplayFor(s => s.StringTaxes)</b> <br />
+                Subtotal: @Html.DisplayFor(s => s.StringSubTotal) <br />
+                Impuesto: @Html.DisplayFor(s => s.StringTaxes) <br />
                 <b>Total: @Html.DisplayFor(s => s.StringTotal)</b> <br />
+                Cambio: @Html.DisplayFor(s => s.StringChange) <br />
             </td>
         </tr>
 
-        </table>
+    </table>
 
-        <p id="Note">precios incluyen impuesto de venta</p>
+    <p id="Note">precios incluyen impuesto de venta</p>
 
-    </div>
-    
+</div>
+
+
+<script>
+
+    function imprSelec() {
+
+        document.getElementById("print").hidden = true;
+        window.print();
+        document.getElementById("print").hidden = false;
+    }
+
+</script>
 </body>
 </html>

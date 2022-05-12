@@ -2320,6 +2320,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\loadingoverlay\loadingoverlay.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Moment\datetime-moment.js" />
+    <Content Include="Scripts\Moment\moment.min.js" />
     <Content Include="Scripts\PaymentType\PaymentType.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
@@ -2330,6 +2332,7 @@
     <Content Include="Scripts\Product\Product.js" />
     <Content Include="Scripts\Purchase\Purchase.js" />
     <Content Include="Scripts\Sale\Sale.js" />
+    <Content Include="Scripts\Sale\SaleHistory.js" />
     <Content Include="Scripts\sb-admin-2\js\demo\chart-area-demo.js" />
     <Content Include="Scripts\sb-admin-2\js\demo\chart-bar-demo.js" />
     <Content Include="Scripts\sb-admin-2\js\demo\chart-pie-demo.js" />
@@ -2458,6 +2461,7 @@
     <Content Include="Views\PaymentType\Index.cshtml" />
     <Content Include="Views\Sale\Index.cshtml" />
     <Content Include="Views\Sale\Invoce.cshtml" />
+    <Content Include="Views\Sale\SaleHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

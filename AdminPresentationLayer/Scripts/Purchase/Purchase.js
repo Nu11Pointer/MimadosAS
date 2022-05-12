@@ -60,8 +60,10 @@ function Read() {
                 }
             },
             {
-                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1"><i class="fas fa-pen"></i></button>' +
-                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1"><i class="fas fa-trash"></i></button>',
+                "data": "Id", render: function (data, type, row, meta) {
+                    var json = JSON.stringify(row);
+                    return "<button class='btn btn-sm btn-success' type='button' onclick='invoice(" + json + ")'><i class='fas fa-check'></i></button>"
+                },
                 "orderable": false,
                 "searchable": false
             }

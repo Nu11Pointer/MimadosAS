@@ -80,8 +80,7 @@ namespace DataLayer
                                 {
                                     Id = Convert.ToInt32(reader["EmployeeId"]),
                                     Name = Convert.ToString(reader["EmployeeName"]),
-                                    SurName = Convert.ToString(reader["EmployeeSurName"]),
-                                    FullName = Convert.ToString(reader["Employee"])
+                                    SurName = Convert.ToString(reader["EmployeeSurName"])
                                 },
                                 Email = Convert.ToString(reader["Email"]),
                                 Active = Convert.ToBoolean(reader["Active"])
