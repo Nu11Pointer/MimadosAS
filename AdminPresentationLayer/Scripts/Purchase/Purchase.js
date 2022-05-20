@@ -1,327 +1,397 @@
-﻿// Variables Globales
-var rowSelected;
-var purchaseTable;
-var purchaseObj;
+﻿var tablaproducto;
+var tablaproveedores;
+var currentSupplier;
+var currentEmployee;
+var PurchaseDetail = []
 
-// Evento Document Loaded
-document.addEventListener('DOMContentLoaded', function () {
-    SetUp();
-});
-
-// Función Principal
-function SetUp() {
+$(document).ready(function () {
     // Pintar Menu Collapse
     $('#CollapseMenuSupplier').addClass('active');
     $('#collapseSix').addClass('show');
     $('#CollapseMenuItemSupplier').addClass('active');
 
-    // Show DataTable
-    Read();
+    $("#txtproductocantidad").val("0");
+    $("#txtfechaventa").val(ObtenerFecha());
 
-    // Cargar Selectores
-    LoadSelectors();
 
-    // Crear Validaciones
-    //Validator();
-    
-    // Establecer Actualizar
-    $("#dataTable tbody").on("click", '.btn-update', ShowUpdateModal);
+    LoadEmployee()
+    LoadSuppliers()
+    LoadProducts()
+})
 
-    // Establecer Eliminar
-    $("#dataTable tbody").on("click", '.btn-detelete', Delete);
+function ObtenerFecha() {
+
+    var d = new Date();
+    var month = d.getMonth() + 1;
+    var day = d.getDate();
+    var output = (('' + day).length < 2 ? '0' : '') + day + '/' + (('' + month).length < 2 ? '0' : '') + month + '/' + d.getFullYear();
+
+    return output;
 }
 
-function Read() {
+function LoadEmployee() {
+    // Load Selector Employee
+    jQuery.ajax({
+        url: '/Employee/ReadById',
+        type: "POST",
+        data: JSON.stringify({ id: 35 }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            currentEmployee = response.data
+            $("#txtIdTienda").val(response.data.BranchOffice.Id);
+            $("#lbltiendanombre").text(response.data.BranchOffice.Name);
 
-    purchaseTable = $('#dataTable').DataTable({
+            $("#txtIdUsuario").val(response.data.Id);
+            $("#lblempleadonombre").text(response.data.Name);
+            $("#lblempleadoapellido").text(response.data.SurName);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function LoadSuppliers() {
+    tablaproveedores = $('#tbcliente').DataTable({
         responsive: true,
-        ordering: false,
+        ordering: true,
         "ajax": {
-            url: '/Purchase/Read',
+            url: '/Supplier/Read',
             type: "GET",
             dataType: "json"
         },
         "columns": [
-            { "data": "Product.Name" },
-            { "data": "Supplier.Name" },
-            { "data": "Quantity" },
-            { "data": "PurchasePrice", "render": value => "C$" + value.toFixed(2)},
-            {
-                "data": "StringTimeStamp",
-                "orderable": false,
-                "searchable": false
-            },
-            {
-                "data": "Active", "render": function (value) {
-                    if (value)
-                        return '<h5><span class="badge badge-success">Habilitado</span></h5>';
-                    else
-                        return '<h5><span class="badge badge-danger">Deshabilitado</span></h5>';
-                }
-            },
             {
                 "data": "Id", render: function (data, type, row, meta) {
-                    var json = JSON.stringify(row);
-                    return "<button class='btn btn-sm btn-success' type='button' onclick='invoice(" + json + ")'><i class='fas fa-check'></i></button>"
+                    return "<button class='btn btn-sm btn-success' type='button' onclick='clienteSelect(" + JSON.stringify(row) + ")'><i class='fas fa-check'></i></button>"
                 },
                 "orderable": false,
                 "searchable": false
-            }
+            },
+            { "data": "Id" },
+            { "data": "Name" },
+            { "data": "Address"}
         ],
         "columnDefs": [
-        { "width": "18%", "targets": [0, 1] }
+        { "width": "10%", "targets": [0, 1] }
         ],
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
-        }
+        },
+        "order": [[ 1, "asc" ]]
     });
 }
 
-function LoadSelectors() {
+$('#btnBuscarCliente').on('click', function () {
 
-    // Load Selector Department
+    tablaproveedores.ajax.reload();
+
+    $('#modalCliente').modal('show');
+})
+
+$('#modalCliente').on('shown.bs.modal', function() {
+    tablaproveedores.columns.adjust().responsive.recalc();
+});
+
+function clienteSelect(json) {
+
+    currentSupplier = json;
+
+    $("#txtclientenombres").val(currentSupplier.Name);
+    $("#txtclientedireccion").val(currentSupplier.Address);
+    $('#modalCliente').modal('hide');
+}
+
+function LoadProducts() {
+    tablaproducto = $('#tbProducto').DataTable({
+        responsive: false,
+        ordering: true,
+        "ajax": {
+            url: '/Product/Read',
+            type: "GET",
+            dataType: "json"
+        },
+        "columns": [
+            {
+                "data": "Id", render: function (data, type, row, meta) {
+                    var json = JSON.stringify(row);
+                    return "<button class='btn btn-sm btn-success' type='button' onclick='productoSelect(" + json + ")'><i class='fas fa-check'></i></button>"
+                },
+                "orderable": false,
+                "searchable": false
+            },
+            { "data": "Id"},
+            { "data": "Name", render: name => name.length > 30 ? name.substring(0, 30) + '...' : name },
+            { "data": "ProductCategory.Name"},
+            { "data": "ProductBrand.Name"}
+        ],
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
+        },
+        "order": [[ 1, "asc" ]]
+    });
+}
+
+$('#modalProducto').on('shown.bs.modal', function() {
+    tablaproducto.columns.adjust().responsive.recalc();
+});
+
+$('#btnBuscarProducto').on('click', function () {
+
+  
+    tablaproducto.ajax.url('/Product/Read').load();
+
+    $('#modalProducto').modal('show');
+})
+
+function productoSelect(json) {
+    $("#txtIdProducto").val(json.Id);
+    $("#txtproductocodigo").val(json.Id);
+    $("#txtproductonombre").val(json.Name);
+    $("#txtproductocantidad").val("0");
+    $('#modalProducto').modal('hide');
+}
+
+function controlarStock($idproducto, $idtienda, $cantidad, $restar) {
+
+    var request = {
+        idproducto: $idproducto,
+        idtienda: $idtienda,
+        cantidad: $cantidad,
+        restar: $restar
+    }
+
+    return
+
     jQuery.ajax({
-        url: '/Product/Read',
-        type: "GET",
-        data: null,
+        url: $.MisUrls.url._ControlarStockProducto,
+        type: "POST",
+        data: JSON.stringify(request),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            $.each(data.data, function (_index, value) {
-                $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#ProductCreate");
-                $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#ProductUpdate");
-            })
+           
         },
         error: function (error) {
-            console.log(error);
-        }
+            console.log(error)
+        },
+        beforeSend: function () {
+        },
     });
 
-    // Load Selector Department
-    jQuery.ajax({
-        url: '/Supplier/Read',
-        type: "GET",
-        data: null,
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            $.each(data.data, function (_index, value) {
-                $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#SupplierCreate");
-                $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#SupplierUpdate");
-            })
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    });
+  
 }
 
-function ShowCreateModal() {
-    $("#ProductCreate").val($("#ProductCreate option:first").val());
-    $("#SupplierCreate").val($("#SupplierCreate option:first").val());
-    $("#ActiveCreate").val($("#ActiveCreate option:first").val());
-    $("#QuantityCreate").val(0);
-    $("#PurchasePriceCreate").val(0);
-    $("#FormModalCreate").modal("show"); 
-    $("#ErrorCreate").hide();
+function calcularPrecios() {
+    var subtotal = 0;
+    var igv = 0;
+    var sumatotal = 0;
+    $('#tbVenta > tbody  > tr').each(function (index, tr) {
+        var fila = tr;
+        var importetotal = parseFloat($(fila).find("td.importetotal").text().substring(3));
+        sumatotal = sumatotal + importetotal;
+    });
+    subtotal = sumatotal / 1.15;
+    igv = subtotal * 1.15 - subtotal;
+
+
+    $("#txtsubtotal").val(subtotal.toFixed(2));
+    $("#txtigv").val(igv.toFixed(2));
+    $("#txttotal").val(sumatotal.toFixed(2));
 }
 
-function Validator() {
-    $("#CreateForm").validate({
-        rules: {
-            NameCreate: {
-                required: true
-            }
-        },
-        messages: {
-            NameCreate: "- El campo \"Nombre\" es obligatorio."
-        },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
-    });
+$('#btnAgregar').on('click', function () {
 
-    $("#UpdateForm").validate({
-        rules: {
-            NameUpdate: {
-                required: true
-            }
-        },
-        messages: {
-            NameUpdate: "- El campo \"Nombre\" es obligatorio."
-        },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
-    });
-}
+    $("#txtproductocantidad").val($("#txtproductocantidad").val() == "" ? "0" : $("#txtproductocantidad").val());
 
-function Create() {
+    var existe_codigo = false;
 
-    if (!$("#CreateForm").valid()) {
+    if (
+        parseInt($("#txtIdProducto").val()) == 0 ||
+        parseInt($("#txtproductocantidad").val()) == 0 ||
+        !Number.isInteger(parseInt($("#txtproductocantidad").val())) ||
+        parseFloat($("#txtproductoprecio").val()) == 0 ||
+        $("#txtproductoprecio").val().match(/^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/g) == null
+    ) {
+        swal("Mensaje", "Debe completar todos los campos del producto", "warning")
         return;
     }
 
-    purchaseObj = {
-        "Product": {
-            "Id": $("#ProductCreate").val()
+    $('#tbVenta > tbody  > tr').each(function (index, tr) {
+
+        var fila = tr;
+        var idproducto = $(fila).find("td.producto").data("idproducto");
+
+        if (idproducto == $("#txtIdProducto").val()) {
+            existe_codigo = true;
+            return false;
+        }
+
+    });
+
+    if (!existe_codigo) {
+
+        //controlarStock(parseInt($("#txtIdProducto").val()), parseInt($("#txtIdTienda").val()), parseInt($("#txtproductocantidad").val()), true);
+
+        var importetotal = parseFloat($("#txtproductoprecio").val()) * parseFloat($("#txtproductocantidad").val());
+
+        var Item = {
+            PurchaseId: 0,
+            Product: {
+                Id: parseInt($("#txtIdProducto").val())
+            },
+            PurchasePrice: $("#txtproductoprecio").val(),
+            Quantity: parseInt($("#txtproductocantidad").val())
+        };
+
+        PurchaseDetail.push(Item)
+
+        $("<tr>").append(
+            $("<td>").append(
+                $("<button>").addClass("btn btn-danger btn-sm").text("Eliminar").data("idproducto", parseInt($("#txtIdProducto").val())).data("cantidadproducto", parseInt($("#txtproductocantidad").val()))
+            ),
+            $("<td>").addClass("productocantidad").text(parseInt($("#txtproductocantidad").val())),
+            $("<td>").addClass("producto").data("idproducto", $("#txtIdProducto").val()).text($("#txtproductonombre").val()),
+            $("<td>").text($("#txtproductodescripcion").val()),
+            $("<td>").addClass("productoprecio").text("C$ " + $("#txtproductoprecio").val()),
+            $("<td>").addClass("importetotal").text("C$ " + importetotal)
+        ).appendTo("#tbVenta tbody");
+
+        $("#txtIdProducto").val("0");
+        $("#txtproductocodigo").val("");
+        $("#txtproductonombre").val("");
+        $("#txtproductodescripcion").val("NO DISPONIBLE");
+        $("#txtproductostock").val("");
+        $("#txtproductoprecio").val("");
+        $("#txtproductocantidad").val("0");
+
+        $("#txtproductocodigo").focus();
+
+        calcularPrecios();
+    } else {
+        swal("Mensaje", "El producto ya existe en la venta", "warning")
+    }
+})
+
+$('#tbVenta tbody').on('click', 'button[class="btn btn-danger btn-sm"]', function () {
+    var idproducto = $(this).data("idproducto");
+    var cantidadproducto = $(this).data("cantidadproducto");
+
+    //controlarStock(idproducto, parseInt($("#txtIdTienda").val()), cantidadproducto, false);
+    $(this).parents("tr").remove();
+
+    calcularPrecios();
+})
+
+function calcularCambio() {
+    var montopago = $("#txtmontopago").val().trim() == "" ? 0 : parseFloat($("#txtmontopago").val().trim());
+    var totalcosto = parseFloat($("#txttotal").val().trim());
+    if (totalcosto < 0) {
+        var cambio = 0;
+        $("#txtcambio").val(cambio.toFixed(2));
+        return
+    }
+    var cambio = 0;
+    cambio = (montopago <= totalcosto ? totalcosto : montopago) - totalcosto;
+
+    $("#txtcambio").val(cambio.toFixed(2));
+}
+
+$('#btncalcular').on('click', function () {
+    calcularCambio();
+})
+
+
+$('#btnTerminarGuardarVenta').on('click', function () {
+
+    //VALIDACIONES DE PROVEEDOR
+    if ($("#txtclientenombres").val().trim() == "") {
+        swal("Mensaje", "Complete los datos del proveedor", "warning");
+        return;
+    }
+    //VALIDACIONES DE PRODUCTOS
+    if ($('#tbVenta tbody tr').length == 0) {
+        swal("Mensaje", "Debe registrar minimo un producto en la venta", "warning");
+        return;
+    }
+
+    //VALIDACIONES DE MONTO PAGO
+    if ($("#txtmontopago").val().trim() == "") {
+        swal("Mensaje", "Ingrese el monto de pago", "warning");
+        return;
+    }
+
+    calcularCambio();
+
+    var Purchase = {
+        Id: 0,
+        Currency : {
+            Id : 1
         },
-        "Supplier": {
-            "Id": $("#SupplierCreate").val()
+        PaymentType : {
+            Id : 1
         },
-        "Quantity": $("#QuantityCreate").val(),
-        "PurchasePrice": $("#PurchasePriceCreate").val(),
-        "Active": $("#ActiveCreate").val() == 1 ? true : false
-    };
+        Supplier : currentSupplier,
+        Employee : currentEmployee,
+        PurchaseDetails : PurchaseDetail,
+        Payment : parseFloat($("#txtmontopago").val())
+    }
+
+    console.log(Purchase)
 
     jQuery.ajax({
         url: '/Purchase/Create',
         type: "POST",
-        data: JSON.stringify({ purchase: purchaseObj }),
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function (response) {
-            purchaseTable.ajax.reload();
-            $(".modal-body").LoadingOverlay("hide");
-            $("#FormModalCreate").modal("hide");
-            if (response.result) {
-                purchaseTable.ajax.reload();
-            }
-            else {
-                swal("No Se Logró Crear La Compra.", response.message, "error");
-            }
-        },
-        error: function (error) {
-            $(".modal-body").LoadingOverlay("hide");
-            $("#ErrorCreate").text(error.responseText);
-            $("#ErrorCreate").show();
-        },
-        beforeSend: function () {
-
-            $(".modal-body").LoadingOverlay("show", {
-                imageResizeFactor: 2,
-                text: "Cargando...",
-                size: 14
-            });
-        }
-    });
-}
-
-function ShowUpdateModal() {
-
-    rowSelected = $(this).closest("tr");
-    if ($(rowSelected).hasClass('child')) {
-        rowSelected = $(rowSelected).prev();
-    }
-
-    purchaseObj = purchaseTable.row(rowSelected).data();
-
-    $("#ProductUpdate").val(purchaseObj.Product.Id);
-    $("#SupplierUpdate").val(purchaseObj.Supplier.Id);
-    $("#ActiveUpdate").val(purchaseObj.Active ? 1 : 0);
-    $("#QuantityUpdate").val(purchaseObj.Quantity);
-    $("#PurchasePriceUpdate").val(purchaseObj.PurchasePrice);
-    $("#FormModalUpdate").modal("show"); 
-    $("#ErrorUpdate").hide();
-}
-
-function Update() {
-
-    if (!$("#UpdateForm").valid()) {
-        return;
-    }
-
-    purchaseObj = {
-        "Product": {
-            "Id": $("#ProductUpdate").val()
-        },
-        "Supplier": {
-            "Id": $("#SupplierUpdate").val()
-        },
-        "Quantity": $("#QuantityUpdate").val(),
-        "PurchasePrice": $("#PurchasePriceUpdate").val(),
-        "StringTimeStamp": purchaseObj.StringTimeStamp,
-        "Active": $("#ActiveUpdate").val() == 1 ? true : false
-    };
-
-    console.log(purchaseObj);
-
-    jQuery.ajax({
-        url: '/Purchase/Update',
-        type: "POST",
-        data: JSON.stringify({ purchase: purchaseObj }),
+        data: JSON.stringify({ purchase: Purchase }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
 
-            $(".modal-body").LoadingOverlay("hide");
-            $("#FormModalUpdate").modal("hide");
+            $(".card-venta").LoadingOverlay("hide");
+
             if (response.result) {
-                purchaseTable.ajax.reload();
+
+                //PROVEEDOR
+                $("#txtclientenombres").val("");
+                $("#txtclientedireccion").val("");
+
+                //PRODUCTO
+                $("#txtIdProducto").val("0");
+                $("#txtproductocodigo").val("");
+                $("#txtproductonombre").val("");
+                $("#txtproductodescripcion").val("");
+                $("#txtproductostock").val("");
+                $("#txtproductoprecio").val("");
+                $("#txtproductocantidad").val("0");
+
+                //PRECIOS
+                $("#txtsubtotal").val("0.00");
+                $("#txtigv").val("0.00");
+                $("#txttotal").val("0.00");
+                $("#txtmontopago").val("");
+                $("#txtcambio").val("0.00");
+
+
+                $("#tbVenta tbody").html("");
+                PurchaseDetail = []
+                var url = "/Purchase/Invoce?id=" + response.id;
+
+                swal("\nLa compra fue registrada con exito", "\n", "success");
+
+                window.open(url);
             }
             else {
-                swal("No Se Logró Actualizar la Compra.", response.message, "error");
+                console.log(response.message)
+                swal("Error", "\n" + response.message, "danger");
             }
         },
         error: function (error) {
-
-            $(".modal-body").LoadingOverlay("hide");
-            $("#ErrorUpdate").text(error.responseText);
-            $("#ErrorUpdate").show();
+            console.log(error)
+            $(".card-venta").LoadingOverlay("hide")
         },
         beforeSend: function () {
-
-            $(".modal-body").LoadingOverlay("show", {
-                imageResizeFactor: 2,
-                text: "Cargando...",
-                size: 14
-            });
+            $(".card-venta").LoadingOverlay("show");
         }
     });
-}
-
-function Delete() {
-
-    rowSelected = $(this).closest("tr");
-    if ($(rowSelected).hasClass('child')) {
-        rowSelected = $(rowSelected).prev();
-    }
-
-    purchaseObj = purchaseTable.row(rowSelected).data();
-
-    swal({
-        title: "Eliminar Compra",
-        text: "¿Estas Seguro que Deseas Eliminar Esta Compra?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-primary",
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
-        closeOnConfirm: true
-    },
-        function () {
-
-            jQuery.ajax({
-                url: '/Purchase/Delete',
-                type: "POST",
-                data: JSON.stringify({ purchase: purchaseObj }),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (response) {
-
-                    if (response.result) {
-                        purchaseTable.ajax.reload();
-                    }
-                    else {
-                        swal("No Se Logró Eliminar la Compra.", response.message, "error");
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                beforeSend: function () { }
-            });
-
-        }
-    );
-}
+})

@@ -2331,6 +2331,7 @@
     <Content Include="Scripts\ProductCategory\ProductCategory.js" />
     <Content Include="Scripts\Product\Product.js" />
     <Content Include="Scripts\Purchase\Purchase.js" />
+    <Content Include="Scripts\Purchase\PurchaseHistory.js" />
     <Content Include="Scripts\Sale\Sale.js" />
     <Content Include="Scripts\Sale\SaleHistory.js" />
     <Content Include="Scripts\sb-admin-2\js\demo\chart-area-demo.js" />
@@ -2462,6 +2463,8 @@
     <Content Include="Views\Sale\Index.cshtml" />
     <Content Include="Views\Sale\Invoce.cshtml" />
     <Content Include="Views\Sale\SaleHistory.cshtml" />
+    <Content Include="Views\Purchase\PurchaseHistory.cshtml" />
+    <Content Include="Views\Purchase\Invoce.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

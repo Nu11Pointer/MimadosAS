@@ -1,8 +1,8 @@
 ﻿var tablaproducto;
-var tablacliente;
-var currentClient;
+var tablaproveedores;
+var currentSupplier;
 var currentEmployee;
-var SaleDetail = []
+var PurchaseDetail = []
 
 $(document).ready(function () {
     // Pintar Menu Collapse
@@ -15,7 +15,7 @@ $(document).ready(function () {
 
 
     LoadEmployee()
-    LoadCustomers()
+    LoadSuppliers()
     LoadProducts()
 })
 
@@ -52,8 +52,8 @@ function LoadEmployee() {
     });
 }
 
-function LoadCustomers() {
-    tablacliente = $('#tbcliente').DataTable({
+function LoadSuppliers() {
+    tablaproveedores = $('#tbcliente').DataTable({
         responsive: true,
         ordering: true,
         "ajax": {
@@ -86,7 +86,7 @@ function LoadCustomers() {
 
 $('#btnBuscarCliente').on('click', function () {
 
-    tablacliente.ajax.reload();
+    tablaproveedores.ajax.reload();
 
     $('#modalCliente').modal('show');
 })
@@ -97,11 +97,11 @@ $('#modalCliente').on('shown.bs.modal', function() {
 
 function clienteSelect(json) {
 
-    currentClient = json;
+    currentSupplier = json;
 
-    $("#txtclientedocumento").val(currentClient.SurName);
-    $("#txtclientenombres").val(currentClient.Name);
-    $("#txtclientedireccion").val(currentClient.Address);
+    $("#txtclientedocumento").val(currentSupplier.SurName);
+    $("#txtclientenombres").val(currentSupplier.Name);
+    $("#txtclientedireccion").val(currentSupplier.Address);
     $('#modalCliente').modal('hide');
 }
 
@@ -253,7 +253,7 @@ $('#btnAgregar').on('click', function () {
             Quantity: parseInt($("#txtproductocantidad").val())
         };
 
-        SaleDetail.push(Item)
+        PurchaseDetail.push(Item)
 
         $("<tr>").append(
             $("<td>").append(
@@ -349,9 +349,9 @@ $('#btnTerminarGuardarVenta').on('click', function () {
         PaymentType : {
             Id : 1
         },
-        Customer : currentClient,
+        Customer : currentSupplier,
         Employee : currentEmployee,
-        SaleDetails : SaleDetail,
+        SaleDetails : PurchaseDetail,
         Payment : parseFloat($("#txtmontopago").val())
     }
 

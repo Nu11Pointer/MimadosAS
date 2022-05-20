@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Business = BusinessLayer;
 using Entity = EntityLayer;
 
@@ -12,6 +13,28 @@ namespace AdminPresentationLayer.Controllers
             return View();
         }
 
+        [HttpPost]
+        public JsonResult Create(Entity.Purchase Purchase)
+        {
+            var result = new Business.Purchase().Create(Purchase, out string message, out int id);
+            var json = new { result, message, id };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Invoce(int id)
+        {
+            var Purchase = new Business.Purchase().ReadById(id);
+            var Employee = new Business.Employee().ReadById(Purchase.Employee.Id);
+            var Supplier = new Business.Supplier().ReadById(Purchase.Supplier.Id);
+            Purchase.PurchaseDetails = new Business.Purchase().Detail(Purchase.Id);
+            Employee.BranchOffice.Phones = new Business.BranchOfficePhone().ReadByBranchOffice(Employee.BranchOffice.Id).Where(p => p.Active).ToList();
+            Purchase.Employee = Employee;
+            Purchase.Supplier = Supplier;
+            Purchase.Supplier.Phones = new Business.SupplierPhone().ReadBySupplierId(Purchase.Supplier.Id);
+            return View(Purchase);
+        }
+
         [HttpGet]
         public JsonResult Read()
         {
@@ -20,28 +43,9 @@ namespace AdminPresentationLayer.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult Create(Entity.Purchase purchase)
+        public ActionResult PurchaseHistory()
         {
-            var result = new Business.Purchase().Create(purchase, out string message);
-            var json = new { result, message };
-            return Json(json, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult Update(Entity.Purchase purchase)
-        {
-            var result = new Business.Purchase().Update(purchase, out string message);
-            var json = new { result, message };
-            return Json(json, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult Delete(Entity.Purchase purchase)
-        {
-            var result = new Business.Purchase().Delete(purchase, out string message);
-            var json = new { result, message };
-            return Json(json, JsonRequestBehavior.AllowGet);
+            return View();
         }
     }
 }

@@ -1,21 +1,81 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace EntityLayer
 {
     public class Purchase
     {
-        public Product Product { get; set; }
+        public int Id { get; set; }
+
+        public Currency Currency { get; set; }
+
+        public PaymentType PaymentType { get; set; }
 
         public Supplier Supplier { get; set; }
 
-        public int Quantity { get; set; }
+        public Employee Employee { get; set; }
 
-        public decimal PurchasePrice { get; set; }
+        public List<PurchaseDetails> PurchaseDetails { get; set; }
+
+        public decimal Payment { get; set; }
 
         public DateTime TimeStamp { get; set; }
 
         public string StringTimeStamp { get; set; }
 
         public bool Active { get; set; }
+
+        public decimal Total { get; set; }
+
+        public decimal Taxes
+        {
+            get { return (decimal)((float)Total / 1.15 * 0.15); }
+        }
+
+        public decimal SubTotal
+        {
+            get { return (decimal)((float)Total / 1.15); }
+        }
+
+        public string StringTotal
+        {
+            get
+            {
+                return $"{Total.ToString("C2", new CultureInfo("es-Ni"))}";
+            }
+        }
+
+        public string StringTaxes
+        {
+            get
+            {
+                return $"{Taxes.ToString("C2", new CultureInfo("es-Ni"))}";
+            }
+        }
+
+        public string StringSubTotal
+        {
+            get
+            {
+                return $"{SubTotal.ToString("C2", new CultureInfo("es-Ni"))}";
+            }
+        }
+
+        public decimal Change
+        {
+            get
+            {
+                return Payment - Total;
+            }
+        }
+
+        public string StringChange
+        {
+            get
+            {
+                return $"{Change.ToString("C2", new CultureInfo("es-Ni"))}";
+            }
+        }
     }
 }

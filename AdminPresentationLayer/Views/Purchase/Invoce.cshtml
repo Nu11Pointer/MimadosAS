@@ -1,0 +1,126 @@
+﻿@model EntityLayer.Purchase
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Compra: @Html.DisplayFor(s => s.Id)</title>
+    <link rel="stylesheet" href="~/Content/invoce.css">
+</head>
+
+<body>
+
+    <div id="print" style="padding-top: 15px; padding-top: 15px">
+        <center>
+            <button type="button" id="Imprimir" class="btn btn-secondary" onclick="imprSelec()"><i class="fas fa-print"></i> Imprimir</button>
+        </center>
+        <br>
+    </div>
+
+    <div class="invoice-box" id="invoice">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                Mimados
+                            </td>
+
+                            <td id="Arigth">
+                                Compra: #@Html.DisplayFor(s => s.Id)<br />
+                                Fecha: @Html.DisplayFor(s => s.TimeStamp)
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td style="width:50%">
+                                <b>Proveedor: @Html.DisplayFor(s => s.Supplier.Name)<br /></b>
+                                @if (Model.Supplier.Phones.Count == 1)
+                                {
+                                    @Html.DisplayFor(s => s.Supplier.Phones[0].PhoneNumber)
+                                    <br />
+                                }
+                                @if (Model.Supplier.Phones.Count >= 2)
+                                {
+                                    @Html.DisplayFor(s => s.Supplier.Phones[0].PhoneNumber)
+                                    @Html.Label(" / ")
+                                    @Html.DisplayFor(s => s.Supplier.Phones[1].PhoneNumber)
+                                    <br />
+                                }
+                                @Html.DisplayFor(s => s.Supplier.Address)<br />
+                            </td>
+
+                            <td id="Arigth" style="width:50%">
+                                Empleado: @Html.DisplayFor(s => s.Employee.Name) @Html.DisplayFor(s => s.Employee.SurName)<br />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+        </table>
+
+        <table cellpadding="0" cellspacing="0">
+
+            <tr class="heading">
+
+                <td>Cantidad</td>
+                <td width="45%">Producto</td>
+                <td>Precio Unitario</td>
+                <td id="Arigth">Total</td>
+
+            </tr>
+
+            @{
+                foreach (var item in Model.PurchaseDetails)
+                {
+                    @: <tr class="details">
+                        <td>@Html.DisplayFor(modelItem => item.Quantity)<br /></td>
+                        <td>@Html.DisplayFor(modelItem => item.Product.Name)<br /></td>
+                        <td>@Html.DisplayFor(modelItem => item.StringSalePrice)<br /></td>
+                        <td id="Arigth">@Html.DisplayFor(modelItem => item.StringTotal)<br /></td>
+                    }
+            }
+
+        <tr class="details">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="Arigth">
+                Subtotal: @Html.DisplayFor(s => s.StringSubTotal) <br />
+                Impuesto: @Html.DisplayFor(s => s.StringTaxes) <br />
+                <b>Total: @Html.DisplayFor(s => s.StringTotal)</b> <br />
+                Cambio: @Html.DisplayFor(s => s.StringChange) <br />
+            </td>
+        </tr>
+
+    </table>
+
+    <p id="Note">precios incluyen impuesto de venta</p>
+
+</div>
+
+
+<script>
+
+    function imprSelec() {
+
+        document.getElementById("print").hidden = true;
+        window.print();
+        document.getElementById("print").hidden = false;
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "PurchaseHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- DataTales -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10"> <h6 class="m-0 font-weight-bold text-primary">Historial De Compras</h6> </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Proveedor</th>
+                        <th>Total C$</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Purchase/PurchaseHistory.js"></script>
