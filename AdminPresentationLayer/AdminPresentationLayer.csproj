@@ -135,6 +135,8 @@
     <Compile Include="Controllers\ProductBrandController.cs" />
     <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductMeasurementUnitController.cs" />
+    <Compile Include="Controllers\ProductPackagingController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Controllers\SaleController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
@@ -2473,6 +2475,8 @@
     <Folder Include="Views\EmployeePhone\" />
     <Folder Include="Views\EmployeePosition\" />
     <Folder Include="Views\Municipality\" />
+    <Folder Include="Views\ProductMeasurementUnit\" />
+    <Folder Include="Views\ProductPackaging\" />
     <Folder Include="Views\SupplierEmail\" />
     <Folder Include="Views\SupplierPhone\" />
   </ItemGroup>

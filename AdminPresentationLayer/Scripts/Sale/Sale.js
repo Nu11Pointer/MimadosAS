@@ -75,12 +75,12 @@ function LoadSuppliers() {
             { "data": "Address" }
         ],
         "columnDefs": [
-        { "width": "10%", "targets": [0, 1] }
+            { "width": "10%", "targets": [0, 1] }
         ],
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
         },
-        "order": [[ 1, "asc" ]]
+        "order": [[1, "asc"]]
     });
 }
 
@@ -91,7 +91,7 @@ $('#btnBuscarCliente').on('click', function () {
     $('#modalCliente').modal('show');
 })
 
-$('#modalCliente').on('shown.bs.modal', function() {
+$('#modalCliente').on('shown.bs.modal', function () {
     tablaproducto.columns.adjust().responsive.recalc();
 });
 
@@ -123,30 +123,31 @@ function LoadProducts() {
                 "orderable": false,
                 "searchable": false
             },
-            { "data": "Id"},
+            { "data": "Id" },
             { "data": "Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
-            { "data": "SalePrice", "render": value => value.toFixed(2)},
-            { "data": "Stock" },
+            { "data": "SalePrice", "render": value => value.toFixed(2) },
             { "data": "ProductCategory.Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
-            { "data": "ProductBrand.Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name }
+            { "data": "ProductBrand.Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
+            { "data": "Stock" },
+            { "data": "StringNetContent"}
         ],
         "columnDefs": [
-        { "width": "50%", "targets": 2 }
+            { "width": "50%", "targets": 2 }
         ],
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
         },
-        "order": [[ 1, "asc" ]]
+        "order": [[1, "asc"]]
     });
 }
 
-$('#modalProducto').on('shown.bs.modal', function() {
+$('#modalProducto').on('shown.bs.modal', function () {
     tablaproducto.columns.adjust().responsive.recalc();
 });
 
 $('#btnBuscarProducto').on('click', function () {
 
-  
+
     tablaproducto.ajax.url('/Product/Read').load();
 
     $('#modalProducto').modal('show');
@@ -156,7 +157,7 @@ function productoSelect(json) {
     $("#txtIdProducto").val(json.Id);
     $("#txtproductocodigo").val(json.Id);
     $("#txtproductonombre").val(json.Name);
-    //$("#txtproductodescripcion").val(json.Name);
+    $("#txtproductodescripcion").val(json.ProductPackaging.Name);
     $("#txtproductostock").val(json.Stock);
     $("#txtproductoprecio").val(json.SalePrice);
     $("#txtproductocantidad").val("0");
@@ -181,7 +182,7 @@ function controlarStock($idproducto, $idtienda, $cantidad, $restar) {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-           
+
         },
         error: function (error) {
             console.log(error)
@@ -190,7 +191,7 @@ function controlarStock($idproducto, $idtienda, $cantidad, $restar) {
         },
     });
 
-  
+
 }
 
 function calcularPrecios() {
@@ -269,7 +270,7 @@ $('#btnAgregar').on('click', function () {
         $("#txtIdProducto").val("0");
         $("#txtproductocodigo").val("");
         $("#txtproductonombre").val("");
-        $("#txtproductodescripcion").val("NO DISPONIBLE");
+        $("#txtproductodescripcion").val("");
         $("#txtproductostock").val("");
         $("#txtproductoprecio").val("");
         $("#txtproductocantidad").val("0");
@@ -330,29 +331,20 @@ $('#btnTerminarGuardarVenta').on('click', function () {
         return;
     }
 
-    var $totalproductos = 0;
-    var $totalimportes = 0;
-
-    var DETALLE = "";
-    var VENTA = "";
-    var DETALLE_CLIENTE = "";
-    var DETALLE_VENTA = "";
-    var DATOS_VENTA = "";
-
     calcularCambio();
 
     var sale = {
         Id: 0,
-        Currency : {
-            Id : 1
+        Currency: {
+            Id: 1
         },
-        PaymentType : {
-            Id : 1
+        PaymentType: {
+            Id: 1
         },
-        Customer : currentSupplier,
-        Employee : currentEmployee,
-        SaleDetails : PurchaseDetail,
-        Payment : parseFloat($("#txtmontopago").val())
+        Customer: currentSupplier,
+        Employee: currentEmployee,
+        SaleDetails: PurchaseDetail,
+        Payment: parseFloat($("#txtmontopago").val())
     }
 
     jQuery.ajax({
@@ -390,11 +382,12 @@ $('#btnTerminarGuardarVenta').on('click', function () {
 
 
                 $("#tbVenta tbody").html("");
-           
+
                 var url = "/Sale/Invoce?id=" + response.id;
-                window.open(url);
 
                 swal("\nLa venta fue realizada con exito", "\n", "success");
+
+                window.open(url);
             }
             else {
                 console.log(response.message)

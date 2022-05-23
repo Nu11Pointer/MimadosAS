@@ -64,7 +64,7 @@ function Read() {
 function ShowCreateModal() {
     $("#NameCreate").val("");
     $("#ActiveCreate").val(1);
-    $("#FormModalCreate").modal("show"); 
+    $("#FormModalCreate").modal("show");
     $("#ErrorCreate").hide();
 }
 
@@ -154,7 +154,7 @@ function ShowUpdateModal() {
 
     $("#NameUpdate").val(productCategoryObj.Name);
     $("#ActiveUpdate").val(productCategoryObj.Active ? 1 : 0);
-    $("#FormModalUpdate").modal("show"); 
+    $("#FormModalUpdate").modal("show");
     $("#ErrorUpdate").hide();
 }
 

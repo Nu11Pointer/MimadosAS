@@ -71,15 +71,15 @@ function LoadSuppliers() {
             },
             { "data": "Id" },
             { "data": "Name" },
-            { "data": "Address"}
+            { "data": "Address" }
         ],
         "columnDefs": [
-        { "width": "10%", "targets": [0, 1] }
+            { "width": "10%", "targets": [0, 1] }
         ],
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
         },
-        "order": [[ 1, "asc" ]]
+        "order": [[1, "asc"]]
     });
 }
 
@@ -90,7 +90,7 @@ $('#btnBuscarCliente').on('click', function () {
     $('#modalCliente').modal('show');
 })
 
-$('#modalCliente').on('shown.bs.modal', function() {
+$('#modalCliente').on('shown.bs.modal', function () {
     tablaproveedores.columns.adjust().responsive.recalc();
 });
 
@@ -105,7 +105,7 @@ function clienteSelect(json) {
 
 function LoadProducts() {
     tablaproducto = $('#tbProducto').DataTable({
-        responsive: false,
+        responsive: true,
         ordering: true,
         "ajax": {
             url: '/Product/Read',
@@ -121,34 +121,34 @@ function LoadProducts() {
                 "orderable": false,
                 "searchable": false
             },
-            { "data": "Id"},
-            { "data": "Name", render: name => name.length > 30 ? name.substring(0, 30) + '...' : name },
-            { "data": "ProductCategory.Name"},
-            { "data": "ProductBrand.Name"}
+            { "data": "Id" },
+            { "data": "Name", render: name => name.length > 40 ? name.substring(0, 40) + '...' : name },
+            { "data": "ProductCategory.Name" },
+            { "data": "ProductBrand.Name" },
+            { "data": "StringNetContent"}
         ],
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
         },
-        "order": [[ 1, "asc" ]]
+        "order": [[1, "asc"]]
     });
 }
 
-$('#modalProducto').on('shown.bs.modal', function() {
+$('#modalProducto').on('shown.bs.modal', function () {
     tablaproducto.columns.adjust().responsive.recalc();
 });
 
 $('#btnBuscarProducto').on('click', function () {
-
-  
     tablaproducto.ajax.url('/Product/Read').load();
-
     $('#modalProducto').modal('show');
+
 })
 
 function productoSelect(json) {
     $("#txtIdProducto").val(json.Id);
     $("#txtproductocodigo").val(json.Id);
     $("#txtproductonombre").val(json.Name);
+    $("#txtproductodescripcion").val(json.ProductPackaging.Name);
     $("#txtproductocantidad").val("0");
     $('#modalProducto').modal('hide');
 }
@@ -171,7 +171,7 @@ function controlarStock($idproducto, $idtienda, $cantidad, $restar) {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-           
+
         },
         error: function (error) {
             console.log(error)
@@ -179,8 +179,6 @@ function controlarStock($idproducto, $idtienda, $cantidad, $restar) {
         beforeSend: function () {
         },
     });
-
-  
 }
 
 function calcularPrecios() {
@@ -326,16 +324,16 @@ $('#btnTerminarGuardarVenta').on('click', function () {
 
     var Purchase = {
         Id: 0,
-        Currency : {
-            Id : 1
+        Currency: {
+            Id: 1
         },
-        PaymentType : {
-            Id : 1
+        PaymentType: {
+            Id: 1
         },
-        Supplier : currentSupplier,
-        Employee : currentEmployee,
-        PurchaseDetails : PurchaseDetail,
-        Payment : parseFloat($("#txtmontopago").val())
+        Supplier: currentSupplier,
+        Employee: currentEmployee,
+        PurchaseDetails: PurchaseDetail,
+        Payment: parseFloat($("#txtmontopago").val())
     }
 
     console.log(Purchase)

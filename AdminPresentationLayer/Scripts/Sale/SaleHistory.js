@@ -20,7 +20,7 @@ function SetUp() {
 
     // Cargar Selectores
     //LoadSelectors();
-    
+
     // Establecer Actualizar
     //$("#dataTable tbody").on("click", '.btn-update', ShowUpdateModal);
 
@@ -41,12 +41,12 @@ function Read() {
             dataType: "json"
         },
         columnDefs: [{
-          target: 1,
-          type: 'datetime-moment'
+            target: 1,
+            type: 'datetime-moment'
         }],
         "columns": [
             { "data": "Id" },
-            { "data": "StringTimeStamp", "render": s => s.substring(0, 20)  + (s.substring(20) == 'a. m.' ? 'am' : 'pm')},
+            { "data": "StringTimeStamp", "render": s => s.substring(0, 20) + (s.substring(20) == 'a. m.' ? 'am' : 'pm') },
             { "data": "Customer.FullName" },
             { "data": "Total" },
             //{
@@ -69,7 +69,7 @@ function Read() {
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
         },
-        "order": [[ 1, "desc" ]]
+        "order": [[1, "desc"]]
     });
 }
 

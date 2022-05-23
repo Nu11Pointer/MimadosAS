@@ -33,10 +33,13 @@ namespace DataLayer
                     cmd.Parameters.AddWithValue("Id", product.Id);
                     cmd.Parameters.AddWithValue("ProductBrandId", product.ProductBrand.Id);
                     cmd.Parameters.AddWithValue("ProductCategoryId", product.ProductCategory.Id);
+                    cmd.Parameters.AddWithValue("ProductPackagingId", product.ProductPackaging.Id);
+                    cmd.Parameters.AddWithValue("ProductMeasurementUnitId", product.ProductMeasurementUnit.Id);
                     cmd.Parameters.AddWithValue("Name", product.Name);
                     cmd.Parameters.AddWithValue("SalePrice", product.SalePrice);
                     cmd.Parameters.AddWithValue("Stock", product.Stock);
                     cmd.Parameters.AddWithValue("Description", product.Description);
+                    cmd.Parameters.AddWithValue("NetContent", product.NetContent);
                     cmd.Parameters.AddWithValue("Active", product.Active);
 
                     cmd.Parameters.Add("Result", SqlDbType.Bit).Direction = ParameterDirection.Output;
@@ -110,8 +113,22 @@ namespace DataLayer
                                     Name = reader["ProductCategory"].ToString(),
                                     Active = Convert.ToBoolean(reader["ProductCategoryActive"])
                                 },
+                                ProductPackaging = new Entity.ProductPackaging()
+                                {
+                                    Id = Convert.ToInt32(reader["ProductPackagingId"]),
+                                    Name = reader["ProductPackaging"].ToString(),
+                                    Active = Convert.ToBoolean(reader["ProductPackagingActive"])
+                                },
+                                ProductMeasurementUnit = new Entity.ProductMeasurementUnit()
+                                {
+                                    Id = Convert.ToInt32(reader["ProductMeasurementUnitId"]),
+                                    Name = reader["ProductMeasurementUnit"].ToString(),
+                                    Symbol = reader["ProductMeasurementUnitSymbol"].ToString(),
+                                    Active = Convert.ToBoolean(reader["ProductMeasurementUnitActive"])
+                                },
                                 Description = Convert.ToString(reader["Description"]),
                                 SalePrice = Convert.ToDecimal(reader["SalePrice"]),
+                                NetContent = Convert.ToDecimal(reader["NetContent"]),
                                 Stock = Convert.ToInt32(reader["Stock"]),
                                 Active = Convert.ToBoolean(reader["Active"])
                             });
@@ -119,7 +136,7 @@ namespace DataLayer
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
             }
             return deparmentList;
@@ -148,10 +165,13 @@ namespace DataLayer
                     cmd.Parameters.AddWithValue("Id", product.Id);
                     cmd.Parameters.AddWithValue("ProductBrandId", product.ProductBrand.Id);
                     cmd.Parameters.AddWithValue("ProductCategoryId", product.ProductCategory.Id);
+                    cmd.Parameters.AddWithValue("ProductPackagingId", product.ProductPackaging.Id);
+                    cmd.Parameters.AddWithValue("ProductMeasurementUnitId", product.ProductMeasurementUnit.Id);
                     cmd.Parameters.AddWithValue("Name", product.Name);
                     cmd.Parameters.AddWithValue("SalePrice", product.SalePrice);
                     cmd.Parameters.AddWithValue("Stock", product.Stock);
                     cmd.Parameters.AddWithValue("Description", product.Description);
+                    cmd.Parameters.AddWithValue("NetContent", product.NetContent);
                     cmd.Parameters.AddWithValue("Active", product.Active);
 
                     cmd.Parameters.Add("Result", SqlDbType.Bit).Direction = ParameterDirection.Output;

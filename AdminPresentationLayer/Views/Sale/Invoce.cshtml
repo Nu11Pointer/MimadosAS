@@ -29,7 +29,6 @@
                         <tr>
                             <td class="title">
                                 Mimados
-                                @*<img src="https://www.sparksuite.com/images/logo.png" style="width: 100%; max-width: 300px" />*@
                             </td>
 
                             <td id="Arigth">
@@ -87,14 +86,16 @@
                 foreach (var item in Model.SaleDetails)
                 {
                     @: <tr class="details">
-                    <td>@Html.DisplayFor(modelItem => item.Quantity)<br /></td>
-                    <td>@Html.DisplayFor(modelItem => item.Product.Name)<br /></td>
-                    <td>@Html.DisplayFor(modelItem => item.StringSalePrice)<br /></td>
+                        <td>@Html.DisplayFor(modelItem => item.Quantity)<br /></td>
+                        <td>@Html.DisplayFor(modelItem => item.Product.Name)<br /></td>
+                        <td>@Html.DisplayFor(modelItem => item.StringSalePrice)<br /></td>
                         <td id="Arigth">@Html.DisplayFor(modelItem => item.StringTotal)<br /></td>
-                }
+                    }
             }
 
+
         <tr class="details">
+
             <td></td>
             <td></td>
             <td></td>
@@ -106,12 +107,13 @@
             </td>
         </tr>
 
-    </table>
+        </table>
 
-    <p id="Note">precios incluyen impuesto de venta</p>
+    </div>
 
-</div>
-
+<footer>
+    <p class="footer" id="Note">Precios incluyen impuesto de venta</p>
+</footer>
 
 <script>
 

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Productos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,13 +8,15 @@
     <div class="card-header py-3">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-10"> <h6 class="m-0 font-weight-bold text-primary">Productos</h6> </div>
+                <div class="col-md-10">
+                    <h6 class="m-0 font-weight-bold text-primary">Productos</h6>
+                </div>
             </div>
             <hr />
             <div class="row float-right">
                 <a href="#" class="btn btn-success btn-icon-split btn-sm" onclick="ShowCreateModal()">
                     <span class="icon text-white-50">
-                        <i class="fas fa-location-dot"></i>
+                        <i class="fas fa-box-open"></i>
                     </span>
                     <span class="text">Nuevo Producto</span>
                 </a>
@@ -32,6 +33,7 @@
                         <th>Nombre</th>
                         <th>Marca</th>
                         <th>Categoria</th>
+                        <th>Contenido Neto</th>
                         <th>Precio</th>
                         <th>Stock</th>
                         <th>Estado</th>
@@ -46,8 +48,8 @@
 </div>
 
 <!-- Create Modal-->
-<div class="modal fade" id="FormModalCreate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalCreate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -90,16 +92,39 @@
                         </select>
                     </div>
 
+                    @* ProductPackaging *@
+                    <div class="col-sm-6">
+                        <label for="ProductCategoryCreate" class="form-label">Presentación</label>
+                        <select class="form-control" id="ProductPackagingCreate">
+                        </select>
+                    </div>
+
+                    @* NetContent *@
+                    <div class="col-sm-6">
+                        <label for="SalePriceCreate" class="form-label">Contenido Neto</label>
+                        <input type="number" min="0" class="form-control" id="NetContentCreate" name="NetContentCreate"
+                            autocomplete="off">
+                    </div>
+
+                    @* ProductMeasurementUnit *@
+                    <div class="col-sm-6">
+                        <label for="ProductCategoryCreate" class="form-label">Unidad de Medida</label>
+                        <select class="form-control" id="ProductMeasurementUnitCreate">
+                        </select>
+                    </div>
+
                     @* Precio Venta *@
                     <div class="col-sm-6">
                         <label for="SalePriceCreate" class="form-label">Precio Venta</label>
-                        <input type="number" min="0" step="0.25" class="form-control" id="SalePriceCreate" name="SalePriceCreate" autocomplete="off">
+                        <input type="number" min="0" class="form-control" id="SalePriceCreate" name="SalePriceCreate"
+                            autocomplete="off">
                     </div>
 
                     @* Stock *@
                     <div class="col-sm-6">
                         <label for="StockCreate" class="form-label">Stock</label>
-                        <input type="number" min="0" step="1" class="form-control" id="StockCreate" name="StockCreate" autocomplete="off">
+                        <input type="number" min="0" step="1" class="form-control" id="StockCreate" name="StockCreate"
+                            autocomplete="off">
                     </div>
 
                     @* Estado *@
@@ -115,7 +140,7 @@
                     <div class="col-sm-12">
                         <label for="DescriptionCreate" class="form-label">Descripción</label>
                         <textarea type="text" class="form-control" id="DescriptionCreate"
-                                  style="height:86px;resize:none" autocomplete="off" name="DescriptionCreate"></textarea>
+                            style="height:86px;resize:none" autocomplete="off" name="DescriptionCreate"></textarea>
                     </div>
 
                 </form>
@@ -137,8 +162,8 @@
 </div>
 
 <!-- Update Modal-->
-<div class="modal fade" id="FormModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -181,16 +206,39 @@
                         </select>
                     </div>
 
+                    @* ProductPackaging *@
+                    <div class="col-sm-6">
+                        <label for="ProductCategoryUpdate" class="form-label">Presentación</label>
+                        <select class="form-control" id="ProductPackagingUpdate">
+                        </select>
+                    </div>
+
+                    @* NetContent *@
+                    <div class="col-sm-6">
+                        <label for="SalePriceUpdate" class="form-label">Contenido Neto</label>
+                        <input type="number" min="0" class="form-control" id="NetContentUpdate" name="NetContentUpdate"
+                            autocomplete="off">
+                    </div>
+
+                    @* ProductMeasurementUnit *@
+                    <div class="col-sm-6">
+                        <label for="ProductCategoryUpdate" class="form-label">Unidad de Medida</label>
+                        <select class="form-control" id="ProductMeasurementUnitUpdate">
+                        </select>
+                    </div>
+
                     @* Precio Venta *@
                     <div class="col-sm-6">
                         <label for="SalePriceUpdate" class="form-label">Precio Venta</label>
-                        <input type="number" min="0" step="0.25" class="form-control" id="SalePriceUpdate" name="SalePriceUpdate" autocomplete="off">
+                        <input type="number" min="0" step="0.25" class="form-control" id="SalePriceUpdate"
+                            name="SalePriceUpdate" autocomplete="off">
                     </div>
 
                     @* Stock *@
                     <div class="col-sm-6">
                         <label for="StockUpdate" class="form-label">Stock</label>
-                        <input type="number" min="0" step="1" class="form-control" id="StockUpdate" name="StockUpdate" autocomplete="off">
+                        <input type="number" min="0" step="1" class="form-control" id="StockUpdate" name="StockUpdate"
+                            autocomplete="off">
                     </div>
 
                     @* Estado *@
@@ -206,7 +254,7 @@
                     <div class="col-sm-12">
                         <label for="DescriptionUpdate" class="form-label">Descripción</label>
                         <textarea type="text" class="form-control" id="DescriptionUpdate"
-                                  style="height:86px;resize:none" autocomplete="off" name="DescriptionUpdate"></textarea>
+                            style="height:86px;resize:none" autocomplete="off" name="DescriptionUpdate"></textarea>
                     </div>
 
                 </form>

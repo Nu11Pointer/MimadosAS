@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Sucursales";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,7 +8,9 @@
     <div class="card-header py-3">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-10"> <h6 class="m-0 font-weight-bold text-primary">Sucursales</h6> </div>
+                <div class="col-md-10">
+                    <h6 class="m-0 font-weight-bold text-primary">Sucursales</h6>
+                </div>
             </div>
             <hr />
             <div class="row float-right">
@@ -44,8 +45,8 @@
 </div>
 
 <!-- Create Modal-->
-<div class="modal fade" id="FormModalCreate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalCreate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -100,8 +101,8 @@
                     @* Dirección *@
                     <div class="col-sm-12">
                         <label for="AddressCreate" class="form-label">Dirección</label>
-                        <textarea type="text" class="form-control" id="AddressCreate"
-                                  style="height:86px;resize:none" autocomplete="off" maxlength="250" name="AddressCreate"></textarea>
+                        <textarea type="text" class="form-control" id="AddressCreate" style="height:86px;resize:none"
+                            autocomplete="off" maxlength="250" name="AddressCreate"></textarea>
                     </div>
 
                 </form>
@@ -123,8 +124,8 @@
 </div>
 
 <!-- Update Modal-->
-<div class="modal fade" id="FormModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -179,8 +180,8 @@
                     @* Dirección *@
                     <div class="col-sm-12">
                         <label for="AddressUpdate" class="form-label">Dirección</label>
-                        <textarea type="text" class="form-control" id="AddressUpdate"
-                                  style="height:86px;resize:none" autocomplete="off" maxlength="250" name="AddressUpdate"></textarea>
+                        <textarea type="text" class="form-control" id="AddressUpdate" style="height:86px;resize:none"
+                            autocomplete="off" maxlength="250" name="AddressUpdate"></textarea>
                     </div>
 
                 </form>
@@ -202,8 +203,7 @@
 </div>
 
 <!-- Phone Modal-->
-<div class="modal fade" id="FormModalPhone" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="FormModalPhone" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-lg">
 
@@ -248,8 +248,8 @@
 </div>
 
 @*Create Phone Modal*@
-<div class="modal fade" id="FormModalPhoneCreate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalPhoneCreate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -306,8 +306,8 @@
 </div>
 
 @*Update Phone Modal*@
-<div class="modal fade" id="FormModalPhoneUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalPhoneUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -332,7 +332,8 @@
 
                     @* Id *@
                     <div class="col-sm-0">
-                        <input type="text" class="form-control" id="IdPhoneUpdate" name="IdUpdate" autocomplete="off" hidden="hidden">
+                        <input type="text" class="form-control" id="IdPhoneUpdate" name="IdUpdate" autocomplete="off"
+                            hidden="hidden">
                     </div>
 
                     @* Numero *@

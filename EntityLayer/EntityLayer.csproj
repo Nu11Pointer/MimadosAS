@@ -58,6 +58,8 @@
     <Compile Include="ProductBrand.cs" />
     <Compile Include="ProductCategory.cs" />
     <Compile Include="ProductImage.cs" />
+    <Compile Include="ProductMeasurementUnit.cs" />
+    <Compile Include="ProductPackaging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchase.cs" />
     <Compile Include="PurchaseDetails.cs" />
