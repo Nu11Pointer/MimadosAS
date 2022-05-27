@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Departamentos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,7 +8,9 @@
     <div class="card-header py-3">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-10"> <h6 class="m-0 font-weight-bold text-primary">Departamentos</h6> </div>
+                <div class="col-md-10">
+                    <h6 class="m-0 font-weight-bold text-primary">Departamentos</h6>
+                </div>
             </div>
             <hr />
             <div class="row float-right">
@@ -42,8 +43,8 @@
 </div>
 
 <!-- Create Modal-->
-<div class="modal fade" id="FormModalCreate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalCreate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -100,8 +101,8 @@
 </div>
 
 <!-- Update Modal-->
-<div class="modal fade" id="FormModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -158,8 +159,7 @@
 </div>
 
 <!-- Municipality Modal-->
-<div class="modal fade" id="FormModalMunicipality" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="FormModalMunicipality" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-lg">
 
@@ -204,7 +204,7 @@
 
 @*Create Municipality Modal*@
 <div class="modal fade" id="FormModalMunicipalityCreate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+    aria-hidden="true" data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -230,7 +230,8 @@
                     @* Nombre *@
                     <div class="col-sm-6">
                         <label for="MunicipalityNameCreate" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="MunicipalityNameCreate" name="MunicipalityNameCreate" autocomplete="off">
+                        <input type="text" class="form-control" id="MunicipalityNameCreate"
+                            name="MunicipalityNameCreate" autocomplete="off">
                     </div>
 
                     @* Estado *@
@@ -262,7 +263,7 @@
 
 @*Update Municipality Modal*@
 <div class="modal fade" id="FormModalMunicipalityUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+    aria-hidden="true" data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -287,13 +288,15 @@
 
                     @* Id *@
                     <div class="col-sm-0">
-                        <input type="text" class="form-control" id="IdMunicipalityUpdate" name="IdMunicipalityUpdate" autocomplete="off" hidden="hidden">
+                        <input type="text" class="form-control" id="IdMunicipalityUpdate" name="IdMunicipalityUpdate"
+                            autocomplete="off" hidden="hidden">
                     </div>
 
                     @* Nombre *@
                     <div class="col-sm-6">
                         <label for="MunicipalityNameUpdate" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="MunicipalityNameUpdate" name="MunicipalityNameUpdate" autocomplete="off">
+                        <input type="text" class="form-control" id="MunicipalityNameUpdate"
+                            name="MunicipalityNameUpdate" autocomplete="off">
                     </div>
 
                     @* Estado *@

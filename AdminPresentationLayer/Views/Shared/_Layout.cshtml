@@ -27,7 +27,8 @@
         <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Index", "Home")">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center"
+                href="@Url.Action("Index", "Home")">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-paw"></i>
                 </div>
@@ -53,102 +54,34 @@
                 Tablas
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu - BranchOffice -->
-            <li class="nav-item" id="CollapseMenuBranchOffice">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
-                   aria-expanded="true" aria-controls="collapseOne">
+            <!-- Nav Item - BranchOffice -->
+            <li id="nav-BranchOffice" class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "BranchOffice")">
                     <i class="fas fa-fw fa-building"></i>
-                    <span>Sucursal</span>
+                    <span>Sucursales</span>
                 </a>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a id="CollapseMenuItemBranchOffice" class="collapse-item" href="@Url.Action("Index", "BranchOffice")">
-                            <i class="fas fa-fw fa-building"></i>
-                            <spam>Sucursales</spam>
-                        </a>
-                        <a id="CollapseMenuItemBranchOfficePhone" class="collapse-item" href="@Url.Action("BranchOfficePhone", "BranchOffice")">
-                            <i class="fas fa-fw fa-phone-alt"></i>
-                            <spam>Telefonos</spam>
-                        </a>
-                    </div>
-                </div>
             </li>
 
-            <!-- Nav Item - Pages Collapse Menu - Customer -->
-            <li class="nav-item" id="CollapseMenuCustomer">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                   aria-expanded="true" aria-controls="collapseTwo">
+            <!-- Nav Item - Customer -->
+            <li id="nav-Customer" class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Customer")">
                     <i class="fa-solid fa-fw fa-user-large"></i>
-                    <span>Cliente</span>
+                    <span>Clientes</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a id="CollapseMenuItemCustomer" class="collapse-item" href="@Url.Action("Index", "Customer")">
-                            <i class="fa-solid fa-fw fa-users"></i>
-                            <spam>Clientes</spam>
-                        </a>
-                        <a class="collapse-item" href="">
-                            <i class="fa-solid fa-fw fa-mobile"></i>
-                            <spam>Telefonos</spam>
-                        </a>
-                        <a class="collapse-item" href="">
-                            <i class="fa-solid fa-fw fa-envelope"></i>
-                            <spam>Correos</spam>
-                        </a>
-                    </div>
-                </div>
             </li>
 
-            <!-- Nav Item - Pages Collapse Menu - Ubications -->
-            <li class="nav-item" id="CollapseMenuUbication">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
-                   aria-expanded="true" aria-controls="collapseThree">
-                    <i class="fa-solid fa-fw fa-map"></i>
-                    <span>Ubicacion</span>
+            <!-- Nav Item - Employee -->
+            <li id="nav-Employee" class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Employee")">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Empleados</span>
                 </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a id="CollapseMenuItemDepartment" class="collapse-item" href="@Url.Action("Index", "Deparment")">
-                            <i class="fa-solid fa-fw  fa-location-dot"></i>
-                            <spam>Departamentos</spam>
-                        </a>
-                        <a class="collapse-item" href="">
-                            <i class="fa-solid fa-fw fa-location-crosshairs"></i>
-                            <spam>Municipios</spam>
-                        </a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Pages Collapse Menu - Employee -->
-            <li class="nav-item" id="CollapseMenuEmployee">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
-                   aria-expanded="true" aria-controls="collapseFour">
-                    <i class="fa-solid fa-fw fa-helmet-safety"></i>
-                    <span>Empleado</span>
-                </a>
-                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a id="CollapseMenuItemEmployee" class="collapse-item" href="@Url.Action("Index", "Employee")">
-                            <i class="fa-solid fa-fw fa-users"></i>
-                            <spam>Empleados</spam>
-                        </a>
-                        <a class="collapse-item" href="">
-                            <i class="fa-solid fa-fw fa-mobile"></i>
-                            <spam>Telefonos</spam>
-                        </a>
-                        <a class="collapse-item" href="">
-                            <i class="fa-solid fa-fw fa-envelope"></i>
-                            <spam>Correos</spam>
-                        </a>
-                    </div>
-                </div>
             </li>
 
             <!-- Nav Item - Products -->
             <li class="nav-item" id="CollapseMenuProducts">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive"
-                   aria-expanded="true" aria-controls="collapseFive">
+                    aria-expanded="true" aria-controls="collapseFive">
                     <i class="fa-solid fa-fw fa-boxes-stacked"></i>
                     <span>Producto</span>
                 </a>
@@ -158,7 +91,8 @@
                             <i class="fa-solid fa-fw fa-box-open"></i>
                             <spam>Productos</spam>
                         </a>
-                        <a id="CollapseMenuItemCategory" class="collapse-item" href="@Url.Action("Index", "ProductCategory")">
+                        <a id="CollapseMenuItemCategory" class="collapse-item"
+                            href="@Url.Action("Index", "ProductCategory")">
                             <i class="fa-solid fa-fw fa-shapes"></i>
                             <spam>Categorias</spam>
                         </a>
@@ -173,19 +107,24 @@
             <!-- Nav Item - Pages Collapse Menu - Supplier -->
             <li class="nav-item" id="CollapseMenuSupplier">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix"
-                   aria-expanded="true" aria-controls="collapseSix">
+                    aria-expanded="true" aria-controls="collapseSix">
                     <i class="fa-solid fa-fw fa-parachute-box"></i>
-                    <span>Proveedor</span>
+                    <span>Compra</span>
                 </a>
                 <div id="collapseSix" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a id="CollapseMenuItemSupplier" class="collapse-item" href="@Url.Action("Index", "Supplier")">
-                            <i class="fa-solid fa-fw fa-user-tie"></i>
+                            <i class="fas fa-dolly"></i>
                             <spam>Proveedores</spam>
                         </a>
                         <a id="CollapseMenuItemPurchase" class="collapse-item" href="@Url.Action("Index", "Purchase")">
                             <i class="fa-solid fa-fw fa-bag-shopping"></i>
-                            <spam>Compras</spam>
+                            <spam>Comprar</spam>
+                        </a>
+                        <a id="CollapseMenuItemHistoryPurchase" class="collapse-item"
+                            href="@Url.Action("PurchaseHistory", "Purchase")">
+                            <i class="fa-solid fa-fw fa-file-invoice-dollar"></i>
+                            <spam>Historial</spam>
                         </a>
                     </div>
                 </div>
@@ -194,7 +133,7 @@
             <!-- Nav Item - Pages Collapse Menu - Sales -->
             <li class="nav-item" id="CollapseMenuSales">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSeven"
-                   aria-expanded="true" aria-controls="collapseSeven">
+                    aria-expanded="true" aria-controls="collapseSeven">
                     <i class="fa-solid fa-fw fa-piggy-bank"></i>
                     <span>Venta</span>
                 </a>
@@ -204,17 +143,10 @@
                             <i class="fa-solid fa-fw fa-cash-register"></i>
                             <spam>Facturar</spam>
                         </a>
-                        <a id="CollapseMenuItemHistory" class="collapse-item" href="@Url.Action("SaleHistory", "Sale")">
+                        <a id="CollapseMenuItemHistorySale" class="collapse-item"
+                            href="@Url.Action("SaleHistory", "Sale")">
                             <i class="fa-solid fa-fw fa-file-invoice-dollar"></i>
                             <spam>Historial</spam>
-                        </a>
-                        <a id="CollapseMenuItemCurrency" class="collapse-item" href="@Url.Action("Index", "Currency")">
-                            <i class="fa-solid fa-fw fa-circle-dollar-to-slot"></i>
-                            <spam>Divisas</spam>
-                        </a>
-                        <a id="CollapseMenuItemPaymentType" class="collapse-item" href="@Url.Action("Index", "PaymentType")">
-                            <i class="fa-solid fa-fw fa-credit-card"></i>
-                            <spam>Tipos de Pago</spam>
                         </a>
                     </div>
                 </div>
@@ -250,13 +182,14 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Steven Mendez</span>
-                                <img class="img-profile rounded-circle" src="~/Content/sb-admin-2/img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle"
+                                    src="~/Content/sb-admin-2/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="userDropdown">
+                                aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Cerrar sesión
@@ -300,7 +233,7 @@
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -309,7 +242,8 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
+                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión
+                    actual.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                     <a class="btn btn-primary" href="">Cerrar sesión</a>

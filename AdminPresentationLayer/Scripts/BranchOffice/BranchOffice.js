@@ -6,9 +6,7 @@ var phoneTable
 
 function SetUp() {
 
-    $('#CollapseMenuBranchOffice').addClass('active');
-    $('#collapseOne').addClass('show');
-    $('#CollapseMenuItemBranchOffice').addClass('active');
+    $('#nav-BranchOffice').addClass('active');
 
     // Show DataTable
     Read();
@@ -36,7 +34,7 @@ function ShowCreateModal() {
     $("#DepartmentCreate").val($("#DepartmentCreate option:first").val());
     $("#MunicipalityCreate").val($("#MunicipalityCreate option:first").val());
     $("#AddressCreate").val("");
-    $("#FormModalCreate").modal("show"); 
+    $("#FormModalCreate").modal("show");
     $("#ErrorCreate").hide();
 }
 
@@ -304,7 +302,7 @@ function Create() {
 
     branchOfficeObj = {
         Id: 0,
-        Name: $("#NameCreate").val(),    
+        Name: $("#NameCreate").val(),
         Address: $("#AddressCreate").val(),
         Municipality: {
             Id: $("#MunicipalityCreate option:selected").val()
@@ -357,8 +355,8 @@ function Read() {
         "columns": [
             { "data": "Id" },
             { "data": "Name" },
-            { "data": "Municipality.Department.Name"},
-            { "data": "Municipality.Name" }, 
+            { "data": "Municipality.Department.Name" },
+            { "data": "Municipality.Name" },
             {
                 "data": "Active", "render": function (value) {
                     if (value)
@@ -414,7 +412,7 @@ function Update() {
                 swal("No Logró Actualizar la Sucursal.", response.message, "error");
             }
 
-           
+
         },
         error: function (error) {
 
@@ -481,7 +479,7 @@ function CreatePhone() {
     }
 
     var branchOfficePhoneObj = {
-        "BranchOffice":branchOfficeObj,
+        "BranchOffice": branchOfficeObj,
         "PhoneNumber": $("#PhoneCreate").val(),
         "Active": $("#ActivePhoneCreate option:selected").val() == 1
     }
@@ -512,9 +510,9 @@ function CreatePhone() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalPhoneCreate").modal("show");
-                });
+                    function () {
+                        $("#FormModalPhoneCreate").modal("show");
+                    });
             }
         },
         error: function (error) {
@@ -540,7 +538,7 @@ function UpdatePhone() {
 
     var branchOfficePhoneObj = {
         "Id": $("#IdPhoneUpdate").val(),
-        "BranchOffice":branchOfficeObj,
+        "BranchOffice": branchOfficeObj,
         "PhoneNumber": $("#PhoneUpdate").val(),
         "Active": $("#ActivePhoneUpdate option:selected").val() == 1
     }
@@ -573,9 +571,9 @@ function UpdatePhone() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalPhoneUpdate").modal("show");
-                });
+                    function () {
+                        $("#FormModalPhoneUpdate").modal("show");
+                    });
             }
         },
         error: function (error) {

@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', function () {
 // Función Principal
 function SetUp() {
     // Pintar Menu Collapse
-    //$('#CollapseMenuSales').addClass('active');
-    //$('#collapseSeven').addClass('show');
-    //$('#CollapseMenuItemHistory').addClass('active');
+    $('#CollapseMenuSupplier').addClass('active');
+    $('#collapseSix').addClass('show');
+    $('#CollapseMenuItemHistoryPurchase').addClass('active');
 
     // Show DataTable
     Read();

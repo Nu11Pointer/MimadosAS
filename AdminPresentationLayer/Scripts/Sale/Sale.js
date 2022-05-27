@@ -129,7 +129,7 @@ function LoadProducts() {
             { "data": "ProductCategory.Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
             { "data": "ProductBrand.Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
             { "data": "Stock" },
-            { "data": "StringNetContent"}
+            { "data": "StringNetContent" }
         ],
         "columnDefs": [
             { "width": "50%", "targets": 2 }

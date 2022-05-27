@@ -13,7 +13,7 @@ function SetUp() {
     // Pintar Menu Collapse
     $('#CollapseMenuSales').addClass('active');
     $('#collapseSeven').addClass('show');
-    $('#CollapseMenuItemHistory').addClass('active');
+    $('#CollapseMenuItemHistorySale').addClass('active');
 
     // Show DataTable
     Read();

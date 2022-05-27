@@ -8,7 +8,7 @@ $(document).ready(function () {
     // Pintar Menu Collapse
     $('#CollapseMenuSupplier').addClass('active');
     $('#collapseSix').addClass('show');
-    $('#CollapseMenuItemSupplier').addClass('active');
+    $('#CollapseMenuItemPurchase').addClass('active');
 
     $("#txtproductocantidad").val("0");
     $("#txtfechaventa").val(ObtenerFecha());
@@ -125,7 +125,7 @@ function LoadProducts() {
             { "data": "Name", render: name => name.length > 40 ? name.substring(0, 40) + '...' : name },
             { "data": "ProductCategory.Name" },
             { "data": "ProductBrand.Name" },
-            { "data": "StringNetContent"}
+            { "data": "StringNetContent" }
         ],
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"

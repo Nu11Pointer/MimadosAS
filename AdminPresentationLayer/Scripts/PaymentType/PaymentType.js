@@ -11,16 +11,16 @@ document.addEventListener('DOMContentLoaded', function () {
 // Función Principal
 function SetUp() {
     // Pintar Menu Collapse
-    $('#CollapseMenuSales').addClass('active');
-    $('#collapseSeven').addClass('show');
-    $('#CollapseMenuItemPaymentType').addClass('active');
+    // $('#CollapseMenuSales').addClass('active');
+    // $('#collapseSeven').addClass('show');
+    // $('#CollapseMenuItemPaymentType').addClass('active');
 
     // Show DataTable
     Read();
 
     // Crear Validaciones
     Validator();
-    
+
     // Establecer Actualizar
     $("#dataTable tbody").on("click", '.btn-update', ShowUpdateModal);
 
@@ -64,7 +64,7 @@ function Read() {
 function ShowCreateModal() {
     $("#NameCreate").val("");
     $("#ActiveCreate").val(1);
-    $("#FormModalCreate").modal("show"); 
+    $("#FormModalCreate").modal("show");
     $("#ErrorCreate").hide();
 }
 
@@ -154,7 +154,7 @@ function ShowUpdateModal() {
 
     $("#NameUpdate").val(paymentTypeObj.Name);
     $("#ActiveUpdate").val(paymentTypeObj.Active ? 1 : 0);
-    $("#FormModalUpdate").modal("show"); 
+    $("#FormModalUpdate").modal("show");
     $("#ErrorUpdate").hide();
 }
 

@@ -27,7 +27,7 @@ function SetUp() {
 
     // Crear Validaciones
     Validator();
-    
+
     // Establecer Actualizar
     $("#dataTable tbody").on("click", '.btn-update', ShowUpdateModal);
 
@@ -35,12 +35,12 @@ function SetUp() {
     $("#dataTable tbody").on("click", '.btn-detelete', Delete);
 
     // Phone
-    $("#dataTable tbody").on("click", '.btn-phone', ShowPhone);    
+    $("#dataTable tbody").on("click", '.btn-phone', ShowPhone);
     $("#dataTablePhone tbody").on("click", '.btn-update', ShowPhoneUpdate);
     $("#dataTablePhone tbody").on("click", '.btn-detelete', DeletePhone);
 
     // Email
-    $("#dataTable tbody").on("click", '.btn-email', ShowEmail);    
+    $("#dataTable tbody").on("click", '.btn-email', ShowEmail);
     $("#dataTableEmail tbody").on("click", '.btn-update', ShowEmailUpdate);
     $("#dataTableEmail tbody").on("click", '.btn-detelete', DeleteEmail);
 }
@@ -131,7 +131,7 @@ function MunicipalityOnChange() {
         success: function (data) {
             $.each(data.data, function (_index, value) {
                 $("<option>").attr({ "value": value.Id }).text(value.Name).appendTo("#MunicipalityUpdate");
-                
+
             })
             try {
                 if (supplierObj.Municipality.Id != -1) {
@@ -152,7 +152,7 @@ function ShowCreateModal() {
     $("#DepartmentCreate").val($("#DepartmentCreate option:first").val());
     $("#DepartmentCreate").trigger("change");
     $("#ActiveCreate").val($("#ActiveCreate option:first").val());
-    $("#FormModalCreate").modal("show"); 
+    $("#FormModalCreate").modal("show");
     $("#ErrorCreate").hide();
 }
 
@@ -514,7 +514,7 @@ function CreatePhone() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            
+
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalPhoneCreate").modal("hide");
@@ -533,9 +533,9 @@ function CreatePhone() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalPhoneCreate").modal("show");
-                });
+                    function () {
+                        $("#FormModalPhoneCreate").modal("show");
+                    });
             }
         },
         error: function (error) {
@@ -590,7 +590,7 @@ function UpdatePhone() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            
+
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalPhoneUpdate").modal("hide");
@@ -609,9 +609,9 @@ function UpdatePhone() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalPhoneUpdate").modal("show");
-                });
+                    function () {
+                        $("#FormModalPhoneUpdate").modal("show");
+                    });
             }
         },
         error: function (error) {
@@ -759,7 +759,7 @@ function CreateEmail() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            
+
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalEmailCreate").modal("hide");
@@ -778,9 +778,9 @@ function CreateEmail() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalEmailCreate").modal("show");
-                });
+                    function () {
+                        $("#FormModalEmailCreate").modal("show");
+                    });
             }
         },
         error: function (error) {
@@ -836,7 +836,7 @@ function UpdateEmail() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            
+
             if (response.result) {
                 $(".modal-body").LoadingOverlay("hide");
                 $("#FormModalEmailUpdate").modal("hide");
@@ -855,9 +855,9 @@ function UpdateEmail() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalEmailUpdate").modal("show");
-                });
+                    function () {
+                        $("#FormModalEmailUpdate").modal("show");
+                    });
             }
         },
         error: function (error) {

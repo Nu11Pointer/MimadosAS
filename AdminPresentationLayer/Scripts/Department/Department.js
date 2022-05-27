@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
 // Función Principal
 function SetUp() {
     // Pintar Menu Collapse
-    $('#CollapseMenuUbication').addClass('active');
-    $('#collapseThree').addClass('show');
-    $('#CollapseMenuItemDepartment').addClass('active');
+    // $('#CollapseMenuUbication').addClass('active');
+    // $('#collapseThree').addClass('show');
+    // $('#CollapseMenuItemDepartment').addClass('active');
 
     // Show DataTable
     Read();
@@ -73,7 +73,7 @@ function Read() {
 function ShowCreateModal() {
     $("#NameCreate").val("");
     $("#ActiveCreate").val(1);
-    $("#FormModalCreate").modal("show"); 
+    $("#FormModalCreate").modal("show");
     $("#ErrorCreate").hide();
 }
 
@@ -301,8 +301,6 @@ function ShowMunicipality() {
         municipalityTable.destroy();
     }
 
-    console.log({ deparmentId: deparmentObj.Id })
-
     municipalityTable = $('#dataTableMunicipality').DataTable({
         responsive: true,
         ordering: true,
@@ -490,44 +488,43 @@ function DeleteMunicipality() {
     $("#FormModalMunicipality").modal("hide");
 
     swal({
-    title: "Eliminar Municipio",
-    text: "¿Estas Seguro que Deseas Eliminar este Municipio?",
-    type: "warning",
-    showCancelButton: true,
-    confirmButtonClass: "btn-primary",
-    confirmButtonText: "Si",
-    cancelButtonText: "No",
-    closeOnConfirm: true
-},
-    function (inputValue) {
+        title: "Eliminar Municipio",
+        text: "¿Estas Seguro que Deseas Eliminar este Municipio?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-primary",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+        closeOnConfirm: true
+    },
+        function (inputValue) {
 
-        if (!inputValue) {
-            $("#FormModalMunicipality").modal("show");
-            return
-        }
+            if (!inputValue) {
+                $("#FormModalMunicipality").modal("show");
+                return
+            }
 
-        jQuery.ajax({
-            url: '/Municipality/Delete',
-            type: "POST",
-            data: JSON.stringify({ municipality: municipalityObj }),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (response) {
+            jQuery.ajax({
+                url: '/Municipality/Delete',
+                type: "POST",
+                data: JSON.stringify({ municipality: municipalityObj }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
 
-                if (response.result) {
-                    municipalityTable.ajax.reload();
-                    $("#FormModalMunicipality").modal("show");
-                }
-                else {
-                    swal("No Logró Eliminar el Municipio.", response.message, "error");
-                }
-            },
-            error: function (error) {
-                console.log(error);
-            },
-            beforeSend: function () { }
+                    if (response.result) {
+                        municipalityTable.ajax.reload();
+                        $("#FormModalMunicipality").modal("show");
+                    }
+                    else {
+                        swal("No Logró Eliminar el Municipio.", response.message, "error");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                beforeSend: function () { }
+            });
+
         });
-
-    });
-
 }

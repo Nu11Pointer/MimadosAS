@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Clientes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,7 +8,9 @@
     <div class="card-header py-3">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-10"> <h6 class="m-0 font-weight-bold text-primary">Clientes</h6> </div>
+                <div class="col-md-10">
+                    <h6 class="m-0 font-weight-bold text-primary">Clientes</h6>
+                </div>
             </div>
             <hr />
             <div class="row float-right">
@@ -46,8 +47,8 @@
 </div>
 
 <!-- Create Modal-->
-<div class="modal fade" id="FormModalCreate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalCreate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -73,7 +74,8 @@
                     @* Cedula *@
                     <div class="col-sm-6">
                         <label for="IdentitityCardCreate" class="form-label">Cedula</label>
-                        <input type="text" class="form-control" id="IdentitityCardCreate" name="IdentitityCardCreate" autocomplete="off" maxlength="16">
+                        <input type="text" class="form-control" id="IdentitityCardCreate" name="IdentitityCardCreate"
+                            autocomplete="off" maxlength="16">
                     </div>
 
                     @* Nombre *@
@@ -85,7 +87,8 @@
                     @* Apellido *@
                     <div class="col-sm-6">
                         <label for="SurNameCreate" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" id="SurNameCreate" name="SurNameCreate" autocomplete="off">
+                        <input type="text" class="form-control" id="SurNameCreate" name="SurNameCreate"
+                            autocomplete="off">
                     </div>
 
                     @* Estado *@
@@ -114,8 +117,8 @@
                     @* Dirección *@
                     <div class="col-sm-12">
                         <label for="AddressCreate" class="form-label">Dirección</label>
-                        <textarea type="text" class="form-control" id="AddressCreate"
-                                  style="height:86px;resize:none" autocomplete="off" maxlength="250" name="AddressCreate"></textarea>
+                        <textarea type="text" class="form-control" id="AddressCreate" style="height:86px;resize:none"
+                            autocomplete="off" maxlength="250" name="AddressCreate"></textarea>
                     </div>
 
                 </form>
@@ -137,8 +140,8 @@
 </div>
 
 <!-- Update Modal-->
-<div class="modal fade" id="FormModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -164,7 +167,8 @@
                     @* Cedula *@
                     <div class="col-sm-6">
                         <label for="IdentitityCardUpdate" class="form-label">Cedula</label>
-                        <input type="text" class="form-control" id="IdentitityCardUpdate" name="IdentitityCardUpdate" autocomplete="off" maxlength="16">
+                        <input type="text" class="form-control" id="IdentitityCardUpdate" name="IdentitityCardUpdate"
+                            autocomplete="off" maxlength="16">
                     </div>
 
                     @* Nombre *@
@@ -176,7 +180,8 @@
                     @* Apellido *@
                     <div class="col-sm-6">
                         <label for="SurNameUpdate" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" id="SurNameUpdate" name="SurNameUpdate" autocomplete="off">
+                        <input type="text" class="form-control" id="SurNameUpdate" name="SurNameUpdate"
+                            autocomplete="off">
                     </div>
 
                     @* Estado *@
@@ -205,8 +210,8 @@
                     @* Dirección *@
                     <div class="col-sm-12">
                         <label for="AddressUpdate" class="form-label">Dirección</label>
-                        <textarea type="text" class="form-control" id="AddressUpdate"
-                                  style="height:86px;resize:none" autocomplete="off" maxlength="250" name="AddressUpdate"></textarea>
+                        <textarea type="text" class="form-control" id="AddressUpdate" style="height:86px;resize:none"
+                            autocomplete="off" maxlength="250" name="AddressUpdate"></textarea>
                     </div>
 
                 </form>
@@ -228,8 +233,7 @@
 </div>
 
 <!-- Phone Modal-->
-<div class="modal fade" id="FormModalPhone" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="FormModalPhone" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-lg">
 
@@ -273,8 +277,8 @@
 </div>
 
 @*Create Phone Modal*@
-<div class="modal fade" id="FormModalPhoneCreate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalPhoneCreate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -331,8 +335,8 @@
 </div>
 
 @*Update Phone Modal*@
-<div class="modal fade" id="FormModalPhoneUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalPhoneUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -357,7 +361,8 @@
 
                     @* Id *@
                     <div class="col-sm-0">
-                        <input type="text" class="form-control" id="IdPhoneUpdate" name="IdUpdate" autocomplete="off" hidden="hidden">
+                        <input type="text" class="form-control" id="IdPhoneUpdate" name="IdUpdate" autocomplete="off"
+                            hidden="hidden">
                     </div>
 
                     @* Numero *@
@@ -394,8 +399,7 @@
 </div>
 
 <!-- Email Modal-->
-<div class="modal fade" id="FormModalEmail" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="FormModalEmail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-lg">
 
@@ -439,8 +443,8 @@
 </div>
 
 @*Create Email Modal*@
-<div class="modal fade" id="FormModalEmailCreate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalEmailCreate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -497,8 +501,8 @@
 </div>
 
 @*Update Email Modal*@
-<div class="modal fade" id="FormModalEmailUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="FormModalEmailUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
 
     <div class="modal-dialog">
 
@@ -523,7 +527,8 @@
 
                     @* Id *@
                     <div class="col-sm-0">
-                        <input type="text" class="form-control" id="IdEmailUpdate" name="IdUpdate" autocomplete="off" hidden="hidden">
+                        <input type="text" class="form-control" id="IdEmailUpdate" name="IdUpdate" autocomplete="off"
+                            hidden="hidden">
                     </div>
 
                     @* Correo *@

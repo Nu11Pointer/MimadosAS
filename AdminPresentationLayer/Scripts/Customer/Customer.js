@@ -8,9 +8,7 @@ var emailTable
 
 function SetUp() {
 
-    $('#CollapseMenuCustomer').addClass('active');
-    $('#collapseTwo').addClass('show');
-    $('#CollapseMenuItemCustomer').addClass('active');
+    $('#nav-Customer').addClass('active');
 
     // Show DataTable
     Read();
@@ -31,7 +29,7 @@ function SetUp() {
     $("#dataTable tbody").on("click", '.btn-detelete', Delete);
 
     // Phone
-    $("#dataTable tbody").on("click", '.btn-phone', ShowPhoneRead);    
+    $("#dataTable tbody").on("click", '.btn-phone', ShowPhoneRead);
     $("#dataTablePhone tbody").on("click", '.btn-update', ShowPhoneUpdate);
     $("#dataTablePhone tbody").on("click", '.btn-detelete', DeletePhone);
 
@@ -49,7 +47,7 @@ function ShowCreateModal() {
     $("#DepartmentCreate").val($("#DepartmentCreate option:first").val());
     $("#MunicipalityCreate").val($("#MunicipalityCreate option:first").val());
     $("#AddressCreate").val("");
-    $("#FormModalCreate").modal("show"); 
+    $("#FormModalCreate").modal("show");
     $("#ErrorCreate").hide();
 }
 
@@ -108,7 +106,7 @@ function MunicipalityOnChange() {
                         $("#MunicipalityUpdate").val(customerObj.Municipality.Id);
                         customerObj.Municipality.Id = -1;
                     }
-                } catch (e) {}
+                } catch (e) { }
             })
         },
         error: function (error) {
@@ -176,7 +174,7 @@ function ShowUpdateModal() {
     $("#DepartmentUpdate").val(customerObj.Municipality.Department.Id);
     $("#DepartmentUpdate").trigger("change");
     $("#AddressUpdate").val(customerObj.Address);
-    $("#FormModalUpdate").modal("show"); 
+    $("#FormModalUpdate").modal("show");
     $("#ErrorUpdate").hide();
 }
 
@@ -194,8 +192,8 @@ function Read() {
             //{ "data": "IdentityCard" },
             { "data": "Name" },
             { "data": "SurName" },
-            { "data": "Municipality.Department.Name"},
-            { "data": "Municipality.Name" }, 
+            { "data": "Municipality.Department.Name" },
+            { "data": "Municipality.Name" },
             {
                 "data": "Active", "render": function (value) {
                     if (value)
@@ -472,7 +470,7 @@ function CreatePhone() {
     }
 
     phoneObj = {
-        "Customer":customerObj,
+        "Customer": customerObj,
         "PhoneNumber": $("#PhoneCreate").val(),
         "Active": $("#ActivePhoneCreate option:selected").val() == 1
     }
@@ -502,9 +500,9 @@ function CreatePhone() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalPhoneCreate").modal("show");
-                });
+                    function () {
+                        $("#FormModalPhoneCreate").modal("show");
+                    });
             }
         },
         error: function (error) {
@@ -546,7 +544,7 @@ function UpdatePhone() {
 
     var phoneObj = {
         "Id": $("#IdPhoneUpdate").val(),
-        "Customer":customerObj,
+        "Customer": customerObj,
         "PhoneNumber": $("#PhoneUpdate").val(),
         "Active": $("#ActivePhoneUpdate option:selected").val() == 1
     }
@@ -578,9 +576,9 @@ function UpdatePhone() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalPhoneUpdate").modal("show");
-                });
+                    function () {
+                        $("#FormModalPhoneUpdate").modal("show");
+                    });
             }
         },
         error: function (error) {
@@ -599,7 +597,7 @@ function UpdatePhone() {
     });
 }
 
-function DeletePhone(){
+function DeletePhone() {
     rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
@@ -746,7 +744,7 @@ function CreateEmail() {
     }
 
     emailObj = {
-        "Customer":customerObj,
+        "Customer": customerObj,
         "Email": $("#EmailCreate").val(),
         "Active": $("#ActiveEmailCreate option:selected").val() == 1
     }
@@ -776,9 +774,9 @@ function CreateEmail() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalEmailCreate").modal("show");
-                });
+                    function () {
+                        $("#FormModalEmailCreate").modal("show");
+                    });
             }
         },
         error: function (error) {
@@ -820,7 +818,7 @@ function UpdateEmail() {
 
     emailObj = {
         "Id": $("#IdEmailUpdate").val(),
-        "Customer":customerObj,
+        "Customer": customerObj,
         "Email": $("#EmailUpdate").val(),
         "Active": $("#ActiveEmailUpdate option:selected").val() == 1
     }
@@ -850,9 +848,9 @@ function UpdateEmail() {
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
                 },
-                function(){
-                    $("#FormModalEmailUpdate").modal("show");
-                });
+                    function () {
+                        $("#FormModalEmailUpdate").modal("show");
+                    });
             }
         },
         error: function (error) {
@@ -878,7 +876,7 @@ function DeleteEmail() {
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
     }
-    
+
     emailObj = emailTable.row(rowSelected).data();
 
     $("#FormModalEmail").modal("hide");

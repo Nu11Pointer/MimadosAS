@@ -20,12 +20,12 @@ function ShowCreateModal() {
     $("#BranchOfficeCreateSelect").val($("#BranchOfficeCreateSelect option:first").val());
     $("#PhoneNumberCreate").val("");
     $("#ActivePhoneCreate").val(1);
-    $("#CreateBranchOfficePhoneModal").modal("show"); 
+    $("#CreateBranchOfficePhoneModal").modal("show");
     $("#ErrorCreate").hide();
 }
 
 function BranchOfficeReady() {
-     // Load BranchOffice Selector 
+    // Load BranchOffice Selector 
     jQuery.ajax({
         url: '/BranchOffice/ReadBranchOffices',
         type: "GET",
@@ -93,7 +93,7 @@ function ShowUpdateModal() {
     $("#BranchOfficeUpdateSelect").val(branchOfficePhoneObj.BranchOffice.Id);
     $("#PhoneNumberUpdate").val(branchOfficePhoneObj.PhoneNumber);
     $("#ActivePhoneUpdate").val(branchOfficePhoneObj.Active ? 1 : 0);
-    $("#UpdateBranchOfficePhoneModal").modal("show"); 
+    $("#UpdateBranchOfficePhoneModal").modal("show");
     $("#ErrorUpdate").hide();
 }
 
@@ -104,7 +104,7 @@ function Create() {
     }
 
     branchOfficePhoneObj = {
-        PhoneNumber: $("#PhoneNumberCreate").val(),    
+        PhoneNumber: $("#PhoneNumberCreate").val(),
         BranchOffice: {
             Id: $("#BranchOfficeCreateSelect option:selected").val()
         },
@@ -154,7 +154,7 @@ function Read() {
         },
         "columns": [
             { "data": "Id" },
-            { "data": "PhoneNumber"},
+            { "data": "PhoneNumber" },
             { "data": "BranchOffice.Name" },
             {
                 "data": "Active", "render": function (value) {
@@ -187,7 +187,7 @@ function Update() {
 
     branchOfficePhoneObj = {
         Id: branchOfficePhoneObj.Id,
-        PhoneNumber: $("#PhoneNumberUpdate").val(),    
+        PhoneNumber: $("#PhoneNumberUpdate").val(),
         BranchOffice: {
             Id: $("#BranchOfficeUpdateSelect option:selected").val()
         },
@@ -213,7 +213,7 @@ function Update() {
                 swal("No Logró Actualizar el teléfono.", response.message, "error");
             }
 
-           
+
         },
         error: function (error) {
 
