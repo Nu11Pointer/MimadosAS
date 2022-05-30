@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,6 +49,7 @@
     <Compile Include="CustomerEmail.cs" />
     <Compile Include="CustomerPhone.cs" />
     <Compile Include="Deparment.cs" />
+    <Compile Include="EmailTemplate.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="EmployeeEmail.cs" />
     <Compile Include="EmployeePhone.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="Supplier.cs" />
     <Compile Include="SupplierEmail.cs" />
     <Compile Include="SupplierPhone.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj">

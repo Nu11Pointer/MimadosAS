@@ -1016,6 +1016,5 @@ function DeleteEmail() {
                 },
                 beforeSend: function () { }
             });
-
         });
 }

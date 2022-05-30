@@ -68,6 +68,7 @@
     <Compile Include="Supplier.cs" />
     <Compile Include="SupplierEmail.cs" />
     <Compile Include="SupplierPhone.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

@@ -11517,3 +11517,5 @@ footer.sticky-footer {
 body.sidebar-toggled footer.sticky-footer {
     width: 100%
 }
+
+p.errorText { color:var(--red); font-size: .9rem; margin-left: 1em; margin-top: 0.2em;}

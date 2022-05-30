@@ -69,6 +69,7 @@
     <Compile Include="Supplier.cs" />
     <Compile Include="SupplierEmail.cs" />
     <Compile Include="SupplierPhone.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj">

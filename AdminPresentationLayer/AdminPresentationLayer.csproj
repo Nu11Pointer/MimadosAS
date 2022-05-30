@@ -130,6 +130,7 @@
     <Compile Include="Controllers\EmployeePhoneController.cs" />
     <Compile Include="Controllers\EmployeePositionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MunicipalityController.cs" />
     <Compile Include="Controllers\PaymentTypeController.cs" />
     <Compile Include="Controllers\ProductBrandController.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplierEmailController.cs" />
     <Compile Include="Controllers\SupplierPhoneController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -150,6 +152,9 @@
   <ItemGroup>
     <Content Include="Content\all.css" />
     <Content Include="Content\all.min.css" />
+    <Content Include="Content\Audio\error.wav" />
+    <Content Include="Content\Audio\warning.wav" />
+    <Content Include="Content\Audio\success.wav" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -319,6 +324,7 @@
     <Content Include="Content\fontawesome.min.css" />
     <Content Include="Content\google-font-nunito.css" />
     <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\perro_pug.png" />
     <Content Include="Content\Images\tienda.png" />
     <Content Include="Content\Images\tiendalogo.png" />
     <Content Include="Content\invoce.css" />
@@ -2126,6 +2132,8 @@
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\Home\chart-area-demo.js" />
+    <Content Include="Scripts\Home\chart-pie-demo.js" />
     <Content Include="Scripts\index.js.flow" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
@@ -2308,6 +2316,7 @@
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="Scripts\Home\Chart.min.js" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -2321,6 +2330,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\loadingoverlay\loadingoverlay.min.js" />
+    <Content Include="Scripts\Login\Login.js" />
+    <Content Include="Scripts\MimadosSoundEffect.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Moment\datetime-moment.js" />
     <Content Include="Scripts\Moment\moment.min.js" />
@@ -2411,6 +2422,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\User\User.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2467,6 +2479,8 @@
     <Content Include="Views\Sale\SaleHistory.cshtml" />
     <Content Include="Views\Purchase\PurchaseHistory.cshtml" />
     <Content Include="Views\Purchase\Invoce.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

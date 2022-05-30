@@ -45,7 +45,8 @@ namespace AdminPresentationLayer
                 "~/Scripts/jquery.validate.js",
                 "~/Scripts/sweetalert.min.js",
                 "~/Scripts/Moment/moment.min.js",
-                "~/Scripts/Moment/datetime-moment.js"));
+                "~/Scripts/Moment/datetime-moment.js",
+                "~/Scripts/MimadosSoundEffect.js"));
         }
     }
 }
