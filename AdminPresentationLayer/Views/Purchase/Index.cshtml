@@ -188,8 +188,8 @@
                                             <label for="txtproductoprecio"
                                                 class="col-form-label col-form-label-sm">Precio:<span
                                                     class="required">*</span></label>
-                                            <input type="text" class="form-control form-control-sm model"
-                                                id="txtproductoprecio" name="Nombre" autocomplete="off" value="0">
+                                            <input type="number" class="form-control form-control-sm model"
+                                                id="txtproductoprecio" name="Nombre" autocomplete="off" value="0" min="0">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
@@ -197,8 +197,8 @@
                                             <label for="txtproductocantidad"
                                                 class="col-form-label col-form-label-sm">Cantidad: <span
                                                     class="required">*</span></label>
-                                            <input type="text" class="form-control form-control-sm model"
-                                                id="txtproductocantidad" name="Descripcion" autocomplete="off">
+                                            <input type="number" class="form-control form-control-sm model"
+                                                id="txtproductocantidad" name="Descripcion" autocomplete="off" min="0">
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
@@ -248,7 +248,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="input-group input-group-sm mb-2">
                                     <div class="input-group-prepend">
                                         <label class="input-group-text bg-secondary text-white"
@@ -257,16 +257,7 @@
                                     <input id="txtsubtotal" readonly type="text" class="form-control" value="0">
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="input-group input-group-sm mb-2">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text bg-secondary text-white"
-                                            for="inputGroupSelect01">IVA C$.</label>
-                                    </div>
-                                    <input id="txtigv" readonly type="text" class="form-control" value="0">
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="input-group input-group-sm mb-2">
                                     <div class="input-group-prepend">
                                         <label class="input-group-text bg-secondary text-white"
@@ -284,16 +275,16 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="input-group input-group-sm mb-2">
                                     <div class="input-group-prepend">
                                         <label class="input-group-text bg-secondary text-white"
                                             for="inputGroupSelect01">Monto Pago C$.</label>
                                     </div>
-                                    <input id="txtmontopago" type="text" class="form-control" autocomplete="off">
+                                    <input id="txtmontopago" type="number" class="form-control" autocomplete="off" min="0" value="0" onchange="calcularCambio()">
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="input-group input-group-sm mb-2">
                                     <div class="input-group-prepend">
                                         <label class="input-group-text bg-secondary text-white"
@@ -301,10 +292,6 @@
                                     </div>
                                     <input id="txtcambio" readonly type="text" class="form-control" value="0.00">
                                 </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <button id="btncalcular" type="button" class="btn btn-sm btn-success btn-block"><i
-                                        class="fas fa-dollar-sign"></i> Calcular</button>
                             </div>
                         </div>
                     </div>

@@ -182,20 +182,14 @@ function controlarStock($idproducto, $idtienda, $cantidad, $restar) {
 }
 
 function calcularPrecios() {
-    var subtotal = 0;
-    var igv = 0;
     var sumatotal = 0;
     $('#tbVenta > tbody  > tr').each(function (index, tr) {
         var fila = tr;
         var importetotal = parseFloat($(fila).find("td.importetotal").text().substring(3));
         sumatotal = sumatotal + importetotal;
     });
-    subtotal = sumatotal / 1.15;
-    igv = subtotal * 1.15 - subtotal;
 
-
-    $("#txtsubtotal").val(subtotal.toFixed(2));
-    $("#txtigv").val(igv.toFixed(2));
+    $("#txtsubtotal").val(sumatotal.toFixed(2));
     $("#txttotal").val(sumatotal.toFixed(2));
 }
 
@@ -209,7 +203,6 @@ $('#btnAgregar').on('click', function () {
         parseInt($("#txtIdProducto").val()) == 0 ||
         parseInt($("#txtproductocantidad").val()) == 0 ||
         !Number.isInteger(parseInt($("#txtproductocantidad").val())) ||
-        parseFloat($("#txtproductoprecio").val()) == 0 ||
         $("#txtproductoprecio").val().match(/^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/g) == null
     ) {
         swal("Mensaje", "Debe completar todos los campos del producto", "warning")
@@ -262,7 +255,7 @@ $('#btnAgregar').on('click', function () {
         $("#txtproductodescripcion").val("NO DISPONIBLE");
         $("#txtproductostock").val("");
         $("#txtproductoprecio").val("");
-        $("#txtproductocantidad").val("0");
+        $("#txtproductocantidad").val("");
 
         $("#txtproductocodigo").focus();
 
@@ -274,32 +267,18 @@ $('#btnAgregar').on('click', function () {
 
 $('#tbVenta tbody').on('click', 'button[class="btn btn-danger btn-sm"]', function () {
     var idproducto = $(this).data("idproducto");
-    var cantidadproducto = $(this).data("cantidadproducto");
-
-    //controlarStock(idproducto, parseInt($("#txtIdTienda").val()), cantidadproducto, false);
     $(this).parents("tr").remove();
-
+    PurchaseDetail = PurchaseDetail.filter(Item => Item.Product.Id != idproducto);
     calcularPrecios();
 })
 
 function calcularCambio() {
     var montopago = $("#txtmontopago").val().trim() == "" ? 0 : parseFloat($("#txtmontopago").val().trim());
     var totalcosto = parseFloat($("#txttotal").val().trim());
-    if (totalcosto < 0) {
-        var cambio = 0;
-        $("#txtcambio").val(cambio.toFixed(2));
-        return
-    }
     var cambio = 0;
     cambio = (montopago <= totalcosto ? totalcosto : montopago) - totalcosto;
-
     $("#txtcambio").val(cambio.toFixed(2));
 }
-
-$('#btncalcular').on('click', function () {
-    calcularCambio();
-})
-
 
 $('#btnTerminarGuardarVenta').on('click', function () {
 
@@ -365,7 +344,6 @@ $('#btnTerminarGuardarVenta').on('click', function () {
 
                 //PRECIOS
                 $("#txtsubtotal").val("0.00");
-                $("#txtigv").val("0.00");
                 $("#txttotal").val("0.00");
                 $("#txtmontopago").val("");
                 $("#txtcambio").val("0.00");
