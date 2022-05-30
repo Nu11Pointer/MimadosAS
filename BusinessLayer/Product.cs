@@ -47,5 +47,10 @@ namespace BusinessLayer
         {
             return _Db.Delete(product, out message);
         }
+
+        public bool StockControl(int idProduct, int quantity)
+        {
+            return _Db.StockControl(idProduct, quantity);
+        }
     }
 }

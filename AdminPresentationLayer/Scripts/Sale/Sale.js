@@ -164,25 +164,14 @@ function productoSelect(json) {
     $('#modalProducto').modal('hide');
 }
 
-function controlarStock($idproducto, $idtienda, $cantidad, $restar) {
-
-    var request = {
-        idproducto: $idproducto,
-        idtienda: $idtienda,
-        cantidad: $cantidad,
-        restar: $restar
-    }
-
-    return
-
+function controlarStock(idProduct, quantity) {
     jQuery.ajax({
-        url: $.MisUrls.url._ControlarStockProducto,
+        url: '/Product/StockControl',
         type: "POST",
-        data: JSON.stringify(request),
+        data: JSON.stringify({ idProduct: idProduct, quantity: quantity }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        success: function (data) {
-
+        success: function (_) {
         },
         error: function (error) {
             console.log(error)
@@ -223,8 +212,13 @@ $('#btnAgregar').on('click', function () {
         parseInt($("#txtproductocantidad").val()) == 0 ||
         !Number.isInteger(parseInt($("#txtproductocantidad").val()))
     ) {
-        swal("Mensaje", "Debe completar todos los campos del producto", "warning")
+        swal("¡Atención!", "Debe completar todos los campos del producto", "warning");
         return;
+    }
+
+    if (parseInt($("#txtproductocantidad").val()) > parseInt($("#txtproductostock").val())) {
+        swal("¡Demasiados Productos!", "No hay existencias suficinetes.", "warning");
+        return
     }
 
     $('#tbVenta > tbody  > tr').each(function (index, tr) {
@@ -241,7 +235,7 @@ $('#btnAgregar').on('click', function () {
 
     if (!existe_codigo) {
 
-        //controlarStock(parseInt($("#txtIdProducto").val()), parseInt($("#txtIdTienda").val()), parseInt($("#txtproductocantidad").val()), true);
+        controlarStock(parseInt($("#txtIdProducto").val()), parseInt($("#txtproductocantidad").val()) * -1);
 
         var importetotal = parseFloat($("#txtproductoprecio").val()) * parseFloat($("#txtproductocantidad").val());
 
@@ -287,7 +281,8 @@ $('#tbVenta tbody').on('click', 'button[class="btn btn-danger btn-sm"]', functio
     var idproducto = $(this).data("idproducto");
     var cantidadproducto = $(this).data("cantidadproducto");
 
-    //controlarStock(idproducto, parseInt($("#txtIdTienda").val()), cantidadproducto, false);
+    controlarStock(idproducto, cantidadproducto);
+    PurchaseDetail = PurchaseDetail.filter(Item => Item.Product.Id != idproducto);
     $(this).parents("tr").remove();
 
     calcularPrecios();
@@ -296,38 +291,32 @@ $('#tbVenta tbody').on('click', 'button[class="btn btn-danger btn-sm"]', functio
 function calcularCambio() {
     var montopago = $("#txtmontopago").val().trim() == "" ? 0 : parseFloat($("#txtmontopago").val().trim());
     var totalcosto = parseFloat($("#txttotal").val().trim());
-    if (totalcosto < 0) {
-        var cambio = 0;
-        $("#txtcambio").val(cambio.toFixed(2));
-        return
-    }
     var cambio = 0;
     cambio = (montopago <= totalcosto ? totalcosto : montopago) - totalcosto;
-
     $("#txtcambio").val(cambio.toFixed(2));
 }
-
-$('#btncalcular').on('click', function () {
-    calcularCambio();
-})
-
 
 $('#btnTerminarGuardarVenta').on('click', function () {
 
     //VALIDACIONES DE CLIENTE
     if ($("#txtclientedocumento").val().trim() == "" || $("#txtclientenombres").val().trim() == "") {
-        swal("Mensaje", "Complete los datos del cliente", "warning");
+        swal("¡Cuidado!'", "Complete los datos del cliente", "warning");
         return;
     }
     //VALIDACIONES DE PRODUCTOS
     if ($('#tbVenta tbody tr').length == 0) {
-        swal("Mensaje", "Debe registrar minimo un producto en la venta", "warning");
+        swal("¡Cuidado!", "Debe registrar minimo un producto en la venta", "warning");
         return;
     }
 
     //VALIDACIONES DE MONTO PAGO
     if ($("#txtmontopago").val().trim() == "") {
-        swal("Mensaje", "Ingrese el monto de pago", "warning");
+        swal("¡Cuidado!", "Ingrese el monto de pago", "warning");
+        return;
+    }
+
+    if (parseFloat($("#txtmontopago").val().trim()) < parseFloat($("#txttotal").val().trim())) {
+        swal("¡Cuidado!", "Monto insuficiente", "warning");
         return;
     }
 
@@ -403,3 +392,16 @@ $('#btnTerminarGuardarVenta').on('click', function () {
         }
     });
 })
+
+window.onbeforeunload = function () {
+    if ($('#tbVenta tbody tr').length > 0) {
+
+        $('#tbVenta > tbody  > tr').each(function (index, tr) {
+            var fila = tr;
+            var productocantidad = parseInt($(fila).find("td.productocantidad").text());
+            var idproducto = $(fila).find("td.producto").data("idproducto");
+
+            controlarStock(parseInt(idproducto), parseInt(productocantidad));
+        });
+    }
+};

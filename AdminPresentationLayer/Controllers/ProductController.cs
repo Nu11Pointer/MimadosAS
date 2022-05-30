@@ -45,5 +45,13 @@ namespace AdminPresentationLayer.Controllers
             var json = new { result, message };
             return Json(json, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost] 
+        public JsonResult StockControl(int idProduct, int quantity)
+        {
+            var result = new Business.Product().StockControl(idProduct, quantity);
+            var json = new { result };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
     }
 }

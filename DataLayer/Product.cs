@@ -136,7 +136,7 @@ namespace DataLayer
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return deparmentList;
@@ -240,6 +240,41 @@ namespace DataLayer
             {
                 result = false;
                 message = e.Message;
+            }
+            return result;
+        }
+
+        public bool StockControl(int idProduct, int quantity)
+        {
+            bool result;
+
+            try
+            {
+                // Crear Conexión
+                using (var connection = new SqlConnection(Connection.value))
+                {
+                    // Configurar consulta
+                    var cmd = new SqlCommand()
+                    {
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "sp_stock_control",
+                        Connection = connection
+                    };
+
+                    // Establecer Parametros
+                    cmd.Parameters.AddWithValue("IdProduct", idProduct);
+                    cmd.Parameters.AddWithValue("Quantity", quantity);
+
+                    // Abrir Conexion
+                    connection.Open();
+
+                    // Ejecutar consulta
+                    result = cmd.ExecuteNonQuery() != 0;
+                }
+            }
+            catch (Exception)
+            {
+                result = false;
             }
             return result;
         }
