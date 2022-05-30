@@ -15,9 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
 // Función Principal
 function SetUp() {
     // Pintar Menu Collapse
-    // $('#nav-Employee').addClass('active');
-    // $('#collapseFour').addClass('show');
-    // $('#CollapseMenuItemEmployee').addClass('active');
+    $('#nav-User').addClass('active');
+
     // Show DataTables
     Read();
     LoadEmployee();
@@ -65,10 +64,14 @@ function Read() {
 }
 
 function ShowEmployeeCreate() {
-    $("#FormModalEmployee").modal("show");
     employeeTable.ajax.reload();
-    employeeTable.columns.adjust().responsive.recalc();
+    $("#FormModalEmployee").modal("show");
+    
 }
+
+$('#FormModalEmployee').on('shown.bs.modal', function () {
+    employeeTable.columns.adjust().responsive.recalc();
+});
 
 function LoadEmployee() {
     employeeTable = $('#dataTableEmployee').DataTable({
@@ -109,8 +112,8 @@ function employeeSelect(json) {
 }
 
 function ShowEmailCreate() {
-    $("#FormModalEmployeeEmailCreate").modal("show");
     LoadEmployeeEmailCreate(employeeObj.Id);
+    $("#FormModalEmployeeEmailCreate").modal("show");
 }
 
 function LoadEmployeeEmailCreate(employeeId) {
@@ -346,10 +349,12 @@ function ResendPassword() {
             }
             // Sino entonces notificar
             else {
+                errorAudio.play();
                 swal("¡Algo salió mal!", response.message, "error");
             }
         },
         error: function (error) {
+            errorAudio.play();
             $(".modal-body").LoadingOverlay("hide");
             $("#ErrorUpdate").text(error.responseText);
             $("#ErrorUpdate").show();

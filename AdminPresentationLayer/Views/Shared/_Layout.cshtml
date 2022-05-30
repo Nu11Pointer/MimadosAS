@@ -49,24 +49,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Tablas
-            </div>
-
             <!-- Nav Item - BranchOffice -->
             <li id="nav-BranchOffice" class="nav-item">
                 <a class="nav-link" href="@Url.Action("Index", "BranchOffice")">
                     <i class="fas fa-fw fa-building"></i>
                     <span>Sucursales</span>
-                </a>
-            </li>
-
-            <!-- Nav Item - Customer -->
-            <li id="nav-Customer" class="nav-item">
-                <a class="nav-link" href="@Url.Action("Index", "Customer")">
-                    <i class="fa-solid fa-fw fa-user-large"></i>
-                    <span>Clientes</span>
                 </a>
             </li>
 
@@ -130,6 +117,14 @@
                 </div>
             </li>
 
+            <!-- Nav Item - Customer -->
+            <li id="nav-Customer" class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Customer")">
+                    <i class="fa-solid fa-people-group"></i>
+                    <span>Clientes</span>
+                </a>
+            </li>
+
             <!-- Nav Item - Pages Collapse Menu - Sales -->
             <li class="nav-item" id="CollapseMenuSales">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSeven"
@@ -150,6 +145,14 @@
                         </a>
                     </div>
                 </div>
+            </li>
+
+            <!-- Nav Item - User -->
+            <li id="nav-User" class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "User")">
+                    <i class="fa-solid fa-user-astronaut"></i>
+                    <span>Usuarios</span>
+                </a>
             </li>
 
             <!-- Divider -->
