@@ -184,20 +184,14 @@ function controlarStock(idProduct, quantity) {
 }
 
 function calcularPrecios() {
-    var subtotal = 0;
-    var igv = 0;
     var sumatotal = 0;
     $('#tbVenta > tbody  > tr').each(function (index, tr) {
         var fila = tr;
         var importetotal = parseFloat($(fila).find("td.importetotal").text().substring(3));
         sumatotal = sumatotal + importetotal;
     });
-    subtotal = sumatotal / 1.15;
-    igv = subtotal * 1.15 - subtotal;
 
-
-    $("#txtsubtotal").val(subtotal.toFixed(2));
-    $("#txtigv").val(igv.toFixed(2));
+    $("#txtsubtotal").val(sumatotal.toFixed(2));
     $("#txttotal").val(sumatotal.toFixed(2));
 }
 
@@ -364,7 +358,6 @@ $('#btnTerminarGuardarVenta').on('click', function () {
 
                 //PRECIOS
                 $("#txtsubtotal").val("0.00");
-                $("#txtigv").val("0.00");
                 $("#txttotal").val("0.00");
                 $("#txtmontopago").val("");
                 $("#txtcambio").val("0.00");
