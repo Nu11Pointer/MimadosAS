@@ -74,7 +74,13 @@ namespace AdminPresentationLayer.Controllers
         public ActionResult LogOut()
         {
             Session["User"] = null;
-            return RedirectToAction("Login", "Home");
+            return RedirectToAction("Index", "Login");
+        }
+
+        [HttpGet]
+        public JsonResult Me()
+        {
+            return Json(Session["User"], JsonRequestBehavior.AllowGet);
         }
     }
 }

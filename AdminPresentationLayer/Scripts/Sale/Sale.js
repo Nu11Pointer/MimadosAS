@@ -2,7 +2,8 @@
 var tablaproveedores;
 var currentSupplier;
 var currentEmployee;
-var PurchaseDetail = []
+var PurchaseDetail = [];
+var user;
 
 $(document).ready(function () {
     // Pintar Menu Collapse
@@ -30,24 +31,38 @@ function ObtenerFecha() {
 }
 
 function LoadEmployee() {
-    // Load Selector Employee
-    jQuery.ajax({
-        url: '/Employee/ReadById',
-        type: "POST",
-        data: JSON.stringify({ id: 35 }),
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function (response) {
-            currentEmployee = response.data
-            $("#txtIdTienda").val(response.data.BranchOffice.Id);
-            $("#lbltiendanombre").text(response.data.BranchOffice.Name);
 
-            $("#txtIdUsuario").val(response.data.Id);
-            $("#lblempleadonombre").text(response.data.Name);
-            $("#lblempleadoapellido").text(response.data.SurName);
+    var SetEmplee = function () {
+        // Load Selector Employee
+        jQuery.ajax({
+            url: '/Employee/ReadById',
+            type: "POST",
+            data: JSON.stringify({ id: user.Employee.Id }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                currentEmployee = response.data
+                $("#txtIdTienda").val(response.data.BranchOffice.Id);
+                $("#lbltiendanombre").text(response.data.BranchOffice.Name);
+
+                $("#txtIdUsuario").val(response.data.Id);
+                $("#lblempleadonombre").text(response.data.Name);
+                $("#lblempleadoapellido").text(response.data.SurName);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    jQuery.ajax({
+        url: '/User/Me',
+        type: "GET",
+        success: function (data) {
+            user = data;
+            SetEmplee();
         },
-        error: function (error) {
-            console.log(error);
+        error: function (_) {
         }
     });
 }
@@ -196,11 +211,10 @@ function calcularPrecios() {
 }
 
 $('#btnAgregar').on('click', function () {
-
     $("#txtproductocantidad").val($("#txtproductocantidad").val() == "" ? "0" : $("#txtproductocantidad").val());
 
     var existe_codigo = false;
-
+    var fila;
     if (
         parseInt($("#txtIdProducto").val()) == 0 ||
         parseInt($("#txtproductocantidad").val()) == 0 ||
@@ -217,7 +231,7 @@ $('#btnAgregar').on('click', function () {
 
     $('#tbVenta > tbody  > tr').each(function (index, tr) {
 
-        var fila = tr;
+        fila = tr;
         var idproducto = $(fila).find("td.producto").data("idproducto");
 
         if (idproducto == $("#txtIdProducto").val()) {
@@ -254,21 +268,37 @@ $('#btnAgregar').on('click', function () {
             $("<td>").addClass("productoprecio").text("C$ " + $("#txtproductoprecio").val()),
             $("<td>").addClass("importetotal").text("C$ " + importetotal)
         ).appendTo("#tbVenta tbody");
-
-        $("#txtIdProducto").val("0");
-        $("#txtproductocodigo").val("");
-        $("#txtproductonombre").val("");
-        $("#txtproductodescripcion").val("");
-        $("#txtproductostock").val("");
-        $("#txtproductoprecio").val("");
-        $("#txtproductocantidad").val("0");
-
-        $("#txtproductocodigo").focus();
-
-        calcularPrecios();
     } else {
-        swal("Mensaje", "El producto ya existe en la venta", "warning")
+
+        // Obtener los datos viejos
+        var td_button = $(fila).find("td").find("button");
+        var td_importetotal = $(fila).find("td.importetotal");
+        var td_productocantidad = $(fila).find("td.productocantidad");
+
+        // Calcular los nuevos datos
+        var cantidadproducto = td_button.data("cantidadproducto") + parseInt($("#txtproductocantidad").val());
+        var importetotal = parseFloat($("#txtproductoprecio").val()) * cantidadproducto;
+
+        // Actualizar Información de la fila
+        td_importetotal.text("C$ " + importetotal);
+        td_productocantidad.text(cantidadproducto);
+        td_button.data("cantidadproducto", cantidadproducto);
+
+        // Actualizar Arreglo
+        var index = PurchaseDetail.findIndex(item => item.Product.Id == parseInt($("#txtIdProducto").val()));
+        PurchaseDetail[index].Quantity = cantidadproducto;
     }
+    $("#txtIdProducto").val("0");
+    $("#txtproductocodigo").val("");
+    $("#txtproductonombre").val("");
+    $("#txtproductodescripcion").val("");
+    $("#txtproductostock").val("");
+    $("#txtproductoprecio").val("");
+    $("#txtproductocantidad").val("0");
+
+    $("#txtproductocodigo").focus();
+
+    calcularPrecios();
 })
 
 $('#tbVenta tbody').on('click', 'button[class="btn btn-danger btn-sm"]', function () {

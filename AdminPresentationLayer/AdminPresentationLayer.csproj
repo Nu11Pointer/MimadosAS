@@ -2354,6 +2354,7 @@
     <Content Include="Scripts\sb-admin-2\js\demo\datatables-demo.js" />
     <Content Include="Scripts\sb-admin-2\js\sb-admin-2.js" />
     <Content Include="Scripts\sb-admin-2\js\sb-admin-2.min.js" />
+    <Content Include="Scripts\SessionScript.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />
