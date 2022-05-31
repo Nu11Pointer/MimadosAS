@@ -122,10 +122,14 @@ function LoadProducts() {
                 "searchable": false
             },
             { "data": "Id" },
-            { "data": "Name", render: name => name.length > 40 ? name.substring(0, 40) + '...' : name },
-            { "data": "ProductCategory.Name" },
-            { "data": "ProductBrand.Name" },
-            { "data": "StringNetContent" }
+            { "data": "Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
+            { "data": "SalePrice", "render": value => value.toFixed(2) },
+            { "data": "StringNetContent" },
+            { "data": "ProductCategory.Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
+            { "data": "ProductBrand.Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name }
+        ],
+        "columnDefs": [
+            { "width": "50%", "targets": 2 }
         ],
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.11.4/i18n/es_es.json"
@@ -148,37 +152,9 @@ function productoSelect(json) {
     $("#txtIdProducto").val(json.Id);
     $("#txtproductocodigo").val(json.Id);
     $("#txtproductonombre").val(json.Name);
-    $("#txtproductodescripcion").val(json.ProductPackaging.Name);
+    $("#txtproductodescripcion").val(json.StringNetContent);
     $("#txtproductocantidad").val("0");
     $('#modalProducto').modal('hide');
-}
-
-function controlarStock($idproducto, $idtienda, $cantidad, $restar) {
-
-    var request = {
-        idproducto: $idproducto,
-        idtienda: $idtienda,
-        cantidad: $cantidad,
-        restar: $restar
-    }
-
-    return
-
-    jQuery.ajax({
-        url: $.MisUrls.url._ControlarStockProducto,
-        type: "POST",
-        data: JSON.stringify(request),
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-
-        },
-        error: function (error) {
-            console.log(error)
-        },
-        beforeSend: function () {
-        },
-    });
 }
 
 function calcularPrecios() {
@@ -222,9 +198,6 @@ $('#btnAgregar').on('click', function () {
     });
 
     if (!existe_codigo) {
-
-        //controlarStock(parseInt($("#txtIdProducto").val()), parseInt($("#txtIdTienda").val()), parseInt($("#txtproductocantidad").val()), true);
-
         var importetotal = parseFloat($("#txtproductoprecio").val()) * parseFloat($("#txtproductocantidad").val());
 
         var Item = {
@@ -252,7 +225,7 @@ $('#btnAgregar').on('click', function () {
         $("#txtIdProducto").val("0");
         $("#txtproductocodigo").val("");
         $("#txtproductonombre").val("");
-        $("#txtproductodescripcion").val("NO DISPONIBLE");
+        $("#txtproductodescripcion").val("");
         $("#txtproductostock").val("");
         $("#txtproductoprecio").val("");
         $("#txtproductocantidad").val("");
