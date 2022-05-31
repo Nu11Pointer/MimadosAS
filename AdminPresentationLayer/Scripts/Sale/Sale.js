@@ -126,10 +126,10 @@ function LoadProducts() {
             { "data": "Id" },
             { "data": "Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
             { "data": "SalePrice", "render": value => value.toFixed(2) },
+            { "data": "StringNetContent" },
             { "data": "ProductCategory.Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
             { "data": "ProductBrand.Name", render: name => name.length > 15 ? name.substring(0, 15) + '...' : name },
-            { "data": "Stock" },
-            { "data": "StringNetContent" }
+            { "data": "Stock" }
         ],
         "columnDefs": [
             { "width": "50%", "targets": 2 }
@@ -157,7 +157,7 @@ function productoSelect(json) {
     $("#txtIdProducto").val(json.Id);
     $("#txtproductocodigo").val(json.Id);
     $("#txtproductonombre").val(json.Name);
-    $("#txtproductodescripcion").val(json.ProductPackaging.Name);
+    $("#txtproductodescripcion").val(json.StringNetContent);
     $("#txtproductostock").val(json.Stock);
     $("#txtproductoprecio").val(json.SalePrice);
     $("#txtproductocantidad").val("0");
