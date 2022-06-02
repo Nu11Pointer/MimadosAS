@@ -25,10 +25,12 @@ namespace AdminPresentationLayer.Controllers
         public ActionResult Invoce(int id)
         {
             var sale = new Business.Sale().ReadById(id);
-            var Employee = new Business.Employee().ReadById(sale.Employee.Id);
+            var employee = new Business.Employee().ReadById(sale.Employee.Id);
+            var branchOffice = new Business.BranchOffice().ReadById(employee.BranchOffice.Id);
             sale.SaleDetails = new Business.Sale().Detail(sale.Id);
-            Employee.BranchOffice.Phones = new Business.BranchOfficePhone().ReadByBranchOffice(Employee.BranchOffice.Id).Where(p => p.Active).ToList();
-            sale.Employee = Employee;
+            employee.BranchOffice = branchOffice;
+            employee.BranchOffice.Phones = new Business.BranchOfficePhone().ReadByBranchOffice(employee.BranchOffice.Id).Where(p => p.Active).ToList();
+            sale.Employee = employee;
             return View(sale);
         }
 

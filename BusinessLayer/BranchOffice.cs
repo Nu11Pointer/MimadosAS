@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Data = DataLayer;
 using Entity = EntityLayer;
 
@@ -11,6 +12,11 @@ namespace BusinessLayer
         public List<Entity.BranchOffice> Read()
         {
             return _Db.Read();
+        }
+
+        public Entity.BranchOffice ReadById(int Id)
+        {
+            return _Db.Read().FirstOrDefault(b => b.Id == Id);
         }
 
         public int Create(Entity.BranchOffice branchOffice, out string message)
