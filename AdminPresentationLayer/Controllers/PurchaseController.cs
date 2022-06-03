@@ -26,8 +26,10 @@ namespace AdminPresentationLayer.Controllers
         {
             var Purchase = new Business.Purchase().ReadById(id);
             var Employee = new Business.Employee().ReadById(Purchase.Employee.Id);
+            var branchOffice = new Business.BranchOffice().ReadById(Employee.BranchOffice.Id);
             var Supplier = new Business.Supplier().ReadById(Purchase.Supplier.Id);
             Purchase.PurchaseDetails = new Business.Purchase().Detail(Purchase.Id);
+            Employee.BranchOffice = branchOffice;
             Employee.BranchOffice.Phones = new Business.BranchOfficePhone().ReadByBranchOffice(Employee.BranchOffice.Id).Where(p => p.Active).ToList();
             Purchase.Employee = Employee;
             Purchase.Supplier = Supplier;

@@ -275,6 +275,8 @@ $('#btnAgregar').on('click', function () {
         var td_importetotal = $(fila).find("td.importetotal");
         var td_productocantidad = $(fila).find("td.productocantidad");
 
+        controlarStock(parseInt($("#txtIdProducto").val()), parseInt($("#txtproductocantidad").val()) * -1);
+
         // Calcular los nuevos datos
         var cantidadproducto = td_button.data("cantidadproducto") + parseInt($("#txtproductocantidad").val());
         var importetotal = parseFloat($("#txtproductoprecio").val()) * cantidadproducto;
@@ -371,40 +373,50 @@ $('#btnTerminarGuardarVenta').on('click', function () {
             $(".card-venta").LoadingOverlay("hide");
 
             if (response.result) {
-
-                //CLIENTE
-                $("#txtclientedocumento").val("");
-                $("#txtclientenombres").val("");
-                $("#txtclientedireccion").val("");
-
-                //PRODUCTO
-                $("#txtIdProducto").val("0");
-                $("#txtproductocodigo").val("");
-                $("#txtproductonombre").val("");
-                $("#txtproductodescripcion").val("");
-                $("#txtproductostock").val("");
-                $("#txtproductoprecio").val("");
-                $("#txtproductocantidad").val("0");
-
-                //PRECIOS
-                $("#txtsubtotal").val("0.00");
-                $("#txttotal").val("0.00");
-                $("#txtmontopago").val("");
-                $("#txtcambio").val("0.00");
-
-
                 $("#tbVenta tbody").html("");
 
-                var url = "/Sale/Invoce?id=" + response.id;
-
-                swal("\nLa venta fue realizada con exito", "\n", "success");
-
-                window.open(url);
+                var cambio = $("#txtcambio").val();
+                var message = "La venta fue realizada con exito.\nEl cambio es: C$ " + cambio;
+                successAudio.play();
+                swal({
+                    title: "Información",
+                    text: message,
+                    type: "success",
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            var url = "/Sale/Invoce?id=" + response.id;
+                            window.open(url);
+                        }
+                    });
             }
             else {
                 console.log(response.message)
                 swal("Error", "\n" + response.message, "danger");
             }
+            //CLIENTE
+            $("#txtclientedocumento").val("");
+            $("#txtclientenombres").val("");
+            $("#txtclientedireccion").val("");
+
+            //PRODUCTO
+            $("#txtIdProducto").val("0");
+            $("#txtproductocodigo").val("");
+            $("#txtproductonombre").val("");
+            $("#txtproductodescripcion").val("");
+            $("#txtproductostock").val("");
+            $("#txtproductoprecio").val("");
+            $("#txtproductocantidad").val("0");
+
+            //PRECIOS
+            $("#txtsubtotal").val("0.00");
+            $("#txttotal").val("0.00");
+            $("#txtmontopago").val("");
+            $("#txtcambio").val("0.00");
+            PurchaseDetail = [];
         },
         error: function (error) {
             console.log(error)

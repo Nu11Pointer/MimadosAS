@@ -4,7 +4,7 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
+@* <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -125,4 +125,133 @@
 
 </script>
 </body>
+</html> *@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra: @Html.DisplayFor(s => s.Id)</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            font-size: 13px;
+        }
+    </style>
+
+    <script language="Javascript">
+        function imprimir(nombre) {
+            var ficha = document.getElementById(nombre);
+            var ventimp = window.open(' ', 'popimpr');
+            ventimp.document.write(ficha.innerHTML);
+            ventimp.document.close();
+            ventimp.print();
+            ventimp.close();
+        }
+    </script>
+</head>
+
+<body>
+    <div id="cuerpoFactura" style="width: 7.9cm;
+            min-height: 5cm;
+            height: auto;
+            margin-top: 15px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+            display:inline-block">
+        <!-- Contenedor de los detalles de la factura y la venta -->
+        <div id="encabezado" style=" text-align: center;
+            margin: 25px 5px 15px 5px;">
+            <!-- Título e información de la sucursal -->
+            <center>
+                <h2 style="margin: 0px 5px 0px 5px;">Mimados</h2> <!-- Que aquí vaya el logo del negocio -->
+                <br> <!-- Salto de línea -->
+                @Html.DisplayFor(s => s.Employee.BranchOffice.Address)
+                <br> <!-- Salto de línea -->
+                @Html.DisplayFor(s => s.Employee.BranchOffice.Name)
+                <br> <!-- Salto de línea -->
+                Teléfono: @if (Model.Supplier.Phones.Count == 1)
+                {
+                    @Html.DisplayFor(s => s.Supplier.Phones[0].PhoneNumber)
+                }
+                @if (Model.Supplier.Phones.Count >= 2)
+                {
+                    @Html.DisplayFor(s => s.Supplier.Phones[0].PhoneNumber)
+                    @Html.Label(" / ")
+                    @Html.DisplayFor(s => s.Supplier.Phones[0].PhoneNumber)
+                }
+            </center>
+        </div>
+
+        <hr> <!-- Separador -->
+
+        <div id="detalleFactura" style="margin: 15px 5px 25px 15px;">
+            <!-- Información de la venta -->
+            <h3 style="margin: 15px 5px 15px 5px;">
+                <center>Factura de compra</center>
+            </h3>
+            Fecha: @Html.DisplayFor(s => s.TimeStamp)
+            <br> <!-- Salto de línea -->
+            Compra No: @Html.DisplayFor(s => s.Id)
+            <br> <!-- Salto de línea -->
+            Proveedor: @Html.DisplayFor(s => s.Supplier.Name)
+            <br> <!-- Salto de línea -->
+            Empleado: @Html.DisplayFor(s => s.Employee.Name) @Html.DisplayFor(s => s.Employee.SurName)
+        </div>
+
+        <hr> <!-- Separador -->
+
+        <div id="detalleVenta">
+            <table border="0" id="tablaDetalleVenta" style="width: 94%;
+            margin: 10px 3%;">
+                <thead>
+                    <!-- Columnas de la tabla -->
+                    <tr id="Columnas">
+                        <th style="text-align:left">Producto</th>
+                        <th style="text-align:left">Precio</th>
+                        <th style="text-align:left">Cantidad</th>
+                        <th style="text-align:right">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{
+                        foreach (var item in Model.PurchaseDetails)
+                        {
+                            @: <tr class="Contenido">
+                                <td>@Html.DisplayFor(modelItem => item.Product.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.StringSalePrice)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                                <td style="text-align:right">@Html.DisplayFor(modelItem => item.StringTotal)</td>
+                            }
+                    }
+
+                <!-- Fila complementaria -->
+                <tr class="Complemento">
+                    <td colspan="4" style="text-align:right"><b>SubTotal: @Html.DisplayFor(s => s.StringTotal)</b></td>
+                </tr>
+
+                <tr class="Complemento">
+                    <td colspan="4" style="text-align:right"><b>Total: @Html.DisplayFor(s => s.StringTotal)</b></td>
+                </tr>
+                </tbody>
+        </table>
+    </div>
+    <footer>
+        <center style="opacity:0.7; margin-bottom:5px">Precios incluyen impuesto de venta</center>
+    </footer>
+    </div>
+
+    <button type="button" onclick="javascript:imprimir('cuerpoFactura')"
+            style="transform: translate(40px, 17px); width: 100px; height: 30px; font-family: 'Courier New', Courier, monospace; border-radius: 10px; background-color: white; border-color: gainsboro;top:0;">
+        Imprimir
+    </button>
+
+</body>
+
 </html>
