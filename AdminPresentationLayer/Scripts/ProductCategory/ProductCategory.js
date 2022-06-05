@@ -278,7 +278,7 @@ function Delete() {
     // Preguntar antes de eliminar
     swal({
         title: "Eliminar Categoría",
-        text: "¡No podrás recuperar este producto!",
+        text: "¡No podrás recuperar esta categoría!",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
@@ -340,42 +340,6 @@ function Delete() {
             else {
                 swal("Cancelado", "Su categoría está intacta.", "info");
             }
-        }
-    );
-    return
-    swal({
-        title: "Eliminar Categoria",
-        text: "¿Estas Seguro que Deseas Eliminar Esta Categoria?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-primary",
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
-        closeOnConfirm: true
-    },
-        function () {
-
-            jQuery.ajax({
-                url: '/ProductCategory/Delete',
-                type: "POST",
-                data: JSON.stringify({ productCategory: productCategoryObj }),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (response) {
-
-                    if (response.result) {
-                        productCategoryTable.ajax.reload();
-                    }
-                    else {
-                        swal("No Se Logró Eliminar el Categoria.", response.message, "error");
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                beforeSend: function () { }
-            });
-
         }
     );
 }
