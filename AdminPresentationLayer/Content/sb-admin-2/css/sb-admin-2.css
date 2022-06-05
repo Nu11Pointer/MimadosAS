@@ -11519,3 +11519,5 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 p.errorText { color:var(--red); font-size: .9rem; margin-left: 1em; margin-top: 0.2em;}
+
+p.errorTextForm { color:var(--red); font-size: .9rem; margin-top: 0.2em;}

@@ -3,11 +3,14 @@ var branchOfficeTable;
 var branchOfficeObj;
 var phoneObj;
 var phoneTable
+var CreateForm;
+var UpdateForm;
+var CreatePhoneForm;
+var UpdatePhoneForm;
 
 function SetUp() {
 
     $('#nav-BranchOffice').addClass('active');
-
     // Show DataTable
     Read();
     DeparmentReadyCreate();
@@ -36,6 +39,7 @@ function ShowCreateModal() {
     $("#AddressCreate").val("");
     $("#FormModalCreate").modal("show");
     $("#ErrorCreate").hide();
+    CreateForm.resetForm();
 }
 
 function DeparmentReadyCreate() {
@@ -80,7 +84,7 @@ function ChangeMunicipalityCreate() {
 }
 
 function ValidatorCreate() {
-    $("#CreateForm").validate({
+    CreateForm = $("#CreateForm").validate({
         rules: {
             NameCreate: {
                 required: true
@@ -90,12 +94,15 @@ function ValidatorCreate() {
             }
         },
         messages: {
-            NameCreate: "- El campo \"Nombre\" es obligatorio.",
-            AddressCreate: "- El campo \"Dirección\" es obligatorio."
+            NameCreate: {
+                required: "Este campo es obligatorio."
+            },
+            AddressCreate: {
+                required: "Este campo es obligatorio."
+            }
         },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
+        errorClass: "errorTextForm",
+        errorElement: "p"
     });
 }
 
@@ -115,6 +122,7 @@ function ShowUpdateModal() {
     $("#AddressUpdate").val(branchOfficeObj.Address);
     $("#FormModalUpdate").modal("show");
     $("#ErrorUpdate").hide();
+    UpdateForm.resetForm();
 }
 
 function DeparmentReadyUpdate() {
@@ -167,7 +175,7 @@ function ChangeMunicipalityUpdate() {
 }
 
 function ValidatorUpdate() {
-    $("#UpdateForm").validate({
+    UpdateForm = $("#UpdateForm").validate({
         rules: {
             NameUpdate: {
                 required: true
@@ -177,17 +185,19 @@ function ValidatorUpdate() {
             }
         },
         messages: {
-            NameUpdate: "- El campo \"Nombre\" es obligatorio.",
-            AddressUpdate: "- El campo \"Dirección\" es obligatorio."
+            NameUpdate: {
+                required: "Este campo es obligatorio."
+            },
+            AddressUpdate: {
+                required: "Este campo es obligatorio."
+            }
         },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
+        errorClass: "errorTextForm",
+        errorElement: "p"
     });
 }
 
 function ShowPhoneRead() {
-    $("#FormModalPhone").modal("show");
 
     var rowSelected = $(this).closest("tr");
     if ($(rowSelected).hasClass('child')) {
@@ -195,6 +205,14 @@ function ShowPhoneRead() {
     }
 
     branchOfficeObj = branchOfficeTable.row(rowSelected).data();
+
+    if (!branchOfficeObj.Active) {
+        warningAudio.play();
+        swal("Información", "La sucursal se encuentra deshabilitada, no puede realizar esta acción.", "info");
+        return;
+    }
+
+    $("#FormModalPhone").modal("show");
 
     if (phoneTable != null) {
         phoneTable.destroy();
@@ -210,7 +228,6 @@ function ShowPhoneRead() {
         },
         "columns": [
             { "data": "Id" },
-            { "data": "BranchOffice.Name" },
             { "data": "PhoneNumber" },
             {
                 "data": "Active", "render": function (value) {
@@ -221,8 +238,8 @@ function ShowPhoneRead() {
                 }
             },
             {
-                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1"><i class="fas fa-pen"></i></button>' +
-                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1"><i class="fas fa-trash"></i></button>',
+                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1  data-toggle="tooltip" title="Editar teléfono"><i class="fas fa-pen"></i></button>' +
+                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1  data-toggle="tooltip" title="Eliminar teléfono"><i class="fas fa-trash"></i></button>',
                 "orderable": false,
                 "searchable": false
             }
@@ -240,11 +257,12 @@ function ShowPhoneCreate() {
     $("#PhoneCreate").val("");
     $("#ActivePhoneCreate").val(1);
     $("#ErrorPhoneCreate").hide();
+    CreatePhoneForm.resetForm();
 }
 
 function ValidatorPhoneCreate() {
 
-    $("#CreatePhoneForm").validate({
+    CreatePhoneForm = $("#CreatePhoneForm").validate({
         rules: {
             PhoneCreate: {
                 required: true,
@@ -252,11 +270,13 @@ function ValidatorPhoneCreate() {
             }
         },
         messages: {
-            PhoneCreate: { required: "- El campo \"Telefono\" es obligatorio." }
+            PhoneCreate: {
+                required: "Este campo es obligatorio.",
+                phoneNumber: "El formato debe ser 0000-0000"
+            }
         },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
+        errorClass: "errorTextForm",
+        errorElement: "p"
     });
 }
 
@@ -274,11 +294,12 @@ function ShowPhoneUpdate() {
     $("#PhoneUpdate").val(phoneObj.PhoneNumber);
     $("#ActivePhoneUpdate").val(phoneObj.Active ? 1 : 0);
     $("#ErrorPhoneUpdate").hide();
+    UpdatePhoneForm.resetForm();
 }
 
 function ValidatorPhoneUpdate() {
 
-    $("#UpdatePhoneForm").validate({
+    UpdatePhoneForm = $("#UpdatePhoneForm").validate({
         rules: {
             PhoneUpdate: {
                 required: true,
@@ -286,11 +307,13 @@ function ValidatorPhoneUpdate() {
             }
         },
         messages: {
-            PhoneUpdate: { required: "- El campo \"Telefono\" es obligatorio." }
+            PhoneUpdate: {
+                required: "Este campo es obligatorio.",
+                phoneNumber: "El formato debe ser 0000-0000"
+            }
         },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
+        errorClass: "errorTextForm",
+        errorElement: "p"
     });
 }
 
@@ -317,14 +340,37 @@ function Create() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            branchOfficeTable.ajax.reload();
+
+            // Ocultar Carga y Modal
+            $(".modal-body").LoadingOverlay("hide");
+            $("#FormModalCreate").modal("hide");
+
+            // Si se creo entonces notificar
             if (response.result) {
-                $(".modal-body").LoadingOverlay("hide");
-                $("#FormModalCreate").modal("hide");
-                branchOfficeTable.ajax.reload();
+                successAudio.play();
+                swal({
+                    title: "¡Buen trabajo!",
+                    text: "¡Has creado una nueva sucursal!",
+                    type: "success",
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        branchOfficeTable.ajax.reload();
+                    });
             }
+            // Sino entonces notificar
             else {
-                swal("No Logró Crear la Sucursal.", response.message, "error");
+                errorAudio.play();
+                swal({
+                    title: "¡Algo salió mal!",
+                    text: text,
+                    type: "error",
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                });
             }
         },
         error: function (error) {
@@ -360,15 +406,15 @@ function Read() {
             {
                 "data": "Active", "render": function (value) {
                     if (value)
-                        return '<h4><span class="badge badge-success">Habilitado</span></h4>';
+                        return '<h4><span class="badge badge-success">Habilitada</span></h4>';
                     else
-                        return '<h4><span class="badge badge-danger">Deshabilitado</span></h4>';
+                        return '<h4><span class="badge badge-danger">Deshabilitada</span></h4>';
                 }
             },
             {
-                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1"><i class="fas fa-pen"></i></button>' +
-                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1"><i class="fas fa-trash"></i></button>' +
-                    '<button type="button" class="btn btn-success btn-circle btn-sm btn-phone mr-1 mb-1"><i class="fas fa-phone-alt"></i></button>',
+                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1" data-toggle="tooltip" title="Editar sucursal"><i class="fas fa-pen"></i></button>' +
+                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1 data-toggle="tooltip" title="Eliminar sucursal"><i class="fas fa-trash"></i></button>' +
+                    '<button type="button" class="btn btn-success btn-circle btn-sm btn-phone mr-1 mb-1 data-toggle="tooltip" title="Ver teléfonos"><i class="fas fa-phone-alt"></i></button>',
                 "orderable": false,
                 "searchable": false
             }
@@ -402,17 +448,36 @@ function Update() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-
+            // Ocultar Carga y Modal
+            $(".modal-body").LoadingOverlay("hide");
+            $("#FormModalUpdate").modal("hide");
+            // Si se creó entonces notificar
             if (response.result) {
-                $(".modal-body").LoadingOverlay("hide");
-                $("#FormModalUpdate").modal("hide");
-                branchOfficeTable.ajax.reload();
+                successAudio.play();
+                swal({
+                    title: "¡Buen trabajo!",
+                    text: "¡Has actualizado la sucursal!",
+                    type: "success",
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        branchOfficeTable.ajax.reload();
+                    });
             }
+            // Sino entonces notificar
             else {
-                swal("No Logró Actualizar la Sucursal.", response.message, "error");
+                errorAudio.play();
+                swal({
+                    title: "¡Algo salió mal!",
+                    text: text,
+                    type: "error",
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                });
             }
-
-
         },
         error: function (error) {
 
@@ -433,44 +498,87 @@ function Update() {
 
 function Delete() {
     branchOfficeTableRowSelected = $(this).closest("tr");
+
     if ($(branchOfficeTableRowSelected).hasClass('child')) {
         branchOfficeTableRowSelected = $(branchOfficeTableRowSelected).prev();
     }
+
     branchOfficeObj = branchOfficeTable.row(branchOfficeTableRowSelected).data();
+
+    if (!branchOfficeObj.Active) {
+        warningAudio.play();
+        swal("Información", "La sucursal se encuentra deshabilitada, no puede realizar esta acción.", "info");
+        return;
+    }
+
+    warningAudio.play();
+    // Preguntar antes de eliminar
     swal({
         title: "Eliminar Sucursal",
-        text: "¿Estas Seguro que Deseas Eliminar esta Sucursal?",
+        text: "¡No podrás recuperar esta sucursal!",
         type: "warning",
         showCancelButton: true,
-        confirmButtonClass: "btn-primary",
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
-        closeOnConfirm: true
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "¡Sí, bórralo!",
+        cancelButtonText: "¡No, cancela por favor!",
+        closeOnConfirm: false,
+        closeOnCancel: false
     },
-        function () {
-
-            jQuery.ajax({
-                url: '/BranchOffice/DeleteBranchOffice',
-                type: "POST",
-                data: JSON.stringify({ branchOffice: branchOfficeObj }),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (response) {
-
-                    if (response.result) {
-                        branchOfficeTable.ajax.reload();
-                    }
-                    else {
-                        swal("No Logró Eliminar la Sucursal.", response.message, "error");
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                beforeSend: function () { }
-            });
-
-        });
+        function (isConfirm) {
+            // Si el usuario confirma entonces eliminarlo
+            if (isConfirm) {
+                jQuery.ajax({
+                    url: '/BranchOffice/DeleteBranchOffice',
+                    type: "POST",
+                    data: JSON.stringify({ branchOffice: branchOfficeObj }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        // Si se eliminó entonces notificar y actualizar tabla
+                        if (response.result) {
+                            successAudio.play();
+                            swal({
+                                title: "¡Eliminado!",
+                                text: "Su sucursal ha sido eliminada.",
+                                type: "success",
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "Aceptar",
+                                closeOnConfirm: true
+                            },
+                                function () {
+                                    branchOfficeTable.ajax.reload();
+                                }
+                            );
+                        }
+                        // Sino Entonces Notificar Error
+                        else {
+                            var text = response.message;
+                            if (response.message.includes("\"FK__BranchOff__Branc__300424B4\"")) {
+                                text = "La sucursal que tratas de eliminar está siendo utilizada.";
+                            }
+                            errorAudio.play();
+                            swal({
+                                title: "¡Algo salió mal!",
+                                text: text,
+                                type: "error",
+                                confirmButtonClass: "btn-danger",
+                                confirmButtonText: "Aceptar",
+                                closeOnConfirm: true
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    },
+                    beforeSend: function () { }
+                });
+            }
+            // Sino entonces notificar la cancelación
+            else {
+                swal("Cancelado", "Su sucursal está intacta.", "info");
+            }
+        }
+    );
 }
 
 function CreatePhone() {
@@ -491,21 +599,38 @@ function CreatePhone() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            branchOfficeTable.ajax.reload();
+
+            // Ocultar Carga y Modal
+            $(".modal-body").LoadingOverlay("hide");
+            $("#FormModalPhoneCreate").modal("hide");
+
+            // Si se creo entonces notificar
             if (response.result) {
-                phoneTable.ajax.reload();
-                $(".modal-body").LoadingOverlay("hide");
-                $("#FormModalPhoneCreate").modal("hide");
-                $("#FormModalPhone").modal("show");
-            }
-            else {
-                $(".modal-body").LoadingOverlay("hide");
-                $("#FormModalPhoneCreate").modal("hide");
+                successAudio.play();
                 swal({
-                    title: "No Logró Añadir el Teléfono.",
-                    text: response.message,
+                    title: "¡Buen trabajo!",
+                    text: "¡Has creado un nuevo teléfono!",
+                    type: "success",
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        phoneTable.ajax.reload();
+                        $("#FormModalPhone").modal("show");
+                    });
+            }
+            // Sino entonces notificar 
+            else {
+                var text = response.message;
+                if (response.message.includes("'UQ__BranchOf__85FB4E3844D82730'")) {
+                    text = "El teléfono que intenta agregar ya existe.";
+                }
+                errorAudio.play();
+                swal({
+                    title: "¡Algo salió mal!",
+                    text: text,
                     type: "error",
-                    showCancelButton: true,
                     confirmButtonClass: "btn-danger",
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
@@ -516,12 +641,12 @@ function CreatePhone() {
             }
         },
         error: function (error) {
+            errorAudio.play();
             $(".modal-body").LoadingOverlay("hide");
             $("#ErrorCreate").text(error.responseText);
             $("#ErrorCreate").show();
         },
         beforeSend: function () {
-
             $(".modal-body").LoadingOverlay("show", {
                 imageResizeFactor: 2,
                 text: "Cargando...",
@@ -552,21 +677,36 @@ function UpdatePhone() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            branchOfficeTable.ajax.reload();
+            // Ocultar Carga y Modal
+            $(".modal-body").LoadingOverlay("hide");
+            $("#FormModalPhoneUpdate").modal("hide");
+            // Si se creó entonces notificar
             if (response.result) {
-                phoneTable.ajax.reload();
-                $(".modal-body").LoadingOverlay("hide");
-                $("#FormModalPhoneUpdate").modal("hide");
-                $("#FormModalPhone").modal("show");
-            }
-            else {
-                $(".modal-body").LoadingOverlay("hide");
-                $("#FormModalPhoneUpdate").modal("hide");
+                successAudio.play();
                 swal({
-                    title: "No se Logró Actualizar el Teléfono.",
-                    text: response.message,
+                    title: "¡Buen trabajo!",
+                    text: "¡Has actualizado el teléfono!",
+                    type: "success",
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        phoneTable.ajax.reload();
+                        $("#FormModalPhone").modal("show");
+                    });
+            }
+            // Sino entonces notificar
+            else {
+                var text = response.message;
+                if (response.message.includes("'UQ__BranchOf__85FB4E3844D82730'")) {
+                    text = "El teléfono que intenta agregar ya existe.";
+                }
+                errorAudio.play();
+                swal({
+                    title: "¡Algo salió mal!",
+                    text: text,
                     type: "error",
-                    showCancelButton: true,
                     confirmButtonClass: "btn-danger",
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
@@ -594,51 +734,111 @@ function UpdatePhone() {
 
 function DeletePhone() {
     var rowSelected = $(this).closest("tr");
+
     if ($(rowSelected).hasClass('child')) {
         rowSelected = $(rowSelected).prev();
     }
+
     phoneObj = phoneTable.row(rowSelected).data();
+
     $("#FormModalPhone").modal("hide");
+
+    if (!phoneObj.Active) {
+        warningAudio.play();
+        swal({
+            title: "Información",
+            text: "El teléfono se encuentra deshabilitado, no puede realizar esta acción.",
+            type: "info",
+            confirmButtonClass: "btn-info",
+            confirmButtonText: "Aceptar",
+            closeOnConfirm: true
+        },
+            function () {
+                $("#FormModalPhone").modal("show");
+            }
+        );
+        return;
+    }
+
+
+    // Preguntar antes de eliminar
+    warningAudio.play();
     swal({
         title: "Eliminar Teléfono",
-        text: "¿Estas Seguro que Deseas Eliminar este teléfono?",
+        text: "¿Estás seguro de que deseas eliminar este teléfono?",
         type: "warning",
         showCancelButton: true,
-        confirmButtonClass: "btn-primary",
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
-        closeOnConfirm: true
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "¡Sí, bórralo!",
+        cancelButtonText: "¡No, cancela por favor!",
+        closeOnConfirm: false,
+        closeOnCancel: false
     },
-        function (inputValue) {
+        function (isConfirm) {
+            // Si el usuario confirma entonces eliminarlo
+            if (isConfirm) {
+                jQuery.ajax({
+                    url: '/BranchOffice/DeleteBranchOfficePhone',
+                    type: "POST",
+                    data: JSON.stringify({ branchOfficePhone: phoneObj }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
 
-            if (!inputValue) {
-                $("#FormModalPhone").modal("show");
-                return
+                        // Si se eliminó entonces notificar y actualizar tabla
+                        if (response.result) {
+                            successAudio.play();
+                            swal({
+                                title: "¡Eliminado!",
+                                text: "Su teléfono ha sido eliminado.",
+                                type: "success",
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "Aceptar",
+                                closeOnConfirm: true
+                            },
+                                function () {
+                                    $("#FormModalPhone").modal("show");
+                                    phoneTable.ajax.reload();
+                                }
+                            );
+                        }
+                        // Sino Entonces Notificar Error
+                        else {
+                            var text = response.message;
+                            errorAudio.play();
+                            swal({
+                                title: "¡Algo salió mal!",
+                                text: text,
+                                type: "error",
+                                confirmButtonClass: "btn-danger",
+                                confirmButtonText: "Aceptar",
+                                closeOnConfirm: true
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    },
+                    beforeSend: function () { }
+                });
             }
-
-            jQuery.ajax({
-                url: '/BranchOffice/DeleteBranchOfficePhone',
-                type: "POST",
-                data: JSON.stringify({ branchOfficePhone: phoneObj }),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (response) {
-                    if (response.result) {
-                        phoneTable.ajax.reload();
+            // Sino entonces notificar la cancelación
+            else {
+                swal({
+                    title: "Cancelado",
+                    text: "Su teléfono está intacto.",
+                    type: "info",
+                    confirmButtonClass: "btn-info",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
                         $("#FormModalPhone").modal("show");
                     }
-                    else {
-                        console.log("Hola mundo")
-                        swal("No Logró Eliminar el teléfono.", response.message, "error");
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                beforeSend: function () { }
-            });
-
-        });
+                );
+            }
+        }
+    );
 }
 
 document.addEventListener('DOMContentLoaded', function () {
