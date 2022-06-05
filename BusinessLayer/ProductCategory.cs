@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Data = DataLayer;
 using Entity = EntityLayer;
 
@@ -23,6 +24,11 @@ namespace BusinessLayer
         public List<Entity.ProductCategory> Read()
         {
             return _Db.Read();
+        }
+
+        public List<Entity.ProductCategory> ReadActive()
+        {
+            return _Db.Read().Where(c => c.Active).ToList();
         }
 
         public bool Update(Entity.ProductCategory productCategory, out string message)

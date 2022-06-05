@@ -58,8 +58,8 @@ function Read() {
                 }
             },
             {
-                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1"><i class="fas fa-pen"></i></button>' +
-                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1"><i class="fas fa-trash"></i></button>',
+                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1 data-toggle="tooltip" title="Editar producto""><i class="fas fa-pen"></i></button>' +
+                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1 data-toggle="tooltip" title="Eliminar producto""><i class="fas fa-trash"></i></button>',
                 "orderable": false,
                 "searchable": false
             }
@@ -75,7 +75,7 @@ function LoadSelectors() {
 
     // Peticion Marcas
     jQuery.ajax({
-        url: '/ProductBrand/Read',
+        url: '/ProductBrand/ReadActive',
         type: "GET",
         data: null,
         dataType: "json",
@@ -93,7 +93,7 @@ function LoadSelectors() {
 
     // Peticion Categorias
     jQuery.ajax({
-        url: '/ProductCategory/Read',
+        url: '/ProductCategory/ReadActive',
         type: "GET",
         data: null,
         dataType: "json",
@@ -153,7 +153,7 @@ function ShowCreateModal() {
     $("#StockCreate").val(0);
     $("#ProductCategoryCreate").val($("#ProductCategoryCreate option:first").val());
     $("#ProductPackagingCreate").val($("#ProductPackagingCreate option:first").val());
-    $("#NetContentCreate").val(0);
+    $("#NetContentCreate").val(0.01);
     $("#ProductMeasurementUnitCreate").val($("#ProductMeasurementUnitCreate option:first").val());
     $("#ProductBrandCreate").val($("#ProductBrandCreate option:first").val());
     $("#ActiveCreate").val($("#ActiveCreate option:first").val());
@@ -187,29 +187,28 @@ function Validator() {
         },
         messages: {
             NameCreate: {
-                required: "- El campo \"Nombre\" es obligatorio."
+                required: "Este campo es obligatorio."
             },
             NetContentCreate: {
-                required: "- El campo \"Contenido Neto\" es obligatorio.",
-                number: "- El campo \"Contenido Neto\" debe ser numerico.",
-                min: "- El Campo \"Contenido Neto\" no puede ser negativo."
+                required: "Este campo es obligatorio.",
+                number: "Este campo debe ser numerico.",
+                min: "El valor minímo de este campo es 0.01."
             },
             SalePriceCreate: {
-                required: "- El campo \"Precio Venta\" es obligatorio.",
-                number: "- El campo \"Precio Venta\" debe ser numerico.",
-                min: "- El Campo \"Precio Venta\" no puede ser negativo.",
+                required: "Este campo es obligatorio.",
+                number: "Este campo debe ser numerico.",
+                min: "El valor minímo de este campo es 0.00.",
 
             },
             StockCreate: {
-                required: "- El campo \"Stock\" es obligatorio.",
-                number: "- El campo \"Stock\" debe ser numerico.",
-                min: "- El Campo \"Stock\" no puede ser negativo.",
-                step: "- El Campo \"Stock\" debe ser multiplo de 1."
+                required: "Este campo es obligatorio.",
+                number: "Este campo debe ser numerico.",
+                min: "El valor minímo de este campo es 0.",
+                step: "Este campo debe ser multiplo de 1."
             }
         },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
+        errorClass: "errorTextForm",
+        errorElement: "p"
     });
 
     // Configurar Validaciones Al Actualizar
@@ -233,29 +232,27 @@ function Validator() {
         },
         messages: {
             NameUpdate: {
-                required: "- El campo \"Nombre\" es obligatorio."
+                required: "Este campo es obligatorio."
             },
             NetContentUpdate: {
-                required: "- El campo \"Contenido Neto\" es obligatorio.",
-                number: "- El campo \"Contenido Neto\" debe ser numerico.",
-                min: "- El Campo \"Contenido Neto\" no puede ser negativo."
+                required: "Este campo es obligatorio.",
+                number: "Este campo debe ser numerico.",
+                min: "El valor minímo de este campo es 0.01."
             },
             SalePriceUpdate: {
-                required: "- El campo \"Precio Venta\" es obligatorio.",
-                number: "- El campo \"Precio Venta\" debe ser numerico.",
-                min: "- El Campo \"Precio Venta\" no puede ser negativo.",
-
+                required: "Este campo es obligatorio.",
+                number: "Este campo debe ser numerico.",
+                min: "El valor minímo de este campo es 0.00.",
             },
             StockUpdate: {
-                required: "- El campo \"Stock\" es obligatorio.",
-                number: "- El campo \"Stock\" debe ser numerico.",
-                min: "- El Campo \"Stock\" no puede ser negativo.",
-                step: "- El Campo \"Stock\" debe ser multiplo de 1."
+                required: "Este campo es obligatorio.",
+                number: "Este campo debe ser numerico.",
+                min: "El valor minímo de este campo es 0.",
+                step: "Este campo debe ser multiplo de 1."
             }
         },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
+        errorClass: "errorTextForm",
+        errorElement: "p"
     });
 }
 
@@ -298,19 +295,44 @@ function Create() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-
             // Ocultar Carga y Modal
             $(".modal-body").LoadingOverlay("hide");
             $("#FormModalCreate").modal("hide");
 
             // Si se creo entonces notificar
             if (response.result) {
-                productTable.ajax.reload();
-                swal("Buen trabajo!", "Haz creado un nuevo producto!", "success")
+                successAudio.play();
+                swal({
+                    title: "¡Buen trabajo!",
+                    text: "¡Has creado un nuevo producto!",
+                    type: "success",
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        productTable.ajax.reload();
+                    });
             }
             // Sino entonces notificar
             else {
-                swal("¡Algo salió mal!", response.message, "error");
+                var text = response.message;
+                if (response.message.includes("Referencia a objeto no establecida como instancia de un objeto.")) {
+                    text = "No se proporcionó uno o más campos del formulario.";
+                }
+                errorAudio.play();
+                swal({
+                    title: "¡Algo salió mal!",
+                    text: text,
+                    type: "error",
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        $("#FormModalCreate").modal("show");
+                    }
+                );
             }
         },
         error: function (error) {
@@ -400,12 +422,38 @@ function Update() {
             $("#FormModalUpdate").modal("hide");
             // Si se creó entonces notificar
             if (response.result) {
-                productTable.ajax.reload();
-                swal("Buen trabajo!", "Haz actualizado el producto!", "success")
+                successAudio.play();
+                swal({
+                    title: "¡Buen trabajo!",
+                    text: "¡Has actualizado el producto!",
+                    type: "success",
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        productTable.ajax.reload();
+                    });
             }
             // Sino entonces notificar
             else {
-                swal("¡Algo salió mal!", response.message, "error");
+                var text = response.message;
+                if (response.message.includes("Referencia a objeto no establecida como instancia de un objeto.")) {
+                    text = "No se proporcionó uno de los campos del formulario.";
+                }
+                errorAudio.play();
+                swal({
+                    title: "¡Algo salió mal!",
+                    text: text,
+                    type: "error",
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        $("#FormModalUpdate").modal("show");
+                    }
+                );
             }
         },
         error: function (error) {
@@ -437,9 +485,17 @@ function Delete() {
     // Crear Objeto
     productObj = productTable.row(rowSelected).data();
 
+    if (!productObj.Active) {
+        warningAudio.play();
+        swal("Información", "El producto se encuentra deshabilitado, no puede realizar esta acción.", "info");
+        return;
+    }
+
+    warningAudio.play();
+
     // Preguntar antes de eliminar
     swal({
-        title: "¿Estás seguro?",
+        title: "Eliminar Producto",
         text: "¡No podrás recuperar este producto!",
         type: "warning",
         showCancelButton: true,
@@ -461,17 +517,38 @@ function Delete() {
                     success: function (response) {
                         // Si se eliminó entonces notificar y actualizar tabla
                         if (response.result) {
-                            swal("¡Eliminado!", "Su producto ha sido eliminado.", "success");
-                            productTable.ajax.reload();
+                            successAudio.play();
+                            swal({
+                                title: "¡Eliminado!",
+                                text: "Su producto ha sido eliminado.",
+                                type: "success",
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "Aceptar",
+                                closeOnConfirm: true
+                            },
+                                function () {
+                                    productTable.ajax.reload();
+                                }
+                            );
                         }
                         // Sino Entonces Notificar Error
                         else {
+                            var text = response.message;
                             if (response.message.includes("\"FK__SaleDetai__Produ__0A9D95DB\"")) {
-                                swal("¡Algo salió mal!", "El producto que tratas de eliminar está siendo utilizado. Intenta deshabilitarlo.", "error");
+                                text = "El producto que tratas de eliminar está siendo utilizado en los registros de ventas.";
                             }
-                            else {
-                                swal("¡Algo salió mal!", response.message, "error");
+                            if (response.message.includes("\"FK__PurchaseD__Produ__4B422AD5\"")) {
+                                text = "El producto que tratas de eliminar está siendo utilizado en los registros de compras.";
                             }
+                            errorAudio.play();
+                            swal({
+                                title: "¡Algo salió mal!",
+                                text: text,
+                                type: "error",
+                                confirmButtonClass: "btn-danger",
+                                confirmButtonText: "Aceptar",
+                                closeOnConfirm: true
+                            });
                         }
                     },
                     error: function (error) {
@@ -482,7 +559,7 @@ function Delete() {
             }
             // Sino entonces notificar la cancelación
             else {
-                swal("Cancelado", "Su producto está intacto 😎👍", "error");
+                swal("Cancelado", "Su producto está intacto.", "info");
             }
         }
     );

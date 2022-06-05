@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Data = DataLayer;
 using Entity = EntityLayer;
 
@@ -24,7 +25,11 @@ namespace BusinessLayer
         {
             return _Db.Read();
         }
-
+        
+        public List<Entity.ProductBrand> ReadActive()
+        {
+            return _Db.Read().Where(b => b.Active).ToList();
+        }
         public bool Update(Entity.ProductBrand productBrand, out string message)
         {
             // Validar Nombre

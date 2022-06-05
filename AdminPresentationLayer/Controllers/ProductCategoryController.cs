@@ -30,6 +30,16 @@ namespace AdminPresentationLayer.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult ReadActive()
+        {
+            var json = new
+            {
+                data = new Business.ProductCategory().ReadActive()
+            };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult Update(Entity.ProductCategory productCategory)
         {
