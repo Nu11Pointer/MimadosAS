@@ -2,6 +2,8 @@
 var rowSelected;
 var productTable;
 var productObj;
+var CreateForm;
+var UpdateForm;
 
 // Evento Document Loaded
 document.addEventListener('DOMContentLoaded', function () {
@@ -160,6 +162,7 @@ function ShowCreateModal() {
     $("#DescriptionCreate").val("");
     $("#FormModalCreate").modal("show");
     $("#ErrorCreate").hide();
+    CreateForm.resetForm();
     productTable.columns.adjust().responsive.recalc();
 }
 
@@ -167,7 +170,7 @@ function ShowCreateModal() {
 function Validator() {
 
     // Configurar Validaciones Al Crear
-    $("#CreateForm").validate({
+    CreateForm = $("#CreateForm").validate({
         rules: {
             NameCreate: {
                 required: true
@@ -212,7 +215,7 @@ function Validator() {
     });
 
     // Configurar Validaciones Al Actualizar
-    $("#UpdateForm").validate({
+    UpdateForm = $("#UpdateForm").validate({
         rules: {
             NameUpdate: {
                 required: true
@@ -376,6 +379,7 @@ function ShowUpdateModal() {
     $("#DescriptionUpdate").val(productObj.Description);
     $("#FormModalUpdate").modal("show");
     $("#ErrorUpdate").hide();
+    UpdateForm.resetForm();
 }
 
 // Actualizar Producto

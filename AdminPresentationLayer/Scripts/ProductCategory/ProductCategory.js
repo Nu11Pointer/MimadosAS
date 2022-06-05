@@ -18,7 +18,6 @@ function SetUp() {
     // Show DataTable
     Read();
 
-
     // Crear Validaciones
     Validator();
 
@@ -44,14 +43,14 @@ function Read() {
             {
                 "data": "Active", "render": function (value) {
                     if (value)
-                        return '<h5><span class="badge badge-success">Habilitado</span></h5>';
+                        return '<h5><span class="badge badge-success">Habilitada</span></h5>';
                     else
-                        return '<h5><span class="badge badge-danger">Deshabilitado</span></h5>';
+                        return '<h5><span class="badge badge-danger">Deshabilitada</span></h5>';
                 }
             },
             {
-                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1"><i class="fas fa-pen"></i></button>' +
-                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1"><i class="fas fa-trash"></i></button>',
+                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1 data-toggle="tooltip" title="Editar categoría""><i class="fas fa-pen"></i></button>' +
+                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1 data-toggle="tooltip" title="Eliminar categoría""><i class="fas fa-trash"></i></button>',
                 "orderable": false,
                 "searchable": false
             }
@@ -77,11 +76,12 @@ function Validator() {
             }
         },
         messages: {
-            NameCreate: "- El campo \"Nombre\" es obligatorio."
+            NameCreate: {
+                required: "Este campo es obligatorio."
+            }
         },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
+        errorClass: "errorTextForm",
+        errorElement: "p"
     });
 
     $("#UpdateForm").validate({
@@ -91,11 +91,12 @@ function Validator() {
             }
         },
         messages: {
-            NameUpdate: "- El campo \"Nombre\" es obligatorio."
+            NameUpdate: {
+                required: "Este campo es obligatorio."
+            }
         },
-        errorElement: "div",
-        errorClass: "form-label",
-        errorLabelContainer: ".alert-danger"
+        errorClass: "errorTextForm",
+        errorElement: "p"
     });
 }
 
@@ -118,14 +119,41 @@ function Create() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-            productCategoryTable.ajax.reload();
+            // Ocultar Carga y Modal
+            $(".modal-body").LoadingOverlay("hide");
+            $("#FormModalCreate").modal("hide");
+
+            // Si se creo entonces notificar
             if (response.result) {
-                $(".modal-body").LoadingOverlay("hide");
-                $("#FormModalCreate").modal("hide");
-                productCategoryTable.ajax.reload();
+                successAudio.play();
+                swal({
+                    title: "¡Buen trabajo!",
+                    text: "¡Has creado una nueva categoría!",
+                    type: "success",
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        productCategoryTable.ajax.reload();
+                    });
             }
+            // Sino entonces notificar
             else {
-                swal("No Se Logró Crear El Categoria.", response.message, "error");
+                var text = response.message;
+                errorAudio.play();
+                swal({
+                    title: "¡Algo salió mal!",
+                    text: text,
+                    type: "error",
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        $("#FormModalCreate").modal("show");
+                    }
+                );
             }
         },
         error: function (error) {
@@ -178,14 +206,40 @@ function Update() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-
+            // Ocultar Carga y Modal
+            $(".modal-body").LoadingOverlay("hide");
+            $("#FormModalUpdate").modal("hide");
+            // Si se creó entonces notificar
             if (response.result) {
-                $(".modal-body").LoadingOverlay("hide");
-                $("#FormModalUpdate").modal("hide");
-                productCategoryTable.ajax.reload();
+                successAudio.play();
+                swal({
+                    title: "¡Buen trabajo!",
+                    text: "¡Has actualizado la categoría!",
+                    type: "success",
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        productCategoryTable.ajax.reload();
+                    });
             }
+            // Sino entonces notificar
             else {
-                swal("No Se Logró Actualizar el Categoria.", response.message, "error");
+                var text = response.message;
+                errorAudio.play();
+                swal({
+                    title: "¡Algo salió mal!",
+                    text: text,
+                    type: "error",
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                },
+                    function () {
+                        $("#FormModalUpdate").modal("show");
+                    }
+                );
             }
         },
         error: function (error) {
@@ -214,6 +268,81 @@ function Delete() {
 
     productCategoryObj = productCategoryTable.row(rowSelected).data();
 
+    if (!productCategoryObj.Active) {
+        warningAudio.play();
+        swal("Información", "La categoría se encuentra deshabilitada, no puede realizar esta acción.", "info");
+        return;
+    }
+
+    warningAudio.play();
+    // Preguntar antes de eliminar
+    swal({
+        title: "Eliminar Categoría",
+        text: "¡No podrás recuperar este producto!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "¡Sí, bórralo!",
+        cancelButtonText: "¡No, cancela por favor!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    },
+        function (isConfirm) {
+            // Si el usuario confirma entonces eliminarlo
+            if (isConfirm) {
+                jQuery.ajax({
+                    url: '/ProductCategory/Delete',
+                    type: "POST",
+                    data: JSON.stringify({ productCategory: productCategoryObj }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        // Si se eliminó entonces notificar y actualizar tabla
+                        if (response.result) {
+                            successAudio.play();
+                            swal({
+                                title: "¡Eliminado!",
+                                text: "Su categoría ha sido eliminada.",
+                                type: "success",
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "Aceptar",
+                                closeOnConfirm: true
+                            },
+                                function () {
+                                    productCategoryTable.ajax.reload();
+                                }
+                            );
+                        }
+                        // Sino Entonces Notificar Error
+                        else {
+                            var text = response.message;
+                            if (response.message.includes("\"FK__Product__Product__693CA210\"")) {
+                                text = "La categoría que tratas de eliminar está siendo utilizado en los registros de productos.";
+                            }
+                            errorAudio.play();
+                            swal({
+                                title: "¡Algo salió mal!",
+                                text: text,
+                                type: "error",
+                                confirmButtonClass: "btn-danger",
+                                confirmButtonText: "Aceptar",
+                                closeOnConfirm: true
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    },
+                    beforeSend: function () { }
+                });
+            }
+            // Sino entonces notificar la cancelación
+            else {
+                swal("Cancelado", "Su categoría está intacta.", "info");
+            }
+        }
+    );
+    return
     swal({
         title: "Eliminar Categoria",
         text: "¿Estas Seguro que Deseas Eliminar Esta Categoria?",
