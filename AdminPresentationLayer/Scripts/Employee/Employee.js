@@ -156,7 +156,7 @@ function MunicipalityOnChange() {
 function BranchOfficeLoad() {
     // Load Selector BranchOffice
     jQuery.ajax({
-        url: '/BranchOffice/ReadBranchOffices',
+        url: '/BranchOffice/ReadActiveBranchOffices',
         type: "GET",
         data: null,
         dataType: "json",
@@ -413,6 +413,10 @@ function Create() {
             }
             // Sino entonces notificar
             else {
+                var text = response.message;
+                if (response.message.includes("Referencia a objeto no establecida como instancia de un objeto.")) {
+                    text = "No se proporcionó uno de los campos del formulario.";
+                }
                 errorAudio.play();
                 swal({
                     title: "¡Algo salió mal!",
@@ -421,7 +425,11 @@ function Create() {
                     confirmButtonClass: "btn-danger",
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
-                });
+                },
+                    function () {
+                        $("#FormModalCreate").modal("show");
+                    }
+                );
             }
         },
         error: function (error) {
@@ -515,6 +523,10 @@ function Update() {
             }
             // Sino entonces notificar
             else {
+                var text = response.message;
+                if (response.message.includes("Referencia a objeto no establecida como instancia de un objeto.")) {
+                    text = "No se proporcionó uno de los campos del formulario.";
+                }
                 errorAudio.play();
                 swal({
                     title: "¡Algo salió mal!",
@@ -523,11 +535,15 @@ function Update() {
                     confirmButtonClass: "btn-danger",
                     confirmButtonText: "Aceptar",
                     closeOnConfirm: true
-                });
+                },
+                    function () {
+                        $("#FormModalUpdate").modal("show");
+                    }
+                );
             }
         },
         error: function (error) {
-
+            console.log(error);
             $(".modal-body").LoadingOverlay("hide");
             $("#ErrorUpdate").text(error.responseText);
             $("#ErrorUpdate").show();

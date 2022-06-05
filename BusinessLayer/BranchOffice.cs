@@ -19,6 +19,11 @@ namespace BusinessLayer
             return _Db.Read().FirstOrDefault(b => b.Id == Id);
         }
 
+        public List<Entity.BranchOffice> ReadActive()
+        {
+            return _Db.Read().Where(b => b.Active).ToList();
+        }
+
         public int Create(Entity.BranchOffice branchOffice, out string message)
         {
             // Check Name

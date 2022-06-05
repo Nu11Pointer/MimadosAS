@@ -21,6 +21,14 @@ namespace AdminPresentationLayer.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult ReadActiveBranchOffices()
+        {
+            var data = new Business.BranchOffice().ReadActive();
+            var json = new { data };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult CreateBranchOffice(Entity.BranchOffice branchOffice)
         {
