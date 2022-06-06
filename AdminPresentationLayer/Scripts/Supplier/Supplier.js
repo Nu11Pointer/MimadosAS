@@ -573,8 +573,8 @@ function ShowPhone() {
                 }
             },
             {
-                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1"><i class="fas fa-pen"></i></button>' +
-                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1"><i class="fas fa-trash"></i></button>',
+                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1 data-toggle="tooltip" title="Editar teléfono""><i class="fas fa-pen"></i></button>' +
+                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1 data-toggle="tooltip" title="Eliminar teléfono""><i class="fas fa-trash"></i></button>',
                 "orderable": false,
                 "searchable": false
             }
@@ -814,7 +814,6 @@ function DeletePhone() {
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (response) {
-
                         // Si se eliminó entonces notificar y actualizar tabla
                         if (response.result) {
                             successAudio.play();
@@ -907,8 +906,8 @@ function ShowEmail() {
                 }
             },
             {
-                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1"><i class="fas fa-pen"></i></button>' +
-                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1"><i class="fas fa-trash"></i></button>',
+                "defaultContent": '<button type="button" class="btn btn-primary btn-circle btn-sm btn-update mr-1 mb-1 data-toggle="tooltip" title="Editar correo""><i class="fas fa-pen"></i></button>' +
+                    '<button type="button" class="btn btn-danger btn-circle btn-sm ms-2 btn-detelete mr-1 mb-1 data-toggle="tooltip" title="Eliminar correo""><i class="fas fa-trash"></i></button>',
                 "orderable": false,
                 "searchable": false
             }

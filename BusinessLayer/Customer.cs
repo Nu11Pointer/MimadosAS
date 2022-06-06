@@ -11,20 +11,6 @@ namespace BusinessLayer
 
         public bool Create(Entity.Customer customer, out string message)
         {
-            // Check IdentityCard
-            if (string.IsNullOrEmpty(customer.IdentityCard) || string.IsNullOrWhiteSpace(customer.IdentityCard))
-            {
-                message = "El campo \"Identificación\" no puede ser vacio.";
-                return false;
-            }
-
-            // Check Length IdentityCard
-            if (customer.IdentityCard.Length != 16)
-            {
-                message = "El campo \"Identificación\" debe tener 16 caracteres.";
-                return false;
-            }
-
             // Check Name
             if (string.IsNullOrEmpty(customer.Name) || string.IsNullOrWhiteSpace(customer.Name))
             {
@@ -61,20 +47,6 @@ namespace BusinessLayer
 
         public bool Update(Entity.Customer customer, out string message)
         {
-            // Check IdentityCard
-            if (string.IsNullOrEmpty(customer.IdentityCard) || string.IsNullOrWhiteSpace(customer.IdentityCard))
-            {
-                message = "El campo \"Identificación\" no puede ser vacio.";
-                return false;
-            }
-
-            // Check Length IdentityCard
-            if (customer.IdentityCard.Length != 16)
-            {
-                message = "El campo \"Identificación\" debe tener 16 caracteres.";
-                return false;
-            }
-
             // Check Name
             if (string.IsNullOrEmpty(customer.Name) || string.IsNullOrWhiteSpace(customer.Name))
             {
