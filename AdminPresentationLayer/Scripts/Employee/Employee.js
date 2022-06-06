@@ -1280,7 +1280,6 @@ function DeleteEmail() {
                         // Sino Entonces Notificar Error
                         else {
                             var text = response.message;
-                            var text = response.message;
                             if (response.message.includes("\"FK__User__EmployeeEm__00AA174D\"")) {
                                 text = "El correo que desea eliminar está asociado a una cuenta del sistema.";
                             }
@@ -1322,45 +1321,4 @@ function DeleteEmail() {
             }
         }
     );
-
-    return;
-    swal({
-        title: "Eliminar Correo",
-        text: "¿Estas Seguro que Deseas Eliminar este Correo?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-primary",
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
-        closeOnConfirm: true
-    },
-        function (inputValue) {
-
-            if (!inputValue) {
-                $("#FormModalEmail").modal("show");
-                return
-            }
-
-            jQuery.ajax({
-                url: '/EmployeeEmail/Delete',
-                type: "POST",
-                data: JSON.stringify({ employeeEmail: emailObj }),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (response) {
-
-                    if (response.result) {
-                        emailTable.ajax.reload();
-                        $("#FormModalEmail").modal("show");
-                    }
-                    else {
-                        swal("No Logró Eliminar el Correo.", response.message, "error");
-                    }
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                beforeSend: function () { }
-            });
-        });
 }
