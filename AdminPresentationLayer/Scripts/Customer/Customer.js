@@ -139,9 +139,6 @@ function Validator() {
             },
             SurNameCreate: {
                 required: true
-            },
-            AddressCreate: {
-                required: true
             }
         },
         messages: {
@@ -149,9 +146,6 @@ function Validator() {
                 required: "Este campo es obligatorio."
             },
             SurNameCreate: {
-                required: "Este campo es obligatorio."
-            },
-            AddressCreate: {
                 required: "Este campo es obligatorio."
             }
         },
@@ -161,13 +155,10 @@ function Validator() {
 
     UpdateForm = $("#UpdateForm").validate({
         rules: {
-            IdentitityCardUpdate: {
-                identification: true
-            },
             NameUpdate: {
                 required: true
             },
-            AddressUpdate: {
+            SurNameUpdate: {
                 required: true
             }
         },
@@ -175,10 +166,7 @@ function Validator() {
             NameUpdate: {
                 required: "Este campo es obligatorio."
             },
-            SurNameCreate: {
-                required: "Este campo es obligatorio."
-            },
-            AddressUpdate: {
+            SurNameUpdate: {
                 required: "Este campo es obligatorio."
             }
         },
@@ -257,7 +245,7 @@ function Create() {
         "IdentityCard": $("#IdentitityCardCreate").val(),
         "Name": $("#NameCreate").val(),
         "SurName": $("#SurNameCreate").val(),
-        "Address": $("#AddressCreate").val(),
+        "Address": $("#AddressCreate").val() == null ? "" : $("#AddressCreate").val() ,
         "Municipality": {
             "Id": $("#MunicipalityCreate option:selected").val()
         },
@@ -341,7 +329,7 @@ function Update() {
         "IdentityCard": $("#IdentitityCardUpdate").val(),
         "Name": $("#NameUpdate").val(),
         "SurName": $("#SurNameUpdate").val(),
-        "Address": $("#AddressUpdate").val(),
+        "Address": $("#AddressUpdate").val() == null ? "" : $("#AddressUpdate").val(),
         "Municipality": {
             "Id": $("#MunicipalityUpdate option:selected").val()
         },

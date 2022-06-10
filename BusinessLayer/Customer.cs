@@ -25,12 +25,8 @@ namespace BusinessLayer
                 return false;
             }
 
-            // Check Address
-            if (string.IsNullOrEmpty(customer.Address) || string.IsNullOrWhiteSpace(customer.Address))
-            {
-                message = "El campo \"Dirección\" no puede ser vacio.";
-                return false;
-            }
+            customer.IdentityCard = customer.IdentityCard is null ? "" : customer.IdentityCard;
+            customer.Address = customer.Address is null ? "" : customer.Address;
 
             return _db.Create(customer, out message);
         }
@@ -61,12 +57,8 @@ namespace BusinessLayer
                 return false;
             }
 
-            // Check Address
-            if (string.IsNullOrEmpty(customer.Address) || string.IsNullOrWhiteSpace(customer.Address))
-            {
-                message = "El campo \"Dirección\" no puede ser vacio.";
-                return false;
-            }
+            customer.IdentityCard = customer.IdentityCard is null ? "" : customer.IdentityCard;
+            customer.Address = customer.Address is null ? "" : customer.Address;
 
             return _db.Update(customer, out message);
         }
