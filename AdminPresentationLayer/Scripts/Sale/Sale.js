@@ -260,7 +260,8 @@ $('#btnAgregar').on('click', function () {
 
         $("<tr>").append(
             $("<td>").append(
-                $("<button>").addClass("btn btn-danger btn-sm").text("Eliminar").data("idproducto", parseInt($("#txtIdProducto").val())).data("cantidadproducto", parseInt($("#txtproductocantidad").val()))
+                $("<button>").addClass("btn btn-primary btn-circle btn-sm mr-1").append('<i class="fas fa-pen">').data("idproducto", parseInt($("#txtIdProducto").val())).data("cantidadproducto", parseInt($("#txtproductocantidad").val())),
+                $("<button>").addClass("btn btn-danger btn-circle btn-sm").append('<i class="fas fa-trash">').data("idproducto", parseInt($("#txtIdProducto").val())).data("cantidadproducto", parseInt($("#txtproductocantidad").val()))
             ),
             $("<td>").addClass("productocantidad").text(parseInt($("#txtproductocantidad").val())),
             $("<td>").addClass("producto").data("idproducto", $("#txtIdProducto").val()).text($("#txtproductonombre").val()),
@@ -303,7 +304,7 @@ $('#btnAgregar').on('click', function () {
     calcularPrecios();
 })
 
-$('#tbVenta tbody').on('click', 'button[class="btn btn-danger btn-sm"]', function () {
+$('#tbVenta tbody').on('click', 'button[class="btn btn-danger btn-circle btn-sm"]', function () {
     var idproducto = $(this).data("idproducto");
     var cantidadproducto = $(this).data("cantidadproducto");
 
@@ -313,6 +314,96 @@ $('#tbVenta tbody').on('click', 'button[class="btn btn-danger btn-sm"]', functio
 
     calcularPrecios();
 })
+
+$('#tbVenta tbody').on('click', 'button[class="btn btn-primary btn-circle btn-sm mr-1"]', function () {
+    var idproducto = $(this).data("idproducto");
+    var cantidadproducto = $(this).data("cantidadproducto");
+
+    jQuery.ajax({
+        url: '/Product/ReadById',
+        type: "POST",
+        data: JSON.stringify({ id: idproducto }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            productToChangeQuantity = response.data;
+            $("#Quantity").val(cantidadproducto);
+            $("#ProductCart").modal('show');
+        },
+        error: function (error) {
+            console.log(error)
+        },
+        beforeSend: function () {
+        },
+    });
+})
+
+$(function () {
+    $("form").submit(function () { return false; });
+});
+
+var productToChangeQuantity;
+
+function pressEnter() {
+    if (event.key === 'Enter') {
+        changeQuantityRow(parseInt($("#Quantity").val()), productToChangeQuantity);
+    }
+}
+
+function changeQuantityRow(quantity, product) {
+
+    if (quantity <= 0) {
+        return;
+    }
+
+    var existe_codigo = false;
+    var fila;
+    $('#tbVenta > tbody  > tr').each(function (index, tr) {
+
+        fila = tr;
+        var idproducto = $(fila).find("td.producto").data("idproducto");
+
+        if (idproducto == product.Id) {
+            existe_codigo = true;
+            return false;
+        }
+    });
+
+    if (existe_codigo) {
+        // Obtener los datos viejos
+        var td_button = $(fila).find("td").find("button");
+        var td_importetotal = $(fila).find("td.importetotal");
+        var td_productocantidad = $(fila).find("td.productocantidad");
+
+        // Calcular los nuevos datos
+        var cantidadproducto = quantity;
+        var importetotal = product.SalePrice * cantidadproducto;
+
+        var quantityOnStock = td_button.data("cantidadproducto") + product.Stock
+        if (quantityOnStock < quantity) {
+            console.log("Stock insuficiente.")
+            return;
+        }
+
+        // Devolver al almacen
+        controlarStock(product.Id, td_button.data("cantidadproducto"));
+
+        // Actualizar Información de la fila
+        td_importetotal.text("C$ " + importetotal);
+        td_productocantidad.text(cantidadproducto);
+        td_button.data("cantidadproducto", cantidadproducto);
+
+
+        // Sacar del almacen
+        controlarStock(product.Id, cantidadproducto * -1);
+
+        // Actualizar Arreglo
+        var index = PurchaseDetail.findIndex(item => item.Product.Id == product.Id);
+        PurchaseDetail[index].Quantity = cantidadproducto;
+        $("#ProductCart").modal('hide');
+    }
+    calcularPrecios();
+}
 
 function calcularCambio() {
     var montopago = $("#txtmontopago").val().trim() == "" ? 0 : parseFloat($("#txtmontopago").val().trim());

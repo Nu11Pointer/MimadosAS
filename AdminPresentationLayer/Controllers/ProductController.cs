@@ -31,6 +31,16 @@ namespace AdminPresentationLayer.Controllers
         }
 
         [HttpPost]
+        public JsonResult ReadById(int id)
+        {
+            var json = new
+            {
+                data = new Business.Product().ReadById(id)
+            };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public JsonResult Update(Entity.Product product)
         {
             var result = new Business.Product().Update(product, out string message);

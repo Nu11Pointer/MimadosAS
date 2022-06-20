@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Data = DataLayer;
 using Entity = EntityLayer;
 
@@ -29,6 +30,11 @@ namespace BusinessLayer
         public List<Entity.Product> Read()
         {
             return _Db.Read();
+        }
+
+        public Entity.Product ReadById(int id)
+        {
+            return _Db.Read().Where(p => p.Id == id).FirstOrDefault();
         }
 
         public bool Update(Entity.Product product, out string message)
