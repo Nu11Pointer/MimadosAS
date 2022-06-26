@@ -28,6 +28,7 @@ namespace AdminPresentationLayer
                 "~/Content/DataTables/css/responsive.dataTables.css",
                 "~/Content/jquery-ui.css",
                 "~/Content/sweetalert.css",
+                "~/Content/daterangepicker.css",
                 "~/Content/modal.css"
                 ));
 
@@ -46,6 +47,7 @@ namespace AdminPresentationLayer
                 "~/Scripts/sweetalert.min.js",
                 "~/Scripts/Moment/moment.min.js",
                 "~/Scripts/Moment/datetime-moment.js",
+                "~/Scripts/daterangepicker.min.js",
                 "~/Scripts/MimadosSoundEffect.js",
                 "~/Scripts/SessionScript.js"));
         }
