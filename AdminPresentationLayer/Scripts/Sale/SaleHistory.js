@@ -130,6 +130,15 @@ function Excel() {
     window.open(url);
 }
 
+function PDF() {
+
+    var start = startDay.format('DD/MM/YYYY HH:mm:ss a');
+    var end = endDay.format('DD/MM/YYYY HH:mm:ss a');
+
+    var url = '/Sale/Report?start=' + start + '&end=' + end;
+    window.open(url);
+}
+
 function invoice(json) {
     var url = "/Sale/Invoce?id=" + json.Id;
     window.open(url);

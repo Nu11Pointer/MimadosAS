@@ -1,5 +1,8 @@
-﻿using ClosedXML.Excel;
+﻿using AdminPresentationLayer.Models;
+using ClosedXML.Excel;
+using Rotativa;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -88,7 +91,7 @@ namespace AdminPresentationLayer.Controllers
                 using (MemoryStream stream = new MemoryStream())
                 {
                     wb.SaveAs(stream);
-                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"ventas{DateTime.Now}.xlsx");
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"ventas_{DateTime.Now.ToShortDateString()}.xlsx");
                 }
             }
         }
@@ -96,6 +99,27 @@ namespace AdminPresentationLayer.Controllers
         public ActionResult SaleHistory()
         {
             return View();
+        }
+
+        public ActionResult Report(string start, string end)
+        {
+            return new ActionAsPdf("TableSaleHistory", new { start, end })
+            {
+                FileName = $"ventas_{DateTime.Now.ToShortDateString()}.pdf",
+                PageSize = Rotativa.Options.Size.A4
+            };
+        }
+
+        public ActionResult TableSaleHistory(string start, string end)
+        {
+            var sales = new Business.Sale().Fetch(start, end);
+            var tabla = new TablaSaleHistory()
+            {
+                Sale = sales,
+                Start = "01/01/2022 00:00:00 am",
+                End = "31/12/2022 23:59:59 pm"
+            };
+            return View(tabla);
         }
     }
 }

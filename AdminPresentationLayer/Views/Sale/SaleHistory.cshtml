@@ -18,34 +18,34 @@
 
         <hr />
 
-            <div class="row align-items-end" id="buttons">
-                <div class="col-sm-5">
-                    <div class="mb-2">
-                        <label class="form-label">Fecha: </label>
-                        <input class="form-control" type="text" id="txtfechainicio" name="fechainicio"
-                            autocomplete="off" />
-                    </div>
+        <div class="row align-items-end" id="buttons">
+            <div class="col-sm-5">
+                <div class="mb-2">
+                    <label class="form-label">Fecha: </label>
+                    <input class="form-control" type="text" id="txtfechainicio" name="fechainicio"
+                           autocomplete="off" />
                 </div>
+            </div>
 
-                <div class="col-sm-2">
-                    <div class="d-grid  mb-2">
-                        <button class="btn btn-success btn-block" onClick="Excel()">
-                            Exportar Excel
-                            <i class="fas fa-file-excel ml-1"></i>
-                        </button>
-                    </div>
+            <div class="col-sm-2">
+                <div class="d-grid  mb-2">
+                    <button class="btn btn-success btn-block" onClick="Excel()">
+                        Exportar Excel
+                        <i class="fas fa-file-excel ml-1"></i>
+                    </button>
                 </div>
+            </div>
 
-                @* <div class="col-sm-2">
+             <div class="col-sm-2">
                     <div class="d-grid mb-2">
-                        <button href="#" class="btn btn-google btn-block">
+                        <button class="btn btn-google btn-block" onClick="PDF()">
                             Exportar PDF
                             <i class="fas fa-file-pdf ml-1"></i>
                         </button>
                     </div>
-                </div> *@
+                </div> 
 
-            </div>
+        </div>
 
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%">
@@ -63,5 +63,5 @@
             </table>
         </div>
     </div>
-
+</div>
     <script src="~/Scripts/Sale/SaleHistory.js"></script>
