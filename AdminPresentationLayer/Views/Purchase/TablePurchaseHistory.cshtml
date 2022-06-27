@@ -1,0 +1,61 @@
+﻿@model AdminPresentationLayer.Models.PurchaseHistoryTable
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Mimados</title>
+    <link rel="icon" href="~/Content/sb-admin-2/img/paw-solid.svg" />
+    <script src="https://kit.fontawesome.com/a3e333e3a2.js" crossorigin="anonymous"></script>
+
+    <!-- Custom fonts for this template-->
+    @Styles.Render("~/Content/sb-admin")
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+</head>
+<body>
+    <div class="mb-2">
+        <h6 class="m-0 font-weight-bold text-primary">Historial De Ventas</h6>
+    </div>
+    <div class="mb-2">
+        <label class="form-label">Fecha: @Model.Start - @Model.End</label>
+    </div>
+    <div class="table">
+        <table class="table" style="page-break-after: auto">
+            <thead style="display: table-row-group;">
+                <tr style="page-break-inside: avoid; page-break-after: auto">
+                    <th>N° Venta</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Empleado</th>
+                    <th>Total C$</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Purchase)
+                {
+                    <tr style="page-break-inside: avoid; page-break-after: auto">
+                        <td>@item.Id</td>
+                        <td>@item.StringTimeStamp</td>
+                        <td>@item.Supplier.Name</td>
+                        <td>@item.Employee.FullName</td>
+                        <td>@item.Total</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot style="display: table-footer-group"></tfoot>
+        </table>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    @Scripts.Render("~/bundles/sb-admin")
+</body>
+</html>

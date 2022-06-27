@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using Data = DataLayer;
@@ -42,6 +43,13 @@ namespace BusinessLayer
         public List<Entity.PurchaseDetails> Detail(int id)
         {
             return _db.Detail(id);
+        }
+
+        public List<Entity.Purchase> Fetch(string start, string end)
+        {
+            var startDate = Convert.ToDateTime(start);
+            var endDate = Convert.ToDateTime(end);
+            return _db.Read().Where(s => s.TimeStamp >= startDate && s.TimeStamp <= endDate).ToList();
         }
     }
 }

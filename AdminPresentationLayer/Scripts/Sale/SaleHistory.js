@@ -4,6 +4,7 @@ var purchaseTable;
 var purchaseObj;
 var startDay;
 var endDay;
+
 // Evento Document Loaded
 document.addEventListener('DOMContentLoaded', function () {
     SetUp();
@@ -86,7 +87,7 @@ function Read() {
 function Fetch(start, end) {
 
     $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss a');
-
+    
     purchaseTable = $('#dataTable').DataTable({
         buttons: true,
         responsive: true,
