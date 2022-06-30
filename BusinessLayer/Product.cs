@@ -58,5 +58,10 @@ namespace BusinessLayer
         {
             return _Db.StockControl(idProduct, quantity);
         }
+
+        public List<Entity.Product> TotalSales()
+        {
+            return _Db.TotalSales();
+        }
     }
 }

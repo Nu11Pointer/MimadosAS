@@ -278,5 +278,58 @@ namespace DataLayer
             }
             return result;
         }
+
+        public List<Entity.Product> TotalSales()
+        {
+            var products = new List<Entity.Product>();
+
+            try
+            {
+                using (var connection = new SqlConnection(Connection.value))
+                {
+                    // Configurar Consulta
+                    var cmd = new SqlCommand()
+                    {
+                        CommandType = CommandType.Text,
+                        CommandText = "SELECT * FROM[view_quantity_products_sold] ORDER BY[TotalSales] DESC",
+                        Connection = connection
+                    };
+
+                    // Abrir Conexión
+                    connection.Open();
+
+                    // Ejecutar la Consulta
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        // Leer cada fila de la tabla
+                        while (reader.Read())
+                        {
+                            // Añadir Cada Elemento a La Lista
+                            products.Add(new Entity.Product()
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                Name = Convert.ToString(reader["ProductName"]),
+                                ProductPackaging = new Entity.ProductPackaging()
+                                {
+                                    Id = Convert.ToInt32(reader["ProductPackagingId"]),
+                                    Name = reader["ProductPackagingName"].ToString()
+                                },
+                                ProductMeasurementUnit = new Entity.ProductMeasurementUnit()
+                                {
+                                    Id = Convert.ToInt32(reader["ProductMeasurementUnitId"]),
+                                    Symbol = reader["Symbol"].ToString()
+                                },
+                                NetContent = Convert.ToDecimal(reader["NetContent"]),
+                                TotalSales = Convert.ToDecimal(reader["TotalSales"])
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return products;
+        }
     }
 }

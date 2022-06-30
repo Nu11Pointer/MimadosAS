@@ -35,5 +35,16 @@
         public int Stock { get; set; }
 
         public bool Active { get; set; }
+
+        public decimal TotalSales { get; set; }
+
+        public string FullName 
+        {
+            get
+            {
+                var name = Name.Length <= 15 ? Name: Name.Substring(0, 12) + "...";
+                return $"{name} {NetContent:F1}{ProductMeasurementUnit.Symbol}";
+            }
+        }
     }
 }

@@ -70,12 +70,18 @@
     <Reference Include="System.IO.Packaging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Packaging.4.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.9\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.9\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -142,6 +148,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Content\DownloadController.cs" />
     <Compile Include="Controllers\BranchOfficeController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -160,6 +167,7 @@
     <Compile Include="Controllers\ProductMeasurementUnitController.cs" />
     <Compile Include="Controllers\ProductPackagingController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SaleController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplierEmailController.cs" />
@@ -2348,6 +2356,7 @@
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Scripts\Home\Chart.min.js" />
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Content\Manual de usuario.pdf" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -2518,12 +2527,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Download\" />
     <Folder Include="Views\EmployeeEmail\" />
     <Folder Include="Views\EmployeePhone\" />
     <Folder Include="Views\EmployeePosition\" />
     <Folder Include="Views\Municipality\" />
     <Folder Include="Views\ProductMeasurementUnit\" />
     <Folder Include="Views\ProductPackaging\" />
+    <Folder Include="Views\Reports\" />
     <Folder Include="Views\SupplierEmail\" />
     <Folder Include="Views\SupplierPhone\" />
   </ItemGroup>
