@@ -40,6 +40,16 @@ namespace AdminPresentationLayer.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult ReadByCode(int code)
+        {
+            var json = new
+            {
+                data = new Business.Product().ReadById(code)
+            };
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult Update(Entity.Product product)
         {

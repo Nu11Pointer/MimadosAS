@@ -18,7 +18,7 @@ function SetUp() {
     $('#CollapseMenuItemHistoryPurchase').addClass('active');
 
     // Show DataTable
-    Fetch(moment().format('DD/MM/YYYY HH:mm:ss a'), moment().format('DD/MM/YYYY HH:mm:ss a'))
+    Fetch(moment().startOf('day').format('DD/MM/YYYY HH:mm:ss a'), moment().endOf('day').format('DD/MM/YYYY HH:mm:ss a'))
 
     // $("#txtfechainicio").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker('setDate', new Date())
     $("#txtfechainicio").daterangepicker({

@@ -74,7 +74,7 @@
 
                     @* Nombre *@
                     <div class="col-sm-6">
-                        <label for="NameCreate" class="form-label">Nombre</label>
+                        <label for="NameCreate" class="form-label is-required">Nombre</label>
                         <input type="text" class="form-control" id="NameCreate" name="NameCreate" autocomplete="off">
                     </div>
 
@@ -101,7 +101,7 @@
 
                     @* NetContent *@
                     <div class="col-sm-6">
-                        <label for="SalePriceCreate" class="form-label">Contenido Neto</label>
+                        <label for="SalePriceCreate" class="form-label is-required">Contenido Neto</label>
                         <input type="number" min="0.01" class="form-control" id="NetContentCreate" name="NetContentCreate"
                             autocomplete="off">
                     </div>
@@ -115,14 +115,14 @@
 
                     @* Precio Venta *@
                     <div class="col-sm-6">
-                        <label for="SalePriceCreate" class="form-label">Precio Venta</label>
+                        <label for="SalePriceCreate" class="form-label is-required">Precio Venta</label>
                         <input type="number" min="0" class="form-control" id="SalePriceCreate" name="SalePriceCreate"
                             autocomplete="off">
                     </div>
 
                     @* Stock *@
                     <div class="col-sm-6">
-                        <label for="StockCreate" class="form-label">Stock</label>
+                        <label for="StockCreate" class="form-label is-required">Stock</label>
                         <input type="number" min="0" step="1" class="form-control" id="StockCreate" name="StockCreate"
                             autocomplete="off">
                     </div>
@@ -188,7 +188,7 @@
 
                     @* Nombre *@
                     <div class="col-sm-6">
-                        <label for="NameUpdate" class="form-label">Nombre</label>
+                        <label for="NameUpdate" class="form-label is-required">Nombre</label>
                         <input type="text" class="form-control" id="NameUpdate" name="NameUpdate" autocomplete="off">
                     </div>
 
@@ -215,7 +215,7 @@
 
                     @* NetContent *@
                     <div class="col-sm-6">
-                        <label for="SalePriceUpdate" class="form-label">Contenido Neto</label>
+                        <label for="SalePriceUpdate" class="form-label is-required">Contenido Neto</label>
                         <input type="number" min="0.01" class="form-control" id="NetContentUpdate" name="NetContentUpdate"
                             autocomplete="off">
                     </div>
@@ -229,14 +229,14 @@
 
                     @* Precio Venta *@
                     <div class="col-sm-6">
-                        <label for="SalePriceUpdate" class="form-label">Precio Venta</label>
+                        <label for="SalePriceUpdate" class="form-label is-required">Precio Venta</label>
                         <input type="number" min="0" step="0.25" class="form-control" id="SalePriceUpdate"
                             name="SalePriceUpdate" autocomplete="off">
                     </div>
 
                     @* Stock *@
                     <div class="col-sm-6">
-                        <label for="StockUpdate" class="form-label">Stock</label>
+                        <label for="StockUpdate" class="form-label is-required">Stock</label>
                         <input type="number" min="0" step="1" class="form-control" id="StockUpdate" name="StockUpdate"
                             autocomplete="off">
                     </div>
@@ -248,6 +248,12 @@
                             <option value="1">Si</option>
                             <option value="0">No</option>
                         </select>
+                    </div>
+
+                    @* BarCode *@
+                    <div class="col-sm-6">
+                        <label for="BarCode" class="form-label">Código de Barra</label>
+                        <img id="BarCode" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABQCAYAAABcbTqwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAARGSURBVHhe7ZjhcatADAYpj4JcjntJK+6EZ9BJsuUjz/ahGTTZnfGPkAgs3bdwZFoAYBcEAfgFBAH4ha4gt+u8TPN1ubWfN34u7dhtuc7TMk36uSw/3WNrybTM13aW23WZp3lZf1yPT5f1L5ztmlY/Leuve8f8e2xV23W3a6zH23WN7Zpev12zd+xedWnfTcq0//V4u65xvv79bzrXbfg1vdfn8/f6f2B0/YuCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIE7KgBAEQQqCICE0Uqb9I4iBIAAQQRCAXziNINsWwB7R7RO2IR+zbbvieeXx/z2y7YrnHf+qr+cc7v8R3Voeec4/wIAgsu88Yo8pe+EQ3LagX5+/1T/noe2V4/76bVp9CJl8f9/Df0pK/0Z4P/i698hx639mBgSRO+lhC/hyZxsLczd0d4bC3JXuzlCYc/oX9GnnL83HCXLU+p+bDwXRga8B8wHp9uBljd8CQfIEeWZckIz1PzefCXJb/8nXBr0NSj8SuNv995/Tht6ZrlznNeTvsFvb3ku+Wszd2v0e/k9O/z22840IkrL+5+a7LZa+/M7zduccW0SeIHWeII1D1//cfCFIvOO1hRwYUn/h9oLzJtsivoqwJ857+LbiiT1x3iSl/w7HCHL8+p+ZgZf04+je1Yfuyne69aN35X790FPpTkr/HQ57gvwhTiGIBW+9Mz1+Bu+eErx43sE7XQtuPO/YV83pP4Ign3MSQQDOCYIA7LIs/wA4MoinrpVyLwAAAABJRU5ErkJggg==">
                     </div>
 
                     @* Descripción *@

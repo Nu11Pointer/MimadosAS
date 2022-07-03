@@ -18,13 +18,13 @@ function SetUp() {
     $('#CollapseMenuItemHistorySale').addClass('active');
 
     // Show DataTable
-    Fetch(moment().format('DD/MM/YYYY HH:mm:ss a'), moment().format('DD/MM/YYYY HH:mm:ss a'))
+    Fetch(moment().startOf('day').format('DD/MM/YYYY HH:mm:ss a'), moment().endOf('day').format('DD/MM/YYYY HH:mm:ss a'))
 
     // $("#txtfechainicio").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker('setDate', new Date())
     $("#txtfechainicio").daterangepicker({
         timePicker: true,
         ranges: {
-            'Hoy': [moment(), moment()],
+            'Hoy': [moment().startOf('day'), moment().endOf('day')],
             'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
             'Últimos 7 Dias': [moment().subtract(6, 'days'), moment()],
             'Últimos 30 Dias': [moment().subtract(29, 'days'), moment()],

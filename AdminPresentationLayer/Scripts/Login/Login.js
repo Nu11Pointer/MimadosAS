@@ -46,7 +46,31 @@ function Login() {
         contentType: "application/json; charset=utf-8",
         success: function (response) {
             if (response.result) {
-                window.location.replace("/Home/Index");
+                //window.location.replace("/Home/Index");
+                console.log("xd")
+                jQuery.ajax({
+                    url: '/User/Me',
+                    type: "GET",
+                    success: function (data) {
+                        console.log("xd")
+                        user = data;
+                        $("#UserName").text(user.Employee.Name + " (" + user.Employee.EmployeePosition.Name + ")")
+                        if (user.Employee.EmployeePosition.Name == "Administrador") {
+                            window.location.replace("/Home/Index");
+                        }  
+                        if (user.Employee.EmployeePosition.Name == "Gerente") {
+                            window.location.replace("/Employee");
+                        }
+                        if (user.Employee.EmployeePosition.Name == "Vendedor") {
+                            window.location.replace("/Sale");
+                        }
+                        if (user.Employee.EmployeePosition.Name == "Bodeguero") {
+                            window.location.replace("/Purchase");
+                        }
+                    },
+                    error: function (_) {
+                    }
+                });
             }
             else {
                 attempts++;

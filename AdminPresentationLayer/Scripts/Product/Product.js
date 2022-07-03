@@ -366,6 +366,11 @@ function ShowUpdateModal() {
     // Crear El Objeto
     productObj = productTable.row(rowSelected).data();
 
+    fetch('/BarCode/Generate?id=' + productObj.Id)
+        .then(res => res.json())
+        .then(data => {
+            $("#BarCode").attr("src", data);
+        });
     // Cargar Campos
     $("#NameUpdate").val(productObj.Name);
     $("#SalePriceUpdate").val(productObj.SalePrice);

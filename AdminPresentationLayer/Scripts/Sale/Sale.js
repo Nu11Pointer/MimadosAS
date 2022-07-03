@@ -531,3 +531,38 @@ window.onbeforeunload = function () {
         });
     }
 };
+
+function barcodeScan() {
+    if (event.key === 'Enter') {
+        const code = $("#barcodeInput").val()
+
+        jQuery.ajax({
+            url: '/Product/ReadByCode?code=' + code,
+            type: "GET",
+            success: function (response) {
+                console.log(response.data);
+                if (response.data == null) {
+                    $("#barcodeInput").val("");
+                    swal("¡Cuidado!'", "Codigo de Barra Invalido!", "warning");
+                    return;
+                }
+                const json = response.data;
+                $("#barcodeInput").val("");
+                $("#txtIdProducto").val(json.Id);
+                $("#txtproductocodigo").val(json.Id);
+                $("#txtproductonombre").val(json.Name);
+                $("#txtproductodescripcion").val(json.StringNetContent);
+                $("#txtproductostock").val(json.Stock);
+                $("#txtproductoprecio").val(json.SalePrice);
+                $("#txtproductocantidad").val("1");
+                $('#btnAgregar').click();
+                $("#barcodeInput").focus();
+            },
+            error: function (_) {
+                swal("¡Cuidado!'", "Codigo de Barra Invalido!", "warning");
+            },
+            beforeSend: function () {
+            }
+        });
+    }
+}

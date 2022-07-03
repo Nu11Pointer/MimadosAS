@@ -149,6 +149,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Content\DownloadController.cs" />
+    <Compile Include="Controllers\BarCodeController.cs" />
     <Compile Include="Controllers\BranchOfficeController.cs" />
     <Compile Include="Controllers\CurrencyController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -2527,6 +2528,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\BarCode\" />
     <Folder Include="Views\Download\" />
     <Folder Include="Views\EmployeeEmail\" />
     <Folder Include="Views\EmployeePhone\" />
